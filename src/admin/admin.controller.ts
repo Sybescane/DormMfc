@@ -17,6 +17,11 @@ export class AdminController {
     return this.adminService.findAll();
   }
 
+  @Get('parseFromExcel')
+  parseFromExcel(){
+    return this.adminService.parseFromExcel();
+  }
+  
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.adminService.findOne(+id);
@@ -31,4 +36,6 @@ export class AdminController {
   remove(@Param('id') id: string) {
     return this.adminService.remove(+id);
   }
+
+ 
 }

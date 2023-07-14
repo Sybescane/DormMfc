@@ -1,9 +1,17 @@
-import { Injectable } from '@nestjs/common';
+import { Inject, Injectable } from '@nestjs/common';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { UpdateAdminDto } from './dto/update-admin.dto';
-
+import { WorkBook, readFile, utils } from 'xlsx';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from 'src/user/entities/user.entity';
+import { Repository } from 'typeorm';
+import { Dormitory } from 'src/user/entities/dormitory.enum';
+import { Gender } from 'src/user/entities/gender.enum';
+import { json } from 'stream/consumers';
 @Injectable()
 export class AdminService {
+  constructor(@InjectRepository(User) private readonly userRepository: Repository<User>){}
+
   create(createAdminDto: CreateAdminDto) {
     return 'This action adds a new admin';
   }
@@ -22,5 +30,45 @@ export class AdminService {
 
   remove(id: number) {
     return `This action removes a #${id} admin`;
+  }
+
+  async parseFromExcel(){
+    const workbook: WorkBook = readFile("src/files/RASPRED.xlsx");
+    const worksheet = workbook.Sheets[workbook.SheetNames[1]];
+    const jsonData = utils.sheet_to_json(worksheet, { header: 1 });
+
+    const headers = Object.values(jsonData[0]);
+    const data = jsonData.slice(1);
+
+    const result = data.map((row) => {
+      const obj = {};
+      headers.forEach((header, index) => {
+        obj[header] = row[index];
+      });
+      return obj;
+    });
+
+    for(const obj of result){
+      const user = this.getUserFromObject(obj)
+      await this.userRepository.save(user)
+    }
+  }
+
+  private getUserFromObject(item: any){
+    const newUser = new User();
+    newUser.fullname = item['ФИО']
+    newUser.personalNumber = parseInt(item['Рег.номер'])
+    if(Gender.female == item['Пол']){
+      newUser.gender = item['Пол']
+    }
+    else if(Gender.male == item['Пол']){
+      newUser.gender = item['Пол']
+    }
+    newUser.citizenship = item['Гражданство']
+    newUser.faculty = item['Подразделение']
+    newUser.phone = item['Телефон']
+    newUser.SetDormitory(item['Рекомендуемое общежитие'])
+
+    return newUser
   }
 }
