@@ -1,4 +1,4 @@
-export enum Dormitory{
+export enum DormitoryEnum{
     M1 = 'М-1',
     M2 = 'М-2',
     M3 = 'М-3',

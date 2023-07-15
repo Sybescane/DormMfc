@@ -1,7 +1,7 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Gender } from "./gender.enum";
-import { Dormitory } from "./dormitory.enum";
-import { tr } from "@faker-js/faker";
+import { Dormitory } from "./dormitory.entity";
+import { DormitoryEnum } from "./dormitory.enum";
 
 @Entity('users')
 export class User {
@@ -37,37 +37,32 @@ export class User {
     phone: string;
 
 
-    @Column({
-        type: 'enum',
-        enum: Dormitory,
-        nullable: true
-
-    })
+    @ManyToOne(() => Dormitory, (dorm: Dormitory) => dorm.users)
     dormitory: Dormitory
 
-    SetDormitory(dorm: string){
-        switch(dorm){
-            case Dormitory.M1:
-                this.dormitory = Dormitory.M1
-                break;
-            case Dormitory.M2:
-                this.dormitory = Dormitory.M2
-                break;
-            case Dormitory.M3:
-                this.dormitory = Dormitory.M3
-                break;
-            case Dormitory.M4:
-                this.dormitory = Dormitory.M4
-                break;
-            case Dormitory.G1:
-                this.dormitory = Dormitory.G1
-                break;
-            case Dormitory.G2:
-                this.dormitory = Dormitory.G2
-                break;
-            case Dormitory.DSG:
-                this.dormitory = Dormitory.DSG
-                break;
-        }
-    }
+    // SetDormitory(dorm: string){
+    //     switch(dorm){
+    //         case DormitoryEnum.M1:
+    //             this.dormitory = DormitoryEnum.M1
+    //             break;
+    //         case Dormitory.M2:
+    //             this.dormitory = Dormitory.M2
+    //             break;
+    //         case Dormitory.M3:
+    //             this.dormitory = Dormitory.M3
+    //             break;
+    //         case Dormitory.M4:
+    //             this.dormitory = Dormitory.M4
+    //             break;
+    //         case Dormitory.G1:
+    //             this.dormitory = Dormitory.G1
+    //             break;
+    //         case Dormitory.G2:
+    //             this.dormitory = Dormitory.G2
+    //             break;
+    //         case Dormitory.DSG:
+    //             this.dormitory = Dormitory.DSG
+    //             break;
+    //     }
+    // }
 }
