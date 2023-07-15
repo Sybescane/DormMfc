@@ -1,4 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { MailService } from 'src/mail/mail.service';
 
 @Injectable()
-export class AuthService {}
+export class AuthService {
+    constructor(private readonly mailService: MailService){}
+
+}
