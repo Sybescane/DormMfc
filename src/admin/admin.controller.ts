@@ -15,10 +15,10 @@ export class AdminController {
     private readonly dormService: DormitoryService) {}
 
 
-  @Post()
-  create(@Body() createAdminDto: CreateAdminDto) {
-    return this.adminService.create(createAdminDto);
-  }
+  // @Post()
+  // create(@Body() createAdminDto: CreateAdminDto) {
+  //   return this.adminService.create(createAdminDto);
+  // }
 
   @ApiOperation({description: 'Создание общежития'})
   @Post('createDorm')
@@ -27,30 +27,30 @@ export class AdminController {
   }
 
 
-  @Get()
-  findAll() {
-    return this.adminService.findAll();
-  }
+  // @Get()
+  // findAll() {
+  //   return this.adminService.findAll();
+  // }
 
   @Get('parseFromExcel')
   parseFromExcel(){
     return this.adminService.parseFromExcel();
   }
   
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.adminService.findOne(+id);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.adminService.findOne(+id);
+  // }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateAdminDto: UpdateAdminDto) {
-    return this.adminService.update(+id, updateAdminDto);
-  }
+  // @Patch(':id')
+  // update(@Param('id') id: string, @Body() updateAdminDto: UpdateAdminDto) {
+  //   return this.adminService.update(+id, updateAdminDto);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.adminService.remove(+id);
-  }
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.adminService.remove(+id);
+  // }
 
  
 }
