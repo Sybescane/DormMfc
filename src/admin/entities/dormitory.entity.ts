@@ -13,7 +13,7 @@ export class Dormitory{
 
     @ApiProperty({example: 'M-1', description: 'название общежития'})
     @Column({unique: true})
-    name: "М-1" | "М-2" | "М-3"| "М-4" | "Г-1" | "Г-2" | "ДК" | "ДСГ";
+    name: "M-1" | "M-2" | "M-3"| "M-4" | "Г-1" | "Г-2" | "ДК" | "ДСГ";
 
     @ApiProperty({example: 'ул. Профсоюзная д.83к1', description: 'адрес общежития'})
 

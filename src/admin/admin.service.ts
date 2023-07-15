@@ -51,6 +51,7 @@ export class AdminService {
 
     for(const obj of result){
       const user = await this.getUserFromObject(obj)
+      console.log(user)
       await this.userRepository.save(user)
     }
   }
@@ -68,9 +69,14 @@ export class AdminService {
     newUser.citizenship = item['Гражданство']
     newUser.faculty = item['Подразделение']
     newUser.phone = item['Телефон']
-    newUser.dormitory = await this.dormRepository.findOneBy({
-      name: item['Рекомендуемое общежитие']
-    });
+    if(item["Рекомендуемое общежитие"] != null){
+      newUser.dormitory = await this.dormRepository.findOneBy({
+        name: item['Рекомендуемое общежитие']
+      });
+    }
+    else{
+      newUser.dormitory = null
+    }
     return newUser
   }
 }

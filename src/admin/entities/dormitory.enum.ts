@@ -1,4 +1,4 @@
-export enum AdminDormitory{
+export enum DormitoryEnum{
     M1 = 'М-1',
     M2 = 'М-2',
     M3 = 'М-3',
@@ -6,5 +6,5 @@ export enum AdminDormitory{
     G1 = 'Г-1',
     G2 = 'Г-2',
     DSG = 'ДСГ',
-    ALL = 'ALL'
+    DK = 'ДК'
 }
