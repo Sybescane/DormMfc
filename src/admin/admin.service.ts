@@ -1,16 +1,17 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateAdminDto } from './dto/create-admin.dto';
-import { UpdateAdminDto } from './dto/update-admin.dto';
+import { CreateAdminDto } from './dto/admin-dto/create-admin.dto';
+import { UpdateAdminDto } from './dto/admin-dto/update-admin.dto';
 import { WorkBook, readFile, utils } from 'xlsx';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
-import { Dormitory } from 'src/user/entities/dormitory.enum';
 import { Gender } from 'src/user/entities/gender.enum';
 import { json } from 'stream/consumers';
+import { Dormitory } from 'src/admin/entities/dormitory.entity';
 @Injectable()
 export class AdminService {
-  constructor(@InjectRepository(User) private readonly userRepository: Repository<User>){}
+  constructor(@InjectRepository(User) private readonly userRepository: Repository<User>,
+              @InjectRepository(Dormitory) private readonly dormRepository: Repository<Dormitory>){}
 
   create(createAdminDto: CreateAdminDto) {
     return 'This action adds a new admin';
@@ -49,12 +50,12 @@ export class AdminService {
     });
 
     for(const obj of result){
-      const user = this.getUserFromObject(obj)
+      const user = await this.getUserFromObject(obj)
       await this.userRepository.save(user)
     }
   }
 
-  private getUserFromObject(item: any){
+  private async getUserFromObject(item: any){
     const newUser = new User();
     newUser.fullname = item['ФИО']
     newUser.personalNumber = parseInt(item['Рег.номер'])
@@ -67,8 +68,9 @@ export class AdminService {
     newUser.citizenship = item['Гражданство']
     newUser.faculty = item['Подразделение']
     newUser.phone = item['Телефон']
-    newUser.SetDormitory(item['Рекомендуемое общежитие'])
-
+    newUser.dormitory = await this.dormRepository.findOneBy({
+      name: item['Рекомендуемое общежитие']
+    });
     return newUser
   }
 }
