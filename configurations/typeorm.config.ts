@@ -1,4 +1,9 @@
+import { ConfigService } from '@nestjs/config';
 import { DataSource } from 'typeorm';
+
+const ormConfigFunc = (config: ConfigService) => ({
+  
+})
 
 const ormConfig: DataSource = new DataSource({
   type: 'postgres',
