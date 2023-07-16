@@ -1,13 +1,9 @@
 import { ConfigService } from '@nestjs/config';
-import { DataSource } from 'typeorm';
+import { DataSource, DataSourceOptions } from 'typeorm';
 
+const configService: ConfigService = new ConfigService();
 const ormConfig: DataSource = new DataSource({
-  type: 'postgres',
-  host: 'localhost',
-  port: 5432,
-  database: 'GoodZone',
-  username: 'postgres',
-  password: '201281Mama',
+  ...configService.get('database'),
   entities: ['dist/src/**/**/*.entity.js'],
   logging: true,
   synchronize: false,
