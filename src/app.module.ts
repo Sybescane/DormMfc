@@ -6,17 +6,11 @@ import { UserModule } from './user/user.module';
 import { AdminModule } from './admin/admin.module';
 import config from '../configurations/env.config';
 import { MailModule } from './mail/mail.module';
+import { getTypeormConfig } from 'configurations/typeorm-module.config';
 
 @Module({
-  imports: [TypeOrmModule.forRootAsync({
-    imports: [ConfigModule],
-    inject: [ConfigService],
-    useFactory: (config: ConfigService) => config.get('database'),
-  }),
-  ConfigModule.forRoot({
-    isGlobal: true,
-    load: [config]
-  }),
+  imports: [TypeOrmModule.forRootAsync(getTypeormConfig()),
+  ConfigModule.forRoot({isGlobal: true, load: [config]}),
   AuthModule,
   UserModule,
   AdminModule,
