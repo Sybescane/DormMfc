@@ -1,16 +1,20 @@
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class MailService {
 
   constructor(private readonly mailerService: MailerService) {}
 
-  async sendMail(): Promise<void> {
+  async sendConfirmMail(email: string): Promise<void> {
     await this.mailerService.sendMail({
       to: 'aleksandrpopov_2003@mail.ru',
       subject: 'Test Nest mailer',
-      text: 'welcome'
+      template: './confirmation',
+      context: {
+        name: "Alex"
+      }
     });
   }
 }

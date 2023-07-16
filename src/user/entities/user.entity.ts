@@ -35,7 +35,21 @@ export class User {
     })
     phone: string;
 
-
     @ManyToOne(() => Dormitory, (dorm: Dormitory) => dorm.users)
     dormitory: Dormitory
+
+    static GetEmailFromNumber(personalNumber: number){
+        return 'm' + personalNumber + '@edu.misis.ru';
+    }
+
+    static GetNumberFromEmail(email: string): number | null {
+        const regex = /^m(\d{7})@edu\.misis\.ru$/;
+        const matches = email.match(regex);
+      
+        if (matches && matches.length > 1) {
+          return parseInt(matches[1]);
+        } else {
+          return null;
+        }
+      }
 }
