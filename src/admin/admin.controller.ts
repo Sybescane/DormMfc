@@ -1,9 +1,9 @@
 import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { CreateDormDto } from '../dormitory/dto/create-dorm.dto';
-import { DormitoryService } from './dormitory.service';
 import { Dormitory } from '../dormitory/entity/dormitory.entity';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { DormitoryService } from 'src/dormitory/dormitory.service';
 
 
 @ApiTags('действия администратора')

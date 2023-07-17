@@ -4,7 +4,7 @@ import { AdminController } from './admin.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { Dormitory } from 'src/dormitory/entity/dormitory.entity';
-import { DormitoryService } from './dormitory.service';
+import { DormitoryService } from 'src/dormitory/dormitory.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([User, Dormitory])],
