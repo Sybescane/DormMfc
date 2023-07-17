@@ -7,9 +7,9 @@ export class MailService {
 
   constructor(private readonly mailerService: MailerService) {}
 
-  async sendConfirmMail(name, email: string, code): Promise<void> {
+  async sendConfirmMail(name: string, email: string, code: string): Promise<void> {
     await this.mailerService.sendMail({
-      to: 'aleksandrpopov_2003@mail.ru',
+      to: email,
       subject: 'Test Nest mailer',
       template: './confirmation',
       context: {
