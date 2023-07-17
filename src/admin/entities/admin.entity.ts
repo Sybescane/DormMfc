@@ -1,6 +1,6 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { AdminType } from "./admin-type.enum";
-import { Dormitory } from "src/admin/entities/dormitory.entity";
+import { Dormitory } from "src/dormitory/entity/dormitory.entity";
 
 @Entity('admins')
 export class Admin {

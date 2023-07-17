@@ -3,7 +3,12 @@ import { DataSource, DataSourceOptions } from 'typeorm';
 
 const configService: ConfigService = new ConfigService();
 const ormConfig: DataSource = new DataSource({
-  ...configService.get('database'),
+  type: 'postgres',
+  host: 'localhost',
+  port: 5432,
+  database: 'GoodZone',
+  username: 'postgres',
+  password: '201281Mama',
   entities: ['dist/src/**/**/*.entity.js'],
   logging: true,
   synchronize: false,

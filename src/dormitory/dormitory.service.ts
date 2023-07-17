@@ -1,8 +1,8 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
-import { Dormitory } from "../dormitory/entity/dormitory.entity";
 import { Repository } from "typeorm";
-import { CreateDormDto } from "../dormitory/dto/create-dorm.dto";
+import { Dormitory } from "./entity/dormitory.entity";
+import { CreateDormDto } from "./dto/create-dorm.dto";
 
 @Injectable()
 export class DormitoryService{

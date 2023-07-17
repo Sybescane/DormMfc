@@ -1,6 +1,6 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Gender } from "./gender.enum";
-import { Dormitory } from "../../admin/entities/dormitory.entity";
+import { Dormitory } from "../../dormitory/entity/dormitory.entity";
 
 @Entity('users')
 export class User {
@@ -34,6 +34,12 @@ export class User {
         nullable: true
     })
     phone: string;
+
+    @Column({
+        name: 'code_confirm',
+        nullable: true
+    })
+    codeConfirm: number;
 
     @ManyToOne(() => Dormitory, (dorm: Dormitory) => dorm.users)
     dormitory: Dormitory

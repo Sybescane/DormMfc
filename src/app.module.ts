@@ -7,6 +7,7 @@ import { AdminModule } from './admin/admin.module';
 import config from '../configurations/env.config';
 import { MailModule } from './mail/mail.module';
 import { getTypeormConfig } from 'configurations/typeorm-module.config';
+import { DormitoryModule } from './dormitory/dormitory.module';
 
 @Module({
   imports: [TypeOrmModule.forRootAsync(getTypeormConfig()),
@@ -15,6 +16,7 @@ import { getTypeormConfig } from 'configurations/typeorm-module.config';
   UserModule,
   AdminModule,
   MailModule,
+  DormitoryModule,
   ],
   controllers: [],
   providers: [],

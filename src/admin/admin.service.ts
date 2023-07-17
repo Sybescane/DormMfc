@@ -1,13 +1,13 @@
 import { Inject, Injectable } from '@nestjs/common';
-import { CreateAdminDto } from './dto/admin-dto/create-admin.dto';
-import { UpdateAdminDto } from './dto/admin-dto/update-admin.dto';
+import { CreateAdminDto } from './dto/create-admin.dto';
 import { WorkBook, readFile, utils } from 'xlsx';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
 import { Repository } from 'typeorm';
 import { Gender } from 'src/user/entities/gender.enum';
 import { json } from 'stream/consumers';
-import { Dormitory } from 'src/admin/entities/dormitory.entity';
+import { Dormitory } from 'src/dormitory/entity/dormitory.entity';
+import { UpdateAdminDto } from './dto/update-admin.dto';
 @Injectable()
 export class AdminService {
   constructor(@InjectRepository(User) private readonly userRepository: Repository<User>,
