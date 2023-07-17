@@ -3,6 +3,7 @@ import { VerificationService } from './verification.service';
 import { MailService } from 'src/mail/mail.service';
 import { AuthService } from './auth.service';
 import { SendMailDto } from './dto/send-mail.dto';
+import { VerifyCodeDto } from './dto/verify-code.dto';
 
 @Controller('auth')
 export class AuthController {
@@ -11,35 +12,15 @@ export class AuthController {
     private readonly authService: AuthService
   ) {}
 
-  @Post('sendTest')
+  @Post('send-code')
   sendMail(@Body() sendMailDto: SendMailDto){
       return this.authService.sendVerificationCode(sendMailDto.email);
   }
 
-
-
-  // @Post('send-code')
-  // async sendVerificationCode(@Body('email') email: string): Promise<void> {
-  //   const code = this.verificationService.generateCode();
-  //   this.verificationService.storeCode(email, code);
-
-  //   const subject = 'Verification Code';
-  //   const text = `Your verification code is: ${code}`;
-  //   await this.mailService.sendMail(email, subject, text);
-  // }
-
   @Post('verify')
   async verifyCode(
-    @Body('email') email: string,
-    @Body('code') code: string,
+    @Body() dto: VerifyCodeDto
   ): Promise<{ success: boolean }> {
-    const storedCode = this.verificationService.getCode(email);
-
-    if (storedCode === code) {
-      this.verificationService.deleteCode(email);
-      return { success: true };
-    }
-
-    return { success: false };
+    return await this.authService.verifyCode(dto);
   }
 }

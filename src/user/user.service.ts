@@ -17,10 +17,16 @@ constructor(@InjectRepository(User) private readonly userRepository: Repository<
     return `This action returns all user`;
   }
 
-  async findOne(personalNumber: number): Promise<User | null> {
+  async findOneByPersonalNumber(personalNumber: number): Promise<User | null> {
     const user = await this.userRepository.findOneBy({
       personalNumber: personalNumber
     })
+    return user;
+  }
+
+  async findOneByEmail(email: string): Promise<User | null> {
+    const personalNumber = User.GetNumberFromEmail(email);
+    const user = await this.findOneByPersonalNumber(personalNumber)
     return user;
   }
 
@@ -30,5 +36,9 @@ constructor(@InjectRepository(User) private readonly userRepository: Repository<
 
   remove(id: number) {
     return `This action removes a #${id} user`;
+  }
+
+  async save(user:User){
+    await this.userRepository.save(user)
   }
 }

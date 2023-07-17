@@ -39,7 +39,7 @@ export class User {
         name: 'code_confirm',
         nullable: true
     })
-    codeConfirm: number;
+    codeConfirm: string;
 
     @ManyToOne(() => Dormitory, (dorm: Dormitory) => dorm.users)
     dormitory: Dormitory
