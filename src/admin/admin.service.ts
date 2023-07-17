@@ -50,9 +50,10 @@ export class AdminService {
     });
 
     for(const obj of result){
-      const user = await this.getUserFromObject(obj)
-      console.log(user)
-      await this.userRepository.save(user)
+      if(obj['Рег.номер'] != undefined && obj['Нуждаемость в общежитии'] != undefined){
+        const user = await this.getUserFromObject(obj)
+        await this.userRepository.save(user)
+      }
     }
   }
 
