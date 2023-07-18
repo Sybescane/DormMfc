@@ -2,8 +2,8 @@ import { Controller, Post, Body, Get } from '@nestjs/common';
 import { VerificationService } from './verification.service';
 import { MailService } from 'src/mail/mail.service';
 import { AuthService } from './auth.service';
-import { SendMailDto } from './dto/send-mail.dto';
 import { VerifyCodeDto } from './dto/verify-code.dto';
+import { ApiBody } from '@nestjs/swagger';
 
 @Controller('auth')
 export class AuthController {
@@ -13,11 +13,13 @@ export class AuthController {
   ) {}
 
   @Post('send-code')
-  sendMail(@Body() sendMailDto: SendMailDto){
-      return this.authService.sendVerificationCode(sendMailDto.email);
+  @ApiBody({schema: {properties: {email: {type: 'string', example: 'm2110501@edu.misis.ru'}}}})
+  sendMail(@Body('email') email: string){
+      return this.authService.sendVerificationCode(email);
   }
 
   @Post('verify')
+  @ApiBody({type: VerifyCodeDto})
   async verifyCode(
     @Body() dto: VerifyCodeDto
   ): Promise<{ success: boolean }> {

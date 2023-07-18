@@ -3,7 +3,6 @@ import { MailService } from 'src/mail/mail.service';
 import { VerificationService } from './verification.service';
 import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
-import { SendMailDto } from './dto/send-mail.dto';
 import { VerifyCodeDto } from './dto/verify-code.dto';
 
 @Injectable()

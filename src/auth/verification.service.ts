@@ -31,8 +31,7 @@ export class VerificationService {
 
   async deleteCode(email: string): Promise<void> {
     const user = await this.userService.findOneByEmail(email);
-    // Delete the code from the user entity or any other storage mechanism
     user.codeConfirm = null;
-    // await this.userService.save(user);
+    await this.userService.save(user);
   }
 }
