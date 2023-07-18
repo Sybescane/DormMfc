@@ -4,10 +4,14 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
+import { Dormitory } from 'src/dormitory/entity/dormitory.entity';
 
 @Injectable()
 export class UserService {
-constructor(@InjectRepository(User) private readonly userRepository: Repository<User>){}
+constructor(
+  @InjectRepository(User) private readonly userRepository: Repository<User>,
+  @InjectRepository(Dormitory) private readonly dormRepository: Repository<Dormitory>
+){}
 
   async create(dto: CreateUserDto): Promise<User> {
     const newUser = this.userRepository.create()
@@ -17,6 +21,9 @@ constructor(@InjectRepository(User) private readonly userRepository: Repository<
     newUser.citizenship = dto.citizenship
     newUser.faculty = dto.faculty
     newUser.phone = dto.phone
+    newUser.dormitory = await this.dormRepository.findOneBy({
+      name: dto.dormitory_name
+    });
     return await this.userRepository.save(newUser)
   }
 
