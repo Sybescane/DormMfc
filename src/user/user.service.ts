@@ -9,12 +9,19 @@ import { Repository } from 'typeorm';
 export class UserService {
 constructor(@InjectRepository(User) private readonly userRepository: Repository<User>){}
 
-  create(createUserDto: CreateUserDto) {
-    return 'This action adds a new user';
+  async create(dto: CreateUserDto): Promise<User> {
+    const newUser = this.userRepository.create()
+    newUser.personalNumber = dto.personalNumber
+    newUser.fullname = dto.fullname
+    newUser.gender = dto.gender
+    newUser.citizenship = dto.citizenship
+    newUser.faculty = dto.faculty
+    newUser.phone = dto.phone
+    return await this.userRepository.save(newUser)
   }
 
-  findAll() {
-    return `This action returns all user`;
+  async findAll(): Promise<User[]> {
+    return await this.userRepository.find()
   }
 
   async findOneByPersonalNumber(personalNumber: number): Promise<User | null> {
