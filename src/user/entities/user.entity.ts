@@ -1,18 +1,22 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Gender } from "./gender.enum";
 import { Dormitory } from "../../dormitory/entity/dormitory.entity";
+import { ApiProperty } from "@nestjs/swagger";
 
 @Entity('users')
 export class User {
     @PrimaryGeneratedColumn({name: 'user_id'})
     userId: number;
 
+    @ApiProperty({type: 'number', example: 2110501, description: 'Номер личного дела МИСИС'})
     @Column({unique: true, name: 'personal_number'})
     personalNumber: number;
 
+    @ApiProperty({type: 'string', example: 'Иванов Иван Иванович', description: 'ФИО студента'})
     @Column()
     fullname: string;
 
+    @ApiProperty({examples: ['Мужской', 'Женский'], description: 'пол студента'})
     @Column({
         type: 'enum',
         enum: Gender,
@@ -20,21 +24,26 @@ export class User {
     })
     gender: Gender;
 
+    @ApiProperty({example: 'Россия', description: 'Гражданство студента'})
     @Column({
         nullable: true
     })
     citizenship: string;
 
+
+    @ApiProperty({example: 'ИТКН', description: 'Факультет студента'})
     @Column({
         nullable: true
     })
     faculty: string
 
+    @ApiProperty({example: '+7(999)888-77-66', description: 'Номер телефона студента'})
     @Column({
         nullable: true
     })
     phone: string;
 
+    @ApiProperty({example: '123456', description: 'Код подтверждения с почты'})
     @Column({
         name: 'code_confirm',
         nullable: true
