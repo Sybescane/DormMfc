@@ -61,8 +61,12 @@ constructor(
     return await this.userRepository.save(user)
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} user`;
+  async remove(email: string) {
+    const user = await this.findOneByEmail(email)
+    if(user == null){
+      throw new BadRequestException('Такого пользователя нет в базе данных на заселение')
+    }
+    return await this.userRepository.remove(user)
   }
 
   async save(user:User){

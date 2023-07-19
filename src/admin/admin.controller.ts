@@ -27,10 +27,20 @@ export class AdminController {
   updateUser(@Body() dto: UpdateUserDto){
     return this.userService.update(dto)
   }
+
+  @Delete('delete-user')
   @ApiOperation({description: 'Создание общежития'})
-  @Post('createDorm')
-  async createDorm(@Body() dto: CreateDormDto): Promise<Dormitory>{
-    return await this.dormService.createDorm(dto)
+  @ApiBody({schema: {properties: {email: {type: 'string', example: 'm2110501@edu.misis.ru'}}}})
+  async deleteUser(@Body('email') email: string){
+    return await this.userService.remove(email);
+  }
+
+
+
+  @Post('create-dorm')
+  @ApiBody({type: CreateDormDto})
+  createDorm(@Body() dto: CreateDormDto): Promise<Dormitory>{
+    return this.dormService.createDorm(dto)
   }
 
 
