@@ -52,10 +52,16 @@ export class User {
     codeConfirm: string;
 
     @ManyToOne(() => Dormitory, (dorm: Dormitory) => dorm.users)
+    @JoinColumn({
+        name: 'dormitory_id'
+    })
     dormitory: Dormitory
 
     @OneToOne(() => Record, (record: Record) => record.user)
-    @JoinColumn()
+    @JoinColumn({
+        name: 'record_id',
+        // referencedColumnName: 'user_id'
+    })
     record: Record;
 
 

@@ -10,10 +10,16 @@ export class Record{
     @Column()
     datetime: Date;
 
-    @OneToOne(() => User)
-    @JoinColumn()
+    @OneToOne(() => User, (user: User) => user.record)
+    @JoinColumn({
+        name: 'user_id',
+        // referencedColumnName: 'record_id'
+    })
     user: User;
 
     @ManyToOne(() => Dormitory, (dorm: Dormitory) => dorm.records)
-    dormitory: Dormitory;   
+    @JoinColumn({
+        name: 'dormitory_id'
+    })
+    dormitory: Dormitory;
 }
