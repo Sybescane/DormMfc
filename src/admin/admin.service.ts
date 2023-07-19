@@ -8,10 +8,13 @@ import { Gender } from 'src/user/entities/gender.enum';
 import { json } from 'stream/consumers';
 import { Dormitory } from 'src/dormitory/entity/dormitory.entity';
 import { UpdateAdminDto } from './dto/update-admin.dto';
+import { UserService } from 'src/user/user.service';
 @Injectable()
 export class AdminService {
-  constructor(@InjectRepository(User) private readonly userRepository: Repository<User>,
-              @InjectRepository(Dormitory) private readonly dormRepository: Repository<Dormitory>){}
+  constructor(
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(Dormitory) private readonly dormRepository: Repository<Dormitory>,
+    private readonly userService: UserService){}
 
   create(createAdminDto: CreateAdminDto) {
     return 'This action adds a new admin';
@@ -51,33 +54,10 @@ export class AdminService {
 
     for(const obj of result){
       if(obj['Рег.номер'] != undefined && obj['Нуждаемость в общежитии'] != undefined){
-        const user = await this.getUserFromObject(obj)
+        const user = await this.userService.getUserFromObject(obj)
         await this.userRepository.save(user)
       }
     }
   }
 
-  private async getUserFromObject(item: any){
-    const newUser = new User();
-    newUser.fullname = item['ФИО']
-    newUser.personalNumber = parseInt(item['Рег.номер'])
-    if(Gender.female == item['Пол']){
-      newUser.gender = item['Пол']
-    }
-    else if(Gender.male == item['Пол']){
-      newUser.gender = item['Пол']
-    }
-    newUser.citizenship = item['Гражданство']
-    newUser.faculty = item['Подразделение']
-    newUser.phone = item['Телефон']
-    if(item["Рекомендуемое общежитие"] != null){
-      newUser.dormitory = await this.dormRepository.findOneBy({
-        name: item['Рекомендуемое общежитие']
-      });
-    }
-    else{
-      newUser.dormitory = null
-    }
-    return newUser
-  }
 }
