@@ -6,6 +6,7 @@ import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DormitoryService } from 'src/dormitory/dormitory.service';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { UserService } from 'src/user/user.service';
+import { UpdateUserDto } from 'src/user/dto/update-user.dto';
 
 
 @ApiTags('действия администратора')
@@ -15,15 +16,16 @@ export class AdminController {
     private readonly dormService: DormitoryService,
     private readonly userService: UserService) {}
 
-
-  // @Post()
-  // create(@Body() createAdminDto: CreateAdminDto) {
-  //   return this.adminService.create(createAdminDto);
-  // }
   @Post('create-user')
   @ApiBody({type: CreateUserDto})
-  create(@Body() createUserDto: CreateUserDto) {
+  createUser(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
+  }
+
+  @Post('update-user')
+  @ApiBody({type: UpdateUserDto})
+  updateUser(@Body() dto: UpdateUserDto){
+    return this.userService.update(dto)
   }
   @ApiOperation({description: 'Создание общежития'})
   @Post('createDorm')

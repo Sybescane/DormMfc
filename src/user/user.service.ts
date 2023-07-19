@@ -45,8 +45,20 @@ constructor(
     return user;
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  async update(dto: UpdateUserDto) {
+    const user = await this.findOneByPersonalNumber(dto.personalNumber)
+    if(user == null){
+      throw new BadRequestException('Такой студент не заселяется')
+    }
+    user.gender ??= dto.gender
+    user.fullname ??= dto.fullname
+    user.citizenship ??= dto.citizenship
+    user.faculty ??= dto.faculty
+    user.phone ??= dto.phone
+    user.dormitory = await this.dormRepository.findOneBy({
+      name: dto.dormitory_name
+    })
+    return await this.userRepository.save(user)
   }
 
   remove(id: number) {
