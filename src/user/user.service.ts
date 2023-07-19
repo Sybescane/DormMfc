@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { Dormitory } from 'src/dormitory/entity/dormitory.entity';
+import { Gender } from './entities/gender.enum';
 
 @Injectable()
 export class UserService {
@@ -54,5 +55,29 @@ constructor(
 
   async save(user:User){
     await this.userRepository.save(user)
+  }
+
+  async getUserFromObject(item: any){
+    const newUser = new User();
+    newUser.fullname = item['ФИО']
+    newUser.personalNumber = parseInt(item['Рег.номер'])
+    if(Gender.female == item['Пол']){
+      newUser.gender = item['Пол']
+    }
+    else if(Gender.male == item['Пол']){
+      newUser.gender = item['Пол']
+    }
+    newUser.citizenship = item['Гражданство']
+    newUser.faculty = item['Подразделение']
+    newUser.phone = item['Телефон']
+    if(item["Рекомендуемое общежитие"] != null){
+      newUser.dormitory = await this.dormRepository.findOneBy({
+        name: item['Рекомендуемое общежитие']
+      });
+    }
+    else{
+      newUser.dormitory = null
+    }
+    return newUser
   }
 }
