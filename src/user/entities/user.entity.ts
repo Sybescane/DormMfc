@@ -1,7 +1,8 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Gender } from "./gender.enum";
 import { Dormitory } from "../../dormitory/entity/dormitory.entity";
 import { ApiProperty } from "@nestjs/swagger";
+import { Record } from "src/record/entity/record.entity";
 
 @Entity('users')
 export class User {
@@ -52,6 +53,11 @@ export class User {
 
     @ManyToOne(() => Dormitory, (dorm: Dormitory) => dorm.users)
     dormitory: Dormitory
+
+    @OneToOne(() => Record, (record: Record) => record.user)
+    @JoinColumn()
+    record: Record;
+
 
     static GetEmailFromNumber(personalNumber: number){
         return 'm' + personalNumber + '@edu.misis.ru';

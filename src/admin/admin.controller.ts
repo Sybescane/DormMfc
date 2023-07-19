@@ -9,7 +9,7 @@ import { UserService } from 'src/user/user.service';
 import { UpdateUserDto } from 'src/user/dto/update-user.dto';
 
 
-@ApiTags('действия администратора')
+@ApiTags('Действия администратора')
 @Controller('admin')
 export class AdminController {
   constructor(private readonly adminService: AdminService,
@@ -35,39 +35,14 @@ export class AdminController {
     return await this.userService.remove(email);
   }
 
-
-
   @Post('create-dorm')
   @ApiBody({type: CreateDormDto})
   createDorm(@Body() dto: CreateDormDto): Promise<Dormitory>{
     return this.dormService.createDorm(dto)
   }
 
-
-  // @Get()
-  // findAll() {
-  //   return this.adminService.findAll();
-  // }
-
   @Get('parseFromExcel')
   parseFromExcel(){
     return this.adminService.parseFromExcel();
   }
-  
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.adminService.findOne(+id);
-  // }
-
-  // @Patch(':id')
-  // update(@Param('id') id: string, @Body() updateAdminDto: UpdateAdminDto) {
-  //   return this.adminService.update(+id, updateAdminDto);
-  // }
-
-  // @Delete(':id')
-  // remove(@Param('id') id: string) {
-  //   return this.adminService.remove(+id);
-  // }
-
- 
 }

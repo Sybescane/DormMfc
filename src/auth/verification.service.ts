@@ -18,7 +18,7 @@ export class VerificationService {
   async storeCode(email: string, code: string): Promise<void> {
     const user = await this.userService.findOneByEmail(email)
     user.codeConfirm = await hash(code);
-    this.userService.save(user)
+    this.userService.save(user) 
   }
 
   async checkCode(email: string, code: string): Promise<boolean> {

@@ -3,8 +3,9 @@ import { VerificationService } from './verification.service';
 import { MailService } from 'src/mail/mail.service';
 import { AuthService } from './auth.service';
 import { VerifyCodeDto } from './dto/verify-code.dto';
-import { ApiBody } from '@nestjs/swagger';
+import { ApiBody, ApiTags } from '@nestjs/swagger';
 
+@ApiTags('Аутентификация')
 @Controller('auth')
 export class AuthController {
   constructor(
