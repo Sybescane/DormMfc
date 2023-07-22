@@ -2,7 +2,6 @@ import { Collection, Column, Entity, JoinColumn, ManyToMany, OneToMany, PrimaryG
 import { Admin } from "src/admin/entities/admin.entity";
 import { User } from "../../user/entities/user.entity";
 import { ApiProperty } from "@nestjs/swagger";
-import { Record } from "src/record/entity/record.entity";
 
 
 @Entity('dormitories')
@@ -30,7 +29,4 @@ export class Dormitory{
 
     @OneToMany(() => User, (user: User) => user.dormitory)
     users: User[]
-
-    @OneToMany(() => Record, (record: Record) => record.dormitory)
-    records: Record[]
 }

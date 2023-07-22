@@ -2,7 +2,6 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn
 import { Gender } from "./gender.enum";
 import { Dormitory } from "../../dormitory/entity/dormitory.entity";
 import { ApiProperty } from "@nestjs/swagger";
-import { Record } from "src/record/entity/record.entity";
 
 @Entity('users')
 export class User {
@@ -57,13 +56,8 @@ export class User {
     })
     dormitory: Dormitory
 
-    @OneToOne(() => Record, (record: Record) => record.user)
-    @JoinColumn({
-        name: 'record_id',
-        // referencedColumnName: 'user_id'
-    })
-    record: Record;
-
+    @Column({name: 'record_datetime'})
+    recordDatetime: Date
 
     static GetEmailFromNumber(personalNumber: number){
         return 'm' + personalNumber + '@edu.misis.ru';

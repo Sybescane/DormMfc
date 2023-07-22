@@ -8,7 +8,6 @@ import config from '../configurations/env.config';
 import { MailModule } from './mail/mail.module';
 import { getTypeormConfig } from 'configurations/typeorm-module.config';
 import { DormitoryModule } from './dormitory/dormitory.module';
-import { RecordModule } from './record/record.module';
 
 @Module({
   imports: [TypeOrmModule.forRootAsync(getTypeormConfig()),
@@ -18,7 +17,6 @@ import { RecordModule } from './record/record.module';
   AdminModule,
   MailModule,
   DormitoryModule,
-  RecordModule
   ],
   controllers: [],
   providers: [],
