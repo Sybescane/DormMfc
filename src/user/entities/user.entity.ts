@@ -50,14 +50,17 @@ export class User {
     })
     codeConfirm: string;
 
+    @Column({
+        name: 'record_datetime', 
+        nullable: true
+    })
+    recordDatetime: Date
+
     @ManyToOne(() => Dormitory, (dorm: Dormitory) => dorm.users)
     @JoinColumn({
         name: 'dormitory_id'
     })
     dormitory: Dormitory
-
-    @Column({name: 'record_datetime'})
-    recordDatetime: Date
 
     static GetEmailFromNumber(personalNumber: number){
         return 'm' + personalNumber + '@edu.misis.ru';
