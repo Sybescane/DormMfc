@@ -1,16 +1,18 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { MailService } from 'src/mail/mail.service';
 import { VerificationService } from './verification.service';
 import { User } from 'src/user/entities/user.entity';
 import { UserService } from 'src/user/user.service';
-import { VerifyCodeDto } from './dto/verify-code.dto';
+import { JwtService } from '@nestjs/jwt';
+import { verify } from 'argon2';
 
 @Injectable()
 export class AuthService {
     constructor(
         private readonly mailService: MailService,
         private readonly verificationService: VerificationService,
-        private readonly userService: UserService
+        private readonly userService: UserService,
+        private readonly jwtService: JwtService
     ){}
 
     async sendVerificationCode(email: string): Promise<void>{
@@ -26,17 +28,16 @@ export class AuthService {
         const code = await this.verificationService.generateCode();
         await this.verificationService.storeCode(email, code)
         await this.mailService.sendConfirmMail(user.fullname, email, code);
-      }
+    }
 
-      async verifyCode(dto: VerifyCodeDto){
-        const storedCode = this.verificationService.checkCode(dto.email, dto.code);
-
-        if (storedCode) {
-            this.verificationService.deleteCode(dto.email);
-            return { success: true };
+    async signIn(email: string, code: string): Promise<any> {
+        const user = await this.userService.findOneByEmail(email);
+        if (!verify(user?.codeConfirm, code)) {
+          throw new UnauthorizedException();
         }
-
-        return { success: false };
+        const payload = { sub: user.userId, username: user.fullname };
+        return {
+            access_token: await this.jwtService.signAsync(payload),
+        };
       }
-
 }

@@ -1,8 +1,7 @@
-import { Controller, Post, Body, Get } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Request, HttpCode, HttpStatus } from '@nestjs/common';
 import { VerificationService } from './verification.service';
-import { MailService } from 'src/mail/mail.service';
 import { AuthService } from './auth.service';
-import { VerifyCodeDto } from './dto/verify-code.dto';
+import { SignInDto } from './dto/sign-in.dto';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
 
 @ApiTags('Аутентификация')
@@ -19,11 +18,9 @@ export class AuthController {
       return this.authService.sendVerificationCode(email);
   }
 
-  @Post('verify')
-  @ApiBody({type: VerifyCodeDto})
-  async verifyCode(
-    @Body() dto: VerifyCodeDto
-  ): Promise<{ success: boolean }> {
-    return await this.authService.verifyCode(dto);
+  @HttpCode(HttpStatus.OK)
+  @Post('login')
+  signIn(@Body() signInDto: SignInDto) {
+    return this.authService.signIn(signInDto.email, signInDto.code);
   }
 }

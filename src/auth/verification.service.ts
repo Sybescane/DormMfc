@@ -21,12 +21,14 @@ export class VerificationService {
     this.userService.save(user) 
   }
 
-  async checkCode(email: string, code: string): Promise<boolean> {
+  async checkCode(email: string, code: string): Promise<any> {
     const user = await this.userService.findOneByEmail(email);
     if (!user || !user.codeConfirm) {
-      return false;
+      return null;
     }
-    return await verify(user.codeConfirm, code);
+    if(verify(user.codeConfirm, code)){
+      return user;
+    }
   }
 
   async deleteCode(email: string): Promise<void> {
