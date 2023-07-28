@@ -2,6 +2,7 @@ import { Collection, Column, Entity, JoinColumn, ManyToMany, OneToMany, PrimaryG
 import { Admin } from "src/admin/entities/admin.entity";
 import { User } from "../../user/entities/user.entity";
 import { ApiProperty } from "@nestjs/swagger";
+import { DormitoryEnum } from "./dormitory.enum";
 
 
 @Entity('dormitories')
@@ -12,8 +13,14 @@ export class Dormitory{
     dormitoryId: number;
 
     @ApiProperty({example: 'M-1', description: 'название общежития'})
-    @Column({unique: true})
-    name: "M-1" | "M-2" | "M-3"| "M-4" | "Г-1" | "Г-2" | "ДК" | "ДСГ";
+    @Column({
+        unique: true,
+        enum: DormitoryEnum,
+        type: 'enum',
+        enumName: 'dormitory_enum',
+        nullable: true
+    })
+    name: DormitoryEnum
 
     @ApiProperty({example: 'ул. Профсоюзная д.83к1', description: 'адрес общежития'})
 
