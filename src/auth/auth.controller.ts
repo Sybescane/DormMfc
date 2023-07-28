@@ -1,8 +1,9 @@
-import { Controller, Post, Body, UseGuards, Request, HttpCode, HttpStatus } from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Request, HttpCode, HttpStatus, Res } from '@nestjs/common';
 import { VerificationService } from './verification.service';
 import { AuthService } from './auth.service';
-import { SignInDto } from './dto/sign-in.dto';
+import { SignInUserDto } from './dto/sign-user.dto';
 import { ApiBody, ApiTags } from '@nestjs/swagger';
+import { SignInAdminDto } from './dto/sign-admin.dto';
 
 @ApiTags('Аутентификация')
 @Controller('auth')
@@ -19,8 +20,14 @@ export class AuthController {
   }
 
   @HttpCode(HttpStatus.OK)
-  @Post('login')
-  signIn(@Body() signInDto: SignInDto) {
-    return this.authService.signIn(signInDto.email, signInDto.code);
+  @Post('login-user')
+  async signInUser(@Body() dto: SignInUserDto) {
+    return await this.authService.signInUser(dto);
+  }
+
+  @HttpCode(HttpStatus.OK)
+  @Post('login-admin')
+  async signInAdmin(@Body() dto: SignInAdminDto) {
+    return await this.authService.signInAdmin(dto);
   }
 }
