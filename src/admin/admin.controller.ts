@@ -8,6 +8,7 @@ import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { UserService } from 'src/user/user.service';
 import { UpdateUserDto } from 'src/user/dto/update-user.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
+import { CreateAdminDto } from './dto/create-admin.dto';
 
 
 @ApiTags('Действия администратора')
@@ -45,5 +46,11 @@ export class AdminController {
   @Get('parseFromExcel')
   parseFromExcel(){
     return this.adminService.parseFromExcel();
+  }
+
+  @Post('create-admin')
+  @ApiBody({type: CreateAdminDto})
+  async createAdmin(@Body() dto: CreateAdminDto){
+    return await this.adminService.createAdmin(dto)
   }
 }
