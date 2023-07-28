@@ -1,14 +1,17 @@
-import { Controller, Get, Post, Body, Patch, UseGuards, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, UseGuards, Delete, SetMetadata } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { CreateDormDto } from '../dormitory/dto/create-dorm.dto';
 import { Dormitory } from '../dormitory/entity/dormitory.entity';
-import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiBody, ApiOperation, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { DormitoryService } from 'src/dormitory/dormitory.service';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { UserService } from 'src/user/user.service';
 import { UpdateUserDto } from 'src/user/dto/update-user.dto';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { CreateAdminDto } from './dto/create-admin.dto';
+import { AuthAdminGuard } from './admin.guard';
+import { AdminType } from './entities/admin-type.enum';
+import { AdminRoleGuard } from './admin-role.guard';
 
 
 @ApiTags('Действия администратора')
@@ -49,6 +52,8 @@ export class AdminController {
   }
 
   @Post('create-admin')
+  @UseGuards(AuthAdminGuard, AdminRoleGuard)
+  @SetMetadata('roles', [AdminType.Main])
   @ApiBody({type: CreateAdminDto})
   async createAdmin(@Body() dto: CreateAdminDto){
     return await this.adminService.createAdmin(dto)

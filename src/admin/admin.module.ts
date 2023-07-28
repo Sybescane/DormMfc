@@ -9,14 +9,14 @@ import { UserService } from 'src/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { AdminRoleGuard } from './admin-role.guard';
 import { APP_GUARD, Reflector } from '@nestjs/core';
+import { Admin } from './entities/admin.entity';
+import { UserModule } from 'src/user/user.module';
+import { DormitoryModule } from 'src/dormitory/dormitory.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([User, Dormitory])],
+  imports: [UserModule, DormitoryModule, TypeOrmModule.forFeature([Admin])],
   controllers: [AdminController],
-  providers: [AdminService, DormitoryService, JwtService ,UserService, {
-    provide: APP_GUARD,
-    useClass: AdminRoleGuard,
-  },
-  Reflector,]
+  providers: [AdminService, JwtService, AdminRoleGuard,Reflector],
+  exports: [AdminService]
 })
 export class AdminModule {}

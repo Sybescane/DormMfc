@@ -9,11 +9,10 @@ export class AuthAdminGuard implements CanActivate{
         private readonly configService: ConfigService){}  
     
     async canActivate(context: ExecutionContext): Promise<boolean> {
-      let result = true
         const request = context.switchToHttp().getRequest();
         const token = this.extractTokenFromHeader(request);
         if (!token) {
-          throw new UnauthorizedException("Нет токена");
+          return false
         }
         try {
           const payload = await this.jwtService.verifyAsync(
@@ -25,14 +24,13 @@ export class AuthAdminGuard implements CanActivate{
           // 💡 We're assigning the payload to the request object here
           // so that we can access it in our route handlers
           if(payload.type != 'admin'){
-            result = false
-            throw new UnauthorizedException()
+            return false
           }
           request['user'] = payload;
         } catch{
-          throw new UnauthorizedException("У вас нет на это прав")
+          return false
         }
-        return result;
+        return true;
       }
     
       private extractTokenFromHeader(request: Request): string | undefined {

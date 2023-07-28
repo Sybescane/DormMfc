@@ -12,12 +12,12 @@ import { UserService } from 'src/user/user.service';
 import { Admin } from './entities/admin.entity';
 import { hash } from 'argon2';
 import { AdminType } from './entities/admin-type.enum';
+import { DormitoryService } from 'src/dormitory/dormitory.service';
 @Injectable()
 export class AdminService {
   constructor(
     @InjectRepository(Admin) private readonly adminRepository: Repository<Admin>,
-    @InjectRepository(User) private readonly userRepository: Repository<User>,
-    @InjectRepository(Dormitory) private readonly dormRepository: Repository<Dormitory>,
+    private readonly dormService: DormitoryService,
     private readonly userService: UserService){}
 
   async createAdmin(dto: CreateAdminDto) {
@@ -33,10 +33,8 @@ export class AdminService {
     newAdmin.fullname = dto.fullname
     newAdmin.isShow = dto.isShow
     newAdmin.position= dto.position
-    newAdmin.adminType = dto.adminType as AdminType
-    newAdmin.dormitory = await this.dormRepository.findOneBy({
-      name: dto.dormitory_name
-    });
+    newAdmin.adminType = dto.adminType
+    newAdmin.dormitory = await this.dormService.findOneByName(dto.dormitory_name);
     return await this.adminRepository.save(newAdmin)
   }
 
@@ -44,8 +42,8 @@ export class AdminService {
     return `This action returns all admin`;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} admin`;
+  async findOneByLogin(login: string): Promise<Admin | null> {
+     return await this.adminRepository.findOneBy({login})
   }
 
   update(id: number, updateAdminDto: UpdateAdminDto) {
@@ -75,7 +73,7 @@ export class AdminService {
     for(const obj of result){
       if(obj['Рег.номер'] != undefined && obj['Нуждаемость в общежитии'] != undefined){
         const user = await this.userService.getUserFromObject(obj)
-        await this.userRepository.save(user)
+        await this.userService.save(user)
       }
     }
   }
