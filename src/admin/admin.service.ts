@@ -13,6 +13,7 @@ import { Admin } from './entities/admin.entity';
 import { hash } from 'argon2';
 import { AdminType } from './entities/admin-type.enum';
 import { DormitoryService } from 'src/dormitory/dormitory.service';
+import { DormitoryEnum } from 'src/dormitory/entity/dormitory.enum';
 @Injectable()
 export class AdminService {
   constructor(
@@ -76,6 +77,21 @@ export class AdminService {
         await this.userService.save(user)
       }
     }
+  }
+
+  async getAdminsForShow(dorm_name: DormitoryEnum){
+    const admins =  await this.adminRepository.find({
+      where: {
+        dormitory: {
+          name: dorm_name
+        },
+        isShow: true
+      }
+    })
+    return admins.map(contact => ({
+      fullname: contact.fullname,
+      position: contact.position
+    }));
   }
 
 }

@@ -49,7 +49,8 @@ export class User {
         nullable: true
     })
     codeConfirm: string;
-
+    
+    @ApiProperty({type: Date, example: '2023-08-25T10:00:00', description: 'Время заселения'})
     @Column({
         name: 'record_datetime', 
         nullable: true

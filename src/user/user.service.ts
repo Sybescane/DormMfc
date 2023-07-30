@@ -6,13 +6,14 @@ import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import { Dormitory } from 'src/dormitory/entity/dormitory.entity';
 import { Gender } from './entities/gender.enum';
+import { DormitoryEnum } from 'src/dormitory/entity/dormitory.enum';
 
 @Injectable()
 export class UserService {
-constructor(
-  @InjectRepository(User) private readonly userRepository: Repository<User>,
-  @InjectRepository(Dormitory) private readonly dormRepository: Repository<Dormitory>
-){}
+  constructor(
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
+    @InjectRepository(Dormitory) private readonly dormRepository: Repository<Dormitory>
+  ){}
 
   async create(dto: CreateUserDto): Promise<User> {
     const newUser = this.userRepository.create()
@@ -33,8 +34,13 @@ constructor(
   }
 
   async findOneByPersonalNumber(personalNumber: number): Promise<User | null> {
-    const user = await this.userRepository.findOneBy({
-      personalNumber: personalNumber
+    const user = await this.userRepository.findOne({
+      where: {
+        personalNumber: personalNumber
+      },
+      relations: {
+        dormitory: true
+      }
     })
     return user;
   }
@@ -46,7 +52,7 @@ constructor(
   }
 
   async update(dto: UpdateUserDto) {
-    const user = await this.findOneByPersonalNumber(dto.personalNumber)
+    const user = await this.findOneByEmail(dto.email)
     if(user == null){
       throw new BadRequestException('Такой студент не заселяется')
     }
@@ -55,6 +61,7 @@ constructor(
     user.citizenship ??= dto.citizenship
     user.faculty ??= dto.faculty
     user.phone ??= dto.phone
+    user.recordDatetime ??= new Date(dto.recordDatetime)
     user.dormitory = await this.dormRepository.findOneBy({
       name: dto.dormitory_name
     })
@@ -71,6 +78,20 @@ constructor(
 
   async save(user:User){
     await this.userRepository.save(user)
+  }
+
+  async getTakenTime(dorm_name: DormitoryEnum){
+    const users = await this.userRepository.find({
+      where: {
+        dormitory: {
+          name: dorm_name
+        },
+        recordDatetime: null!
+      }
+    })
+    return users.map((user) => ({
+      time: user.recordDatetime
+    }))
   }
 
   async getUserFromObject(item: any){
@@ -97,3 +118,4 @@ constructor(
     return newUser
   }
 }
+
