@@ -8,6 +8,8 @@ import config from '../configurations/env.config';
 import { MailModule } from './mail/mail.module';
 import { getTypeormConfig } from 'configurations/typeorm-module.config';
 import { DormitoryModule } from './dormitory/dormitory.module';
+import { AppController } from './app.controller';
+import { JwtService } from '@nestjs/jwt';
 
 @Module({
   imports: [TypeOrmModule.forRootAsync(getTypeormConfig()),
@@ -16,9 +18,8 @@ import { DormitoryModule } from './dormitory/dormitory.module';
   UserModule,
   AdminModule,
   MailModule,
-  DormitoryModule,
-  ],
-  controllers: [],
-  providers: [],
+  DormitoryModule,],
+  controllers: [AppController],
+  providers: [JwtService],
 })
 export class AppModule {}

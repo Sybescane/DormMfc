@@ -7,7 +7,6 @@ import { DormitoryService } from 'src/dormitory/dormitory.service';
 import { CreateUserDto } from 'src/user/dto/create-user.dto';
 import { UserService } from 'src/user/user.service';
 import { UpdateUserDto } from 'src/user/dto/update-user.dto';
-import { AuthGuard } from 'src/auth/auth.guard';
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { AuthAdminGuard } from './admin.guard';
 import { AdminType } from './entities/admin-type.enum';

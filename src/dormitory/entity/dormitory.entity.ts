@@ -12,7 +12,7 @@ export class Dormitory{
     @PrimaryGeneratedColumn({name: 'dormitory_id'})
     dormitoryId: number;
 
-    @ApiProperty({example: 'M-1', description: 'название общежития'})
+    @ApiProperty({enumName: 'DormName',enum: DormitoryEnum, description: 'общежитие студента'})
     @Column({
         unique: true,
         enum: DormitoryEnum,

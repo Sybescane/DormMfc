@@ -5,10 +5,10 @@ import { AdminType } from "../entities/admin-type.enum";
 import { DormitoryEnum } from "src/dormitory/entity/dormitory.enum";
 
 export class CreateAdminDto extends PickType(Admin, ['login', 'password', 'fullname', 'isShow', 'position'] as const){
-    @ApiProperty({enumName: 'AdminRole', enum: ['Главный админ', 'Комендант', 'Студсовет'], description: 'Тип администратора'})
+    @ApiProperty({enumName: 'AdminRole',enum: AdminType, description: 'Тип администратора'})
     adminType: AdminType
 
     @IsNotEmpty()
-    @ApiProperty({enum: DormitoryEnum, description: 'общежитие студента'})
+    @ApiProperty({enumName: 'DormName',enum: DormitoryEnum, description: 'общежитие студента'})
     dormitory_name: DormitoryEnum;
 }

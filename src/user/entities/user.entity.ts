@@ -16,7 +16,7 @@ export class User {
     @Column()
     fullname: string;
 
-    @ApiProperty({examples: ['Мужской', 'Женский'], description: 'пол студента'})
+    @ApiProperty({enumName: 'Gender',enum: Gender, description: 'Пол студента'})
     @Column({
         type: 'enum',
         enum: Gender,
