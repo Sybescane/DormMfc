@@ -35,9 +35,13 @@ export class AuthService {
 
     async signInUser(dto): Promise<any> {
         const user = await this.userService.findOneByEmail(dto.email);
+        if(user?.codeConfirm === null){
+            throw new UnauthorizedException();
+        }
         if (! await verify(user?.codeConfirm, dto.code)) {
           throw new UnauthorizedException();
         }
+        this.verificationService.deleteCode(dto.email)
         const payload = { sub: user.userId, username: user.fullname, type: 'user'};
         return {
             access_token: await this.jwtService.signAsync(payload),
