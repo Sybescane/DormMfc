@@ -35,6 +35,7 @@ export class AdminService {
     newAdmin.isShow = dto.isShow
     newAdmin.position= dto.position
     newAdmin.adminType = dto.adminType
+    newAdmin.phone = dto.phone
     newAdmin.dormitory = await this.dormService.findOneByName(dto.dormitory_name);
     return await this.adminRepository.save(newAdmin)
   }

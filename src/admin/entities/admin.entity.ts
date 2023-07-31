@@ -31,7 +31,11 @@ export class Admin {
     @ApiProperty({example: 'Администратор общежития Г-1', description: 'Должность в общежитии'})
     @Column()
     position: string;
-    
+
+    @ApiProperty({example: '+79876543210', description: 'Контакты администратора'})
+    @Column({nullable: true})
+    phone: string;
+
     @Column({
         type: 'enum',
         enum: AdminType,

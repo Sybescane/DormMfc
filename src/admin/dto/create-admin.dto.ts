@@ -4,7 +4,7 @@ import { IsNotEmpty } from "class-validator";
 import { AdminType } from "../entities/admin-type.enum";
 import { DormitoryEnum } from "src/dormitory/entity/dormitory.enum";
 
-export class CreateAdminDto extends PickType(Admin, ['login', 'password', 'fullname', 'isShow', 'position'] as const){
+export class CreateAdminDto extends PickType(Admin, ['login', 'password', 'fullname', 'isShow', 'position', 'phone'] as const){
     @ApiProperty({enumName: 'AdminRole',enum: AdminType, description: 'Тип администратора'})
     adminType: AdminType
 
