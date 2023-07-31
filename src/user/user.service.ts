@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { Repository } from 'typeorm';
+import { IsNull, Not, Repository } from 'typeorm';
 import { Dormitory } from 'src/dormitory/entity/dormitory.entity';
 import { Gender } from './entities/gender.enum';
 import { DormitoryEnum } from 'src/dormitory/entity/dormitory.enum';
@@ -23,6 +23,18 @@ export class UserService {
     newUser.citizenship = dto.citizenship
     newUser.faculty = dto.faculty
     newUser.phone = dto.phone
+    const oldRecord = await this.userRepository.find({
+      where: {
+        dormitory: {
+          name: dto.dormitory_name
+        },
+      recordDatetime: new Date(dto.recordDatetime)
+      }
+    })
+    if(oldRecord.length > 0){
+      throw new BadRequestException('Это время уже занято')
+    }
+    newUser.recordDatetime = new Date(dto.recordDatetime)
     newUser.dormitory = await this.dormRepository.findOneBy({
       name: dto.dormitory_name
     });
@@ -56,16 +68,22 @@ export class UserService {
     if(user == null){
       throw new BadRequestException('Такой студент не заселяется')
     }
-    user.gender ??= dto.gender
-    user.fullname ??= dto.fullname
-    user.citizenship ??= dto.citizenship
-    user.faculty ??= dto.faculty
-    user.phone ??= dto.phone
-    user.recordDatetime ??= new Date(dto.recordDatetime)
+    const takenTime = await this.getTakenTime(user.dormitory.name)
+    if(takenTime.some(item => item.time.getTime() === new Date(dto.recordDatetime).getTime())){
+      throw new BadRequestException('Это время уже заняли')
+    }
+    user.gender = dto.gender ?? user.gender
+    user.fullname = dto.fullname ?? user.fullname
+    user.citizenship = dto.citizenship ?? user.citizenship
+    user.faculty = dto.faculty ?? user.faculty
+    user.phone = dto.phone ?? user.phone
+    user.recordDatetime = new Date(dto.recordDatetime) ?? user.recordDatetime
     user.dormitory = await this.dormRepository.findOneBy({
       name: dto.dormitory_name
     })
-    return await this.userRepository.save(user)
+    const userFromDB = await this.userRepository.save(user)
+    userFromDB.recordDatetime.setHours(userFromDB.recordDatetime.getHours() + 3);
+    return userFromDB
   }
 
   async remove(email: string) {
@@ -86,7 +104,7 @@ export class UserService {
         dormitory: {
           name: dorm_name
         },
-        recordDatetime: null!
+        recordDatetime: Not(IsNull())
       }
     })
     return users.map((user) => ({

@@ -7,14 +7,17 @@ import { DormitoryEnum } from "src/dormitory/entity/dormitory.enum";
 
 @Injectable()
 export class RecordService{
-    constructor(private readonly userService: UserService,
-        private readonly adminService: AdminService){
+    constructor(
+        private readonly userService: UserService,
+        private readonly adminService: AdminService){}
 
-    }
-
-    async startRecord(email: string): Promise<RecordStartDto> {
+    async startRecord(email: string): Promise<RecordStartDto | any> {
         let result = new RecordStartDto()
         const user = await this.userService.findOneByEmail(email)
+        if(user.recordDatetime != null){
+            const {recordDatetime, ...other} = user
+            return { email, recordDatetime, message: 'Пользователь уже записан'}
+        }
         result.fullname = user.fullname
         result.email = email
         const {dormitoryId, ...dorm} = user.dormitory

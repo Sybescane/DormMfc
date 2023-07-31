@@ -13,13 +13,13 @@ export class AppController{
 
     @UseGuards(AuthUserGuard)
     @ApiBody({schema: {properties: {email: {type: 'string', example: 'm2110501@edu.misis.ru'}}}})
-    @Post('start-record')
+    @Post('start-recording')
     async startRecord(@Body('email')email: string): Promise<RecordStartDto>{
         return await this.recordService.startRecord(email)
     }
 
     @UseGuards(AuthUserGuard)
     @Post('take-time')
-    takeTime(@Body() dto: UpdateUserDto){
-        this.userService.update(dto)
+    async takeTime(@Body() dto: UpdateUserDto){
+        return await this.userService.update(dto)
     }}

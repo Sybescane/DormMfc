@@ -10,6 +10,7 @@ export class UpdateUserDto extends PickType(User, ['fullname', 'citizenship', 'g
     @ApiProperty({example: 'm2110501@edu.misis.ru', description: 'корпоративная почта МИСИС'})
     email:string;
 
+    @ApiProperty({type: Date, example: '2023-08-25T10:00:00', description: 'Время заселения'})
     @Type(() => Date)
     recordDatetime: string;
     

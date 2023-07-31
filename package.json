@@ -42,6 +42,7 @@
     "exceljs": "^4.3.0",
     "handlebars": "^4.7.7",
     "jwt-payload": "^1.0.7",
+    "moment-timezone": "^0.5.43",
     "nodemailer": "^6.9.3",
     "passport": "^0.6.0",
     "passport-jwt": "^4.0.1",
