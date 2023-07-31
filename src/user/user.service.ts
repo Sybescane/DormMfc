@@ -16,6 +16,10 @@ export class UserService {
   ){}
 
   async create(dto: CreateUserDto): Promise<User> {
+    const oldUser = await this.findOneByPersonalNumber(dto.personalNumber)
+    if(oldUser != null){
+      throw new BadRequestException('Этот пользователь уже есть в базе данных')
+    }
     const newUser = this.userRepository.create()
     newUser.personalNumber = dto.personalNumber
     newUser.fullname = dto.fullname
@@ -38,7 +42,9 @@ export class UserService {
     newUser.dormitory = await this.dormRepository.findOneBy({
       name: dto.dormitory_name
     });
-    return await this.userRepository.save(newUser)
+    const userFromDB = await this.userRepository.save(newUser)
+    userFromDB.recordDatetime.setHours(userFromDB.recordDatetime.getHours() + 3)
+    return userFromDB
   }
 
   async findAll(): Promise<User[]> {
