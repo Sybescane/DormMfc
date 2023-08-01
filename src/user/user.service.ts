@@ -3,7 +3,7 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
-import { IsNull, Not, Repository } from 'typeorm';
+import { FindManyOptions, IsNull, Not, Repository } from 'typeorm';
 import { Dormitory } from 'src/dormitory/entity/dormitory.entity';
 import { Gender } from './entities/gender.enum';
 import { DormitoryEnum } from 'src/dormitory/entity/dormitory.enum';
@@ -47,8 +47,8 @@ export class UserService {
     return userFromDB
   }
 
-  async findAll(): Promise<User[]> {
-    return await this.userRepository.find()
+  async findAllForAdmin(options: FindManyOptions<User>): Promise<User[]> {
+    return await this.userRepository.find(options)
   }
 
   async findOneByPersonalNumber(personalNumber: number): Promise<User | null> {

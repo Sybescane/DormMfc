@@ -3,7 +3,7 @@ import { CreateAdminDto } from './dto/create-admin.dto';
 import { WorkBook, readFile, utils } from 'xlsx';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from 'src/user/entities/user.entity';
-import { Repository } from 'typeorm';
+import { IsNull, Not, Repository } from 'typeorm';
 import { Gender } from 'src/user/entities/gender.enum';
 import { json } from 'stream/consumers';
 import { Dormitory } from 'src/dormitory/entity/dormitory.entity';
@@ -14,6 +14,7 @@ import { hash } from 'argon2';
 import { AdminType } from './entities/admin-type.enum';
 import { DormitoryService } from 'src/dormitory/dormitory.service';
 import { DormitoryEnum } from 'src/dormitory/entity/dormitory.enum';
+import { log } from 'console';
 @Injectable()
 export class AdminService {
   constructor(
@@ -45,7 +46,14 @@ export class AdminService {
   }
 
   async findOneByLogin(login: string): Promise<Admin | null> {
-     return await this.adminRepository.findOneBy({login})
+     return await this.adminRepository.findOne({
+      where: {
+        login
+      },
+      relations: {
+        dormitory: true
+      }
+     })
   }
 
   update(id: number, updateAdminDto: UpdateAdminDto) {
@@ -93,6 +101,51 @@ export class AdminService {
       fullname: contact.fullname,
       position: contact.position
     }));
+  }
+
+  async findAllUsers(login: string){
+    const admin = await this.findOneByLogin(login)
+    if(admin.adminType === AdminType.Main){
+      const users = await this.userService.findAllForAdmin({
+        where: {
+          recordDatetime: Not(IsNull())
+        },
+        relations: {
+          dormitory: true
+        }
+      })
+      const result: Record<DormitoryEnum, User[]> = {
+        [DormitoryEnum.M1]: [],
+        [DormitoryEnum.M2]: [],
+        [DormitoryEnum.M3]: [],
+        [DormitoryEnum.M4]: [],
+        [DormitoryEnum.G1]: [],
+        [DormitoryEnum.G2]: [],
+        [DormitoryEnum.DSG]: [],
+        [DormitoryEnum.DK]: [],
+      };
+
+      users.forEach((user) => {
+        if (user.dormitory && user.dormitory.name in result) {
+          user.recordDatetime.setHours(user.recordDatetime.getHours() + 3)
+          result[user.dormitory.name].push(user);
+        }
+      });
+
+
+      return result
+    }
+    else{
+      const users = await this.userService.findAllForAdmin({
+        where: {
+          recordDatetime: Not(IsNull()),
+          dormitory: admin.dormitory
+        }
+      })
+      const result = {}
+      result[admin.dormitory.name] = users
+      return result
+    }
   }
 
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, UseGuards, Delete, SetMetadata } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, UseGuards, Delete, SetMetadata, Query } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { CreateDormDto } from '../dormitory/dto/create-dorm.dto';
 import { Dormitory } from '../dormitory/entity/dormitory.entity';
@@ -19,6 +19,13 @@ export class AdminController {
   constructor(private readonly adminService: AdminService,
     private readonly dormService: DormitoryService,
     private readonly userService: UserService) {}
+
+
+  @Get('get-users')
+  @UseGuards(AuthAdminGuard)
+  async getUsers(@Query('login') login: string){
+    return await this.adminService.findAllUsers(login)
+  }
 
   @Post('create-user')
   @ApiBody({type: CreateUserDto})
