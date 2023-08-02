@@ -8,5 +8,5 @@ export class RecordStartDto{
     email: string
     takenTime: {time: Date}[]
     dormitory: {name: DormitoryEnum, address: string, description: string}
-    contacts: {fullname: string, position: string}[]
+    contacts: {fullname: string, position: string, phone: string}[]
 }

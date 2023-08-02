@@ -30,7 +30,7 @@ export class AuthService {
         
         const code = await this.verificationService.generateCode();
         await this.verificationService.storeCode(email, code)
-        await this.mailService.sendConfirmMail(user.fullname, email, code);
+        await this.mailService.sendCodeMail(user.fullname, email, code);
     }
 
     async signInUser(dto): Promise<any> {

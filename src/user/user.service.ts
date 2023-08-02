@@ -7,6 +7,7 @@ import { FindManyOptions, IsNull, Not, Repository } from 'typeorm';
 import { Dormitory } from 'src/dormitory/entity/dormitory.entity';
 import { Gender } from './entities/gender.enum';
 import { DormitoryEnum } from 'src/dormitory/entity/dormitory.enum';
+import { TakeTimeDto } from './dto/take-time.dto';
 
 @Injectable()
 export class UserService {
@@ -67,6 +68,21 @@ export class UserService {
     const personalNumber = User.GetNumberFromEmail(email);
     const user = await this.findOneByPersonalNumber(personalNumber)
     return user;
+  }
+
+  async takeTime(dto: TakeTimeDto){
+    const user = await this.findOneByEmail(dto.email)
+    if(user == null){
+      throw new BadRequestException('Такой студент не заселяется')
+    }
+    const takenTime = await this.getTakenTime(user.dormitory.name)
+    if(takenTime.some(item => item.time.getTime() === new Date(dto.recordDatetime).getTime())){
+      throw new BadRequestException('Это время уже заняли')
+    }
+    user.recordDatetime = new Date(dto.recordDatetime) ?? user.recordDatetime
+    const userFromDB = await this.userRepository.save(user)
+    userFromDB.recordDatetime.setHours(userFromDB.recordDatetime.getHours() + 3);
+    return userFromDB
   }
 
   async update(dto: UpdateUserDto) {

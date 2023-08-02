@@ -14,7 +14,7 @@ import { hash } from 'argon2';
 import { AdminType } from './entities/admin-type.enum';
 import { DormitoryService } from 'src/dormitory/dormitory.service';
 import { DormitoryEnum } from 'src/dormitory/entity/dormitory.enum';
-import { log } from 'console';
+
 @Injectable()
 export class AdminService {
   constructor(
@@ -99,7 +99,8 @@ export class AdminService {
     })
     return admins.map(contact => ({
       fullname: contact.fullname,
-      position: contact.position
+      position: contact.position,
+      phone: contact.phone
     }));
   }
 
