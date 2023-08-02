@@ -1,0 +1,28 @@
+@use '../../styles/mixins' as mixins;
+
+.Wrapper {
+    @include mixins.fontRaleway();
+    display: flex;
+    justify-self: flex-end;
+    align-self: flex-start;
+    column-gap: 3%;
+    margin-right: 2%;
+
+    .EmailExit {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+
+        p {
+            margin: 0;
+        }
+
+        a {
+            color: rgba(44, 62, 80, 1);
+            font-weight: 600;
+            font-size: 0.875rem;
+            text-decoration: none;
+            letter-spacing: 0.06rem;
+        }
+    }
+}

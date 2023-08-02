@@ -1,0 +1,118 @@
+@use '../../styles/mixins' as mixins;
+
+@mixin AppStandard() {
+    background-image: url('./assets/LoginBackgroundPNG.png');
+    background-repeat: no-repeat;
+    width: 100%;
+    min-height: 100vh;
+    background-size: cover;
+    background-position: 100% 77%;
+    display: flex;
+    justify-content: left;
+    position: relative;
+
+    .LoginWrapper {
+        justify-content: space-between;
+        padding: 1% 3%;
+        display: flex;
+        flex-direction: column;
+        width: 35%;
+        background-color: white;
+
+        .HeaderWrapper {
+            width: 62%;
+        }
+    }
+
+    .EmployeeLogin {
+        position: absolute;
+        left: 50%;
+        top: 46%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        box-sizing: content-box;
+        display: flex;
+        flex-direction: column;
+        border-radius: 1rem;
+        width: 26%;
+        padding: 0 2%;
+        height: 57%;
+        justify-content: center;
+
+        form {
+            display: flex;
+            flex-direction: column;
+
+            button {
+                padding: 2% 0%;
+                margin-top: 5%;
+                background-color: rgba(44, 62, 80, 0.12);
+                border: none;
+                @include mixins.fontRaleway($fontWeight: 600);
+                cursor: auto;
+                border-radius: 0.5rem;
+            }
+
+            .EmployeeActiveBtn {
+                @include mixins.fontRaleway($fontWeight: 600, $fontColor: white);
+                background-color: #1D92F8;
+                cursor: pointer;
+            }
+
+            .LoginInput,
+            .PasswordInput {
+                display: flex;
+                flex-direction: column
+            }
+
+            .LoginInput {
+                margin-bottom: 3%
+            }
+
+            label {
+                @include mixins.fontRaleway();
+                margin-bottom: 1%
+            }
+
+            input {
+                @include mixins.fontRaleway();
+                border: 1px solid rgba(44, 62, 80, 0.24);
+                padding: 1% 3%;
+                border-radius: 0.4rem;
+            }
+        }
+
+        h1 {
+            @include mixins.fontNekst();
+        }
+
+        .Cross {
+            position: absolute;
+            top: 3%;
+            width: 6%;
+            right: 3%;
+        }
+
+        .Cross:hover {
+            cursor: pointer;
+        }
+    }
+}
+
+.App {
+    @include AppStandard();
+}
+
+.AppOverlay {
+    @include AppStandard();
+}
+
+.AppOverlay::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(44, 62, 80, 0.5)
+}

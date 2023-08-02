@@ -1,0 +1,44 @@
+@use '../../styles/mixins' as mixins;
+
+.GridContainer {
+    display: grid;
+    gap: 5%;
+    grid-template-columns: 1fr 1fr;
+
+    .EnrollBlock {
+        .Title {
+            @include mixins.fontNekst($fontSize: 1.6rem);
+        }
+
+        .TimesBlock {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
+            gap: 4% 3%;
+            margin-top: 2%;
+            min-height: 378px;
+
+            .Time {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                height: 100%;
+                @include mixins.fontRaleway($fontColor: rgba(44, 62, 80, 0.56));
+                border: 1px solid rgba(44, 62, 80, 0.12);
+                text-align: center;
+                border-radius: 0.5rem;
+                cursor: pointer;
+
+                span {
+                    vertical-align: middle;
+                }
+            }
+
+            .SelectedTime {
+                color: white;
+                background-color: blue;
+            }
+        }
+    }
+
+}

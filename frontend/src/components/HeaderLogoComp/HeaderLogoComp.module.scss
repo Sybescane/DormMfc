@@ -1,0 +1,22 @@
+@use '../../styles/mixins' as mixins;
+
+.Header {
+    display: flex;
+    align-items: center;
+    justify-self: flex-start;
+
+    .Logo {
+        margin-right: 9%;
+        width: 57%;
+    }
+
+    a {
+        @include mixins.fontRaleway($fontSize: 0.875rem, $fontColor: rgba(44, 62, 80, 0.56));
+        text-decoration: none;
+    }
+
+    a:first-of-type {
+        margin-right: 4%;
+    }
+
+}

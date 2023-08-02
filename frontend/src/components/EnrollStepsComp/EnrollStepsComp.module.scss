@@ -1,0 +1,206 @@
+@use '../../styles/mixins' as mixins;
+
+/* .Wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1%;
+    @include mixins.fontRaleway();
+
+    .Step {
+        column-gap: 3%;
+        display: flex;
+
+        svg {
+            width: 21%;
+        }
+
+        h6 {
+            margin: 0;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+
+        align-items: center;
+        justify-content: center;
+    }
+
+    .Step1 {
+        padding-right: 0.6%;
+        position: relative;
+
+        svg {
+            width: 21%;
+        }
+    }
+
+    .Step2 {
+        margin-right: 13%;
+        padding-left: 0.5%;
+        padding-right: 0.4%;
+    }
+
+    .Step3 {
+        padding-left: 0.5%;
+
+        svg {
+            width: 78%;
+        }
+    }
+} */
+/* .Wrapper {
+    display: grid;
+    align-items: center;
+    margin-bottom: 1%;
+    grid-template-columns: repeat(200, 0.5%);
+    grid-auto-flow: column;
+    @include mixins.fontRaleway();
+
+    .Step {
+        display: flex;
+        gap: 3%;
+        align-items: center;
+
+        svg {
+            width: 19%;
+        }
+
+        h6 {
+            margin: 0;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+    }
+
+    .Step1 {
+        grid-column: 1/23;
+    }
+
+    .Step2 {
+        grid-column: 88/111;
+    }
+
+    .Step3 {
+        grid-column: 195/201;
+
+        svg {
+            width: 75%;
+        }
+    }
+
+    .Line1 {
+        grid-column: 24/87;
+    }
+
+    .Line2 {
+        grid-column: 111/194;
+    }
+
+    .Line1,
+    .Line2 {
+        width: 100%;
+        height: 2%;
+        background-color: #000000
+    }
+} */
+
+/* .Wrapper {
+    display: grid;
+    grid-template-columns: repeat(200, 0.5%);
+    align-items: center;
+    margin-bottom: 1%;
+    @include mixins.fontRaleway();
+
+    .Step {
+        display: flex;
+        gap: 3%;
+        align-items: center;
+
+        svg {
+            width: 75%;
+        }
+
+        h6 {
+            margin: 0;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+    }
+
+    .Step1 {
+        grid-column: 1/23;
+    }
+
+    .Step2 {
+        grid-column: 88/111;
+    }
+
+    .Step3 {
+        grid-column: 195/201;
+
+        svg {
+            width: 75%;
+        }
+    }
+
+    .Line1 {
+        grid-column: 24/87;
+    }
+
+    .Line2 {
+        grid-column: 111/194;
+    }
+
+    .Line1,
+    .Line2 {
+        width: 100%;
+        height: 2%;
+        background-color: #000000
+    }
+} */
+
+.Wrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1%;
+    @include mixins.fontRaleway();
+
+    .Step {
+        column-gap: 3%;
+        display: flex;
+        align-items: center;
+
+        h6 {
+            margin: 0;
+            font-size: 13px;
+            white-space: nowrap;
+        }
+    }
+
+    .Step2 {
+        padding-right: 11%;
+        position: relative;
+    }
+
+    .Step2::after {
+        content: "";
+        position: absolute;
+        height: 1px;
+        width: calc(100% - 148px);
+        background-color: #000000;
+        right: 0;
+    }
+
+    .Line1,
+    .Line2 {
+        height: 1px;
+        background-color: #000000;
+        flex: 1;
+        margin: 0 7px;
+    }
+
+    .Line2 {
+        margin-left: 0;
+    }
+}

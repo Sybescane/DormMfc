@@ -1,0 +1,65 @@
+@use '../../styles/mixins';
+
+.Form {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 7%;
+    @include mixins.fontRaleway();
+
+    h1 {
+        @include mixins.fontNekst();
+        min-width: 0;
+    }
+
+    label {
+        margin-bottom: 2%
+    }
+
+    .FormControls {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+
+        .InputStud::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(44, 62, 80, 0.5)
+        }
+
+        button {
+            display: block;
+            margin-top: 4%;
+            border: none;
+            padding: 4% 0;
+            width: 100%;
+            border-radius: 0.4rem;
+            font-weight: 600;
+        }
+
+        .InactiveStudent {
+            cursor: auto;
+            background-color: #2C3E501F;
+            color: #2C3E50;
+        }
+
+        .ActiveStudent {
+            cursor: pointer;
+            background-color: #1D92F8;
+            color: #FFFFFF;
+        }
+
+        .WhiteBtn {
+            background-color: white;
+            border: 1px solid #2C3E501F;
+            color: #1D92F8;
+            font-weight: 600;
+        }
+    }
+
+}
