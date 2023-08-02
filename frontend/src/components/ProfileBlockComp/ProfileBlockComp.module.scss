@@ -4,9 +4,13 @@
     @include mixins.fontRaleway();
     display: flex;
     justify-self: flex-end;
-    align-self: flex-start;
+    align-self: center;
     column-gap: 3%;
     margin-right: 2%;
+
+    img {
+        width: 19%;
+    }
 
     .EmailExit {
         display: flex;
@@ -20,7 +24,7 @@
         a {
             color: rgba(44, 62, 80, 1);
             font-weight: 600;
-            font-size: 0.875rem;
+            font-size: 0.75rem;
             text-decoration: none;
             letter-spacing: 0.06rem;
         }

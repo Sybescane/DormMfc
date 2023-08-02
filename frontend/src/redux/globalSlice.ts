@@ -6,7 +6,8 @@ type InitialStateType = {
         college: string | null,
         dormitory: string | null,
         dateSelected: string,
-        timeSelected: string | null
+        timeSelected: string | null,
+        token: string | null
     },
     serviceData: {
         isLoading: boolean,
@@ -20,6 +21,7 @@ type InitialStateType = {
 const initialState: InitialStateType = {
     userData: {
         email: null,
+        token: null,
         college: 'ИНМИН',
         dormitory: 'М-3',
         dateSelected: '25 августа, пт',
@@ -59,12 +61,20 @@ const globalSlice = createSlice({
         },
         hideEmployeeLogin(state) {
             state.serviceData.isEmployeeLogin = false
+        },
+        saveUserBasics(state, action) {
+            state.userData.token = action.payload.token
+            state.userData.email = action.payload.email
+            console.log('data')
+            console.log(state.userData.token)
+            console.log(state.userData.email)
         }
     }
 })
 
 export const { hideCalendar, showCalendar, selectDate, selectTime, switchStep, showEmployeeLogin,
-    hideEmployeeLogin
+    hideEmployeeLogin,
+    saveUserBasics
 } = globalSlice.actions
 
 export default globalSlice.reducer

@@ -1,18 +1,42 @@
 @use '../../styles/mixins';
 
-.Form {
+.Wrapper {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 7%;
     @include mixins.fontRaleway();
 
+    .EnterCode {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        margin-top: 1.5%;
+
+        label {
+            @include mixins.fontRaleway()
+        }
+
+        a {
+            margin-top: 1%;
+            @include mixins.fontRaleway($fontWeight: 600)
+        }
+
+        input {
+            margin-top: 1%;
+            width: 100%;
+            border: 1px solid rgba(44, 62, 80, 0.12);
+            padding: 1.5% 3%;
+            border-radius: 0.4rem;
+        }
+    }
+
     h1 {
-        @include mixins.fontNekst();
+        @include mixins.fontNekst($fontSize: 2.5rem);
         min-width: 0;
     }
 
-    label {
+    .EmailInput {
         margin-bottom: 2%
     }
 
@@ -21,6 +45,11 @@
         flex-direction: column;
         align-items: flex-start;
         width: 100%;
+
+        .NoEntry {
+            @include mixins.fontRaleway($fontColor: rgba(233, 83, 50, 1));
+            margin-top: 2%;
+        }
 
         .InputStud::before {
             content: "";
@@ -48,18 +77,24 @@
             color: #2C3E50;
         }
 
-        .ActiveStudent {
-            cursor: pointer;
-            background-color: #1D92F8;
-            color: #FFFFFF;
-        }
-
-        .WhiteBtn {
-            background-color: white;
-            border: 1px solid #2C3E501F;
-            color: #1D92F8;
-            font-weight: 600;
-        }
     }
 
+    .EmployeeBtn {
+        background-color: white;
+        color: #1D92F8;
+        font-weight: 600;
+        border: 1px solid rgba(29, 146, 248, 1);
+        display: block;
+        margin-top: 4%;
+        padding: 4% 0;
+        width: 100%;
+        border-radius: 0.4rem;
+        font-weight: 600;
+    }
+
+    .ActiveStudent {
+        cursor: pointer;
+        background-color: #1D92F8;
+        color: #FFFFFF;
+    }
 }
