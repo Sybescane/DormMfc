@@ -113,6 +113,9 @@ export class UserService {
         recordDatetime: Not(IsNull())
       }
     })
+    users.forEach((user) => {
+      user.recordDatetime.setHours(user.recordDatetime.getHours() + 3)
+    });
     return users.map((user) => ({
       time: user.recordDatetime
     }))

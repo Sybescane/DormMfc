@@ -22,7 +22,7 @@ export class RecordService{
         result.email = email
         const {dormitoryId, ...dorm} = user.dormitory
         result.dormitory = dorm
-        result['takenTime'] = await this.userService.getTakenTime(dorm.name)
+        result.takenTime = await this.userService.getTakenTime(dorm.name)
         result.contacts = await this.adminService.getAdminsForShow(dorm.name)
         return result
     }
