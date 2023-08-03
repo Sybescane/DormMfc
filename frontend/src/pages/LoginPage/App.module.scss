@@ -1,26 +1,58 @@
 @use '../../styles/mixins' as mixins;
 
 @mixin AppStandard() {
-    background-image: url('./assets/LoginBackgroundPNG.png');
-    background-repeat: no-repeat;
     width: 100%;
-    min-height: 100vh;
-    background-size: cover;
-    background-position: 100% 77%;
+    height: 100vh;
     display: flex;
-    justify-content: left;
     position: relative;
 
+    @media (max-width: 912px) {
+        flex-direction: column;
+        width: 100%;
+        background-image: url('./assets/MobileBackground.png');
+        background-repeat: no-repeat;
+        background-size: 100% 50%;
+        background-position: center bottom;
+    }
+
     .LoginWrapper {
+        align-items: flex-start;
         justify-content: space-between;
-        padding: 1% 3%;
+        padding: 2.2% 3%;
         display: flex;
         flex-direction: column;
         width: 35%;
+
+        @media (max-width: 912px) {
+            width: 100%;
+            flex: 0 0 53%;
+            border-radius: 0 0 2rem 2rem;
+        }
+
         background-color: white;
+
 
         .HeaderWrapper {
             width: 62%;
+
+            @media (max-width:912px) {
+                margin-bottom: 2%;
+            }
+        }
+    }
+
+    .Background {
+
+        @media (min-width: 913px) {
+            background-image: url('./assets/LoginBackground.png');
+            background-repeat: no-repeat;
+            background-size: cover;
+            background-position: center;
+            width: 65%;
+        }
+
+        @media (max-width:912px) {
+            flex: 0 0 47%;
         }
     }
 

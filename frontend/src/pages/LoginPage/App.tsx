@@ -40,6 +40,7 @@ function App() {
         <LoginComp />
         <TechSupportComp />
       </div>
+      <div className={classes.Background}></div>
       {isEmployeeLogin &&
         <div className={classes.EmployeeLogin}>
           <svg className={classes.Cross} width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => dispatch(hideEmployeeLogin())}>

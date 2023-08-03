@@ -7,6 +7,10 @@
     margin-bottom: 7%;
     @include mixins.fontRaleway();
 
+    @media (max-width: 912px) {
+        width: 100%;
+    }
+
     .EnterCode {
         display: flex;
         flex-direction: column;

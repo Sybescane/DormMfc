@@ -7,11 +7,20 @@
 
     .Logo {
         margin-right: 9%;
-        width: 57%;
+        width: 59%;
+
+        @media (min-width: 540px) and (max-width: 911px) {
+            width: 37%;
+        }
     }
 
     a {
         @include mixins.fontRaleway($fontSize: 0.875rem, $fontColor: rgba(44, 62, 80, 0.56));
+
+        @media (min-width:913px) and (max-width: 1130px) {
+            font-size: 0.7rem;
+        }
+
         text-decoration: none;
     }
 
