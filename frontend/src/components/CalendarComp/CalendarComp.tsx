@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import classes from './CalendarComp.module.scss'
 import CalendarSVG from './assets/Calendar.svg'
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { hideCalendar, selectDate, selectTime, showCalendar } from '../../redux/globalSlice';
+import { hideCalendar, selectDate, selectTime, showCalendar, showCheckInPopup } from '../../redux/globalSlice';
 
 type Props = {
     adminPanel: boolean
@@ -13,6 +13,10 @@ export default function CalendarComp({ adminPanel }: Props) {
     const isShowCalendar = useAppSelector(state => state.globalSlice.serviceData.isShowCalendar)
     const dispatch = useAppDispatch()
     const activeDate = useRef<HTMLDivElement | null>(null)
+
+    const numberClass = `${classes.Numbers}`
+    const selectedNumberClass = numberClass + ` ${classes.Selected}`
+    const unavaliableNumberClass = numberClass + ` ${classes.Unavaliable}`
 
     const calendarDates: JSX.Element[] = []
     for (let i = 0; i <= 41; i++) {
@@ -49,6 +53,9 @@ export default function CalendarComp({ adminPanel }: Props) {
 
     function checkDate(e: React.MouseEvent<HTMLDivElement, MouseEvent>, index: number) {
         if (index <= 7) return
+        else if (index <= 31) {
+            dispatch(showCheckInPopup({ event: e, isShow: true }))
+        }
         else {
             dispatch(selectTime(null))
             if (activeDate.current) activeDate.current.classList.remove(`${classes.Selected}`)
@@ -95,7 +102,7 @@ export default function CalendarComp({ adminPanel }: Props) {
                     <div className={classes.Calendar}>
                         {calendarDates.map((el, index) => {
                             return (
-                                <div key={index} className={index <= 7 ? classes.Weekdays : (index === parseInt(selectedDate) + 7 ? `${classes.Numbers} ${classes.Selected}` : `${classes.Numbers}`)}
+                                <div key={index} className={index <= 7 ? classes.Weekdays : (index <= 31 ? unavaliableNumberClass : (index === parseInt(selectedDate) + 7 ? selectedNumberClass : numberClass))}
                                     onClick={(e) => checkDate(e, index)} ref={index === 32 ? activeDate : null}>{el}</div>
                             )
                         })}

@@ -26,7 +26,7 @@
   "dependencies": {
     "@faker-js/faker": "^8.0.2",
     "@fakerjs/faker": "^3.0.0",
-    "@nestjs-modules/mailer": "^1.8.1",
+    "@nestjs-modules/mailer": "^1.7.1",
     "@nestjs/common": "^9.4.3",
     "@nestjs/config": "^2.3.2",
     "@nestjs/core": "^9.4.3",
@@ -35,7 +35,7 @@
     "@nestjs/platform-express": "^9.4.3",
     "@nestjs/swagger": "^6.3.0",
     "@nestjs/typeorm": "^9.0.1",
-    "@types/xlsx": "^0.0.36",
+    "@types/xlsx": "^0.0.35",
     "argon2": "^0.30.3",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",
@@ -52,7 +52,8 @@
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.2.0",
     "ts-xlsx": "^0.0.11",
-    "typeorm": "^0.3.16"
+    "typeorm": "^0.3.16",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.5.0",

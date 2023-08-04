@@ -1,10 +1,10 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import classes from './LoginComp.module.scss'
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { saveUserBasics, showEmployeeLogin } from '../../redux/globalSlice';
+import { saveUserBasics, saveUserData, showEmployeeLogin } from '../../redux/globalSlice';
 import axios from 'axios';
 import { ReactComponent as Spinner } from '../../assets/white_spinner.svg'
 
@@ -25,36 +25,6 @@ export default function LoginComp() {
         }
         else setIsStudActive(false)
     }
-    /*    function sendStudEmail() {
-           if (isStudActive) {
-               console.log('email')
-               console.log(email)
-               axios.post('http://localhost:4200/auth/send-code', {
-                   email
-               })
-                   .then(data => {
-                       if (data.status === 201) {
-                           setIsCode(true)
-                           dispatch(saveEmail(email))
-                       }
-                       else setNoEmail(true)
-                   })
-           }
-       } */
-
-    /*     function sendCode() {
-            const data = {
-                email,
-                code
-            }
-            axios.post('http://localhost:4200/auth/login-user', data)
-                .then(data => {
-                    if (data.status === 200) {
-                        dispatch(saveToken(data.data))
-                        navigate('/enrollment')
-                    }
-                })
-        } */
 
     function sendEmail(e: React.FormEvent<HTMLFormElement>) {
         setIsLoading(true)
@@ -106,19 +76,20 @@ export default function LoginComp() {
                             'Authorization': `Bearer ${res.data.access_token}`
                         }
                     }).then(res => {
-                        console.log(res.data)
+                        console.log('response', res.data)
+                        dispatch(saveUserData(res.data))
                         setIsLoading(false)
                         navigate('/enrollment')
                     }).catch(err => {
                         setIsLoading(false)
                         if (err.response) {
-                            console.log('Error', err.response)
+                            console.log('Response Error', err.response)
                         }
                         else if (err.request) {
-                            console.log(err.request)
+                            console.log('Request Error', err.request)
                         }
                         else {
-                            console.log('Error', err.message)
+                            console.log('Request Config Error', err.message)
                         }
                     })
                 }).catch(err => {
