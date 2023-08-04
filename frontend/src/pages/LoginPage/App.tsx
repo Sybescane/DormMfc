@@ -6,6 +6,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { hideEmployeeLogin, showEmployeeLogin } from '../../redux/globalSlice';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import MobileBackground from './assets/MobileBackground.png'
 
 function App() {
   const isEmployeeLogin = useAppSelector(state => state.globalSlice.serviceData.isEmployeeLogin)
@@ -40,7 +41,7 @@ function App() {
         <LoginComp />
         <TechSupportComp />
       </div>
-      <div className={classes.Background}></div>
+      <img src={MobileBackground} className={classes.LoginPhoto} />
       {isEmployeeLogin &&
         <div className={classes.EmployeeLogin}>
           <svg className={classes.Cross} width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={() => dispatch(hideEmployeeLogin())}>

@@ -4,8 +4,14 @@
     display: grid;
     gap: 5%;
     grid-template-columns: 1fr 1fr;
+    position: relative;
 
     .EnrollBlock {
+        .NoTimeText {
+            grid-column: 1/7;
+            @include mixins.fontRaleway($fontSize: 1.4375rem)
+        }
+
         .Title {
             @include mixins.fontNekst($fontSize: 1.6rem);
         }
@@ -41,4 +47,19 @@
         }
     }
 
+    .NoCheckIn {
+        position: absolute;
+        top: 32%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: white;
+        box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+        padding: 4% 0;
+
+        h3 {
+            @include mixins.fontNekst($fontSize: 2.1875rem);
+            text-align: center;
+            margin: 0;
+        }
+    }
 }
