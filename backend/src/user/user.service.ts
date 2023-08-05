@@ -9,6 +9,7 @@ import { Gender } from './entities/gender.enum';
 import { DormitoryEnum } from 'src/dormitory/entity/dormitory.enum';
 import { TakeTimeDto } from './dto/take-time.dto';
 import { EducationLevelEnum } from './entities/education.enum';
+import { UserForAdminDto } from 'src/admin/dto/user-for-admin.dto';
 
 @Injectable()
 export class UserService {
@@ -46,11 +47,8 @@ export class UserService {
       name: dto.dormitory_name
     });
     const savedUser = await this.userRepository.save(newUser)
-    const {recordDatetime, codeConfirm, userId, dormitory, personalNumber, ...result} = savedUser
-    result['email'] = User.GetEmailFromNumber(savedUser.personalNumber)
-    result['recordDatetime'] = savedUser.recordDatetime.toLocaleString()
-    result['dorm_name'] = savedUser.dormitory.name
-    return result
+    const userRes: UserForAdminDto = new UserForAdminDto(savedUser)
+    return userRes
   }
 
   async findAllForAdmin(dorm_name: DormitoryEnum = null): Promise<User[]> {
@@ -130,9 +128,9 @@ export class UserService {
     user.dormitory = await this.dormRepository.findOneBy({
       name: dto.dormitory_name
     })
-    const userFromDB = await this.userRepository.save(user)
-    userFromDB.recordDatetime.setHours(userFromDB.recordDatetime.getHours() + 3);
-    return userFromDB
+    const savedUser = await this.userRepository.save(user)
+    const userRes = new UserForAdminDto(savedUser)
+    return userRes
   }
 
   async remove(email: string) {

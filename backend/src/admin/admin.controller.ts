@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, UseGuards, Delete, SetMetadata, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, UseGuards, Delete, SetMetadata, Query, Put } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { CreateDormDto } from '../dormitory/dto/create-dorm.dto';
 import { Dormitory } from '../dormitory/entity/dormitory.entity';
@@ -28,12 +28,16 @@ export class AdminController {
   }
 
   @Post('create-user')
+  @UseGuards(AuthAdminGuard, AdminRoleGuard)
+  @SetMetadata('roles', [AdminType.Main, AdminType.Dorm])
   @ApiBody({type: CreateUserDto})
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
-  @Post('update-user')
+  @Put('update-user')
+  @UseGuards(AuthAdminGuard, AdminRoleGuard)
+  @SetMetadata('roles', [AdminType.Main, AdminType.Dorm])
   @ApiBody({type: UpdateUserDto})
   updateUser(@Body() dto: UpdateUserDto){
     return this.userService.update(dto)
@@ -53,6 +57,8 @@ export class AdminController {
   // }
 
   @Get('parseFromExcel')
+  @UseGuards(AuthAdminGuard, AdminRoleGuard)
+  @SetMetadata('roles', [AdminType.Main])
   parseFromExcel(){
     return this.adminService.parseFromExcel();
   }
