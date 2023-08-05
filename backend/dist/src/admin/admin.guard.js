@@ -8,6 +8,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthAdminGuard = void 0;
 const common_1 = require("@nestjs/common");
@@ -46,8 +47,7 @@ let AuthAdminGuard = class AuthAdminGuard {
 };
 AuthAdminGuard = __decorate([
     (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [jwt_1.JwtService,
-        config_1.ConfigService])
+    __metadata("design:paramtypes", [jwt_1.JwtService, typeof (_a = typeof config_1.ConfigService !== "undefined" && config_1.ConfigService) === "function" ? _a : Object])
 ], AuthAdminGuard);
 exports.AuthAdminGuard = AuthAdminGuard;
 //# sourceMappingURL=admin.guard.js.map
