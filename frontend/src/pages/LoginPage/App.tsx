@@ -34,12 +34,14 @@ function App() {
 
   return (
     <div className={isEmployeeLogin ? `${classes.AppOverlay}` : `${classes.App}`}>
-      <div className={classes.LoginWrapper}>
-        <div className={classes.HeaderWrapper}>
-          <HeaderLogoComp />
+      <div className={classes.FlexContainer}>
+        <div className={classes.LoginWrapper}>
+          <div className={classes.HeaderWrapper}>
+            <HeaderLogoComp />
+          </div>
+          <LoginComp />
+          <TechSupportComp />
         </div>
-        <LoginComp />
-        <TechSupportComp />
       </div>
       <img src={MobileBackground} className={classes.LoginPhoto} />
       {isEmployeeLogin &&
@@ -58,7 +60,7 @@ function App() {
               <label htmlFor="employee_password">Пароль</label>
               <input type="password" id='employee_password' name='employee_password' required />
             </div>
-            <button type='submit' className={isEmployeeActive ? `${classes.EmployeeActiveBtn}` : ''}>Войти</button>
+            <button type='submit' className={isEmployeeActive ? 'DefaultButton_1' : 'DisabledButton'}>Войти</button>
           </form>
         </div>
       }

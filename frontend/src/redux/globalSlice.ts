@@ -14,7 +14,10 @@ type InitialStateType = {
         token: string | null,
         contacts: Array<string>
         freeTimes: {
-            [key: string]: Array<string>
+            [key: string]: Array<{
+                time: string,
+                isBusy: boolean
+            }>
         }
     },
     serviceData: {
@@ -24,6 +27,7 @@ type InitialStateType = {
         enrollStep: number,
         isEmployeeLogin: boolean,
         isCheckInPopup: boolean,
+        isBusyWarning: boolean
     }
 }
 
@@ -48,6 +52,7 @@ const initialState: InitialStateType = {
         enrollStep: 1,
         isEmployeeLogin: false,
         isCheckInPopup: false,
+        isBusyWarning: false
     }
 }
 
@@ -91,15 +96,35 @@ const globalSlice = createSlice({
             state.userData.freeTimes = createTimes(action.payload.takenTime)
             state.userData.contacts = action.payload.contacts
         },
-        showCheckInPopup(state, action: PayloadAction<{ event: React.MouseEvent, isShow: boolean }>) {
-            if (action.payload.isShow) {
-                action.payload.event.stopPropagation()
-                state.serviceData.isCheckInPopup = true
-            }
-            else {
-                state.serviceData.isCheckInPopup = false
+        showPopup(state, action: PayloadAction<{ event: React.MouseEvent, isShow: boolean, type: string }>) {
+            const dataObj = action.payload
+            switch (dataObj.type) {
+                case 'checkInPopup':
+                    if (dataObj.isShow) {
+                        dataObj.event.stopPropagation()
+                        state.serviceData.isCheckInPopup = true
+                    }
+                    else {
+                        state.serviceData.isCheckInPopup = false
+                    }
+                    break;
+                case 'busyWarning':
+                    if (dataObj.isShow) {
+                        dataObj.event.stopPropagation()
+                        state.serviceData.isBusyWarning = true
+                    }
+                    else {
+                        state.serviceData.isBusyWarning = false
+                    }
+                    break;
+                default:
+                    break;
             }
         },
+        cleanupStore(state) {
+            state = initialState
+            console.log('STATE IS', state)
+        }
     }
 })
 
@@ -107,7 +132,8 @@ export const { hideCalendar, showCalendar, selectDate, selectTime, switchStep, s
     hideEmployeeLogin,
     saveUserBasics,
     saveUserData,
-    showCheckInPopup,
+    showPopup,
+    cleanupStore
 } = globalSlice.actions
 
 export default globalSlice.reducer

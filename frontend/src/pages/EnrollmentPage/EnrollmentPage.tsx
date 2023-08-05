@@ -3,19 +3,33 @@ import classes from './EnrollmentPage.module.scss'
 import DormDescriptionComp from '../../components/DormDescription/DormDescriptionComp'
 import { useEffect, useState, useRef } from 'react'
 import { useAppDispatch, useAppSelector } from '../../hooks'
-import { selectTime, showCheckInPopup } from '../../redux/globalSlice'
+import { selectTime, showPopup } from '../../redux/globalSlice'
 
 export default function EnrollmentPage() {
     const selectedTime = useRef<HTMLDivElement | null>(null)
     const registeredTime = useAppSelector(state => state.globalSlice.userData.timeSelected)
     const selectedDate = useAppSelector(state => state.globalSlice.userData.dateSelected)
     const freeTimesObj = useAppSelector(state => state.globalSlice.userData.freeTimes)
-    const [timesArr, setTimesArr] = useState<Array<string>>([])
+    const [timesArr, setTimesArr] = useState<Array<{
+        time: string,
+        isBusy: boolean
+    }>>([])
     const dispatch = useAppDispatch()
     const isShowCheckIn = useAppSelector(state => state.globalSlice.serviceData.isCheckInPopup)
-    const [isAvalTime, setIsAvalTime] = useState<boolean>(true)
+    const isBusyWarning = useAppSelector(state => state.globalSlice.serviceData.isBusyWarning)
 
-    function checkTime(e: React.MouseEvent<HTMLDivElement, MouseEvent>, time: string) {
+    function checkTime(e: React.MouseEvent<HTMLDivElement, MouseEvent>, { time, isBusy }: {
+        time: string,
+        isBusy: boolean
+    }) {
+        if (isBusy) {
+            dispatch(showPopup({
+                event: e,
+                isShow: true,
+                type: 'busyWarning'
+            }))
+            return
+        }
         if (selectedTime.current) selectedTime.current.classList.remove(`${classes.SelectedTime}`)
         if (e.currentTarget == selectedTime.current) {
             selectedTime.current = null
@@ -30,12 +44,7 @@ export default function EnrollmentPage() {
 
     useEffect(() => {
         const date = selectedDate.substring(0, 2)
-        const freeTime = freeTimesObj[date]
-        if (freeTime.length === 0) setIsAvalTime(false)
-        else {
-            setIsAvalTime(true)
-            setTimesArr(freeTime)
-        }
+        setTimesArr(freeTimesObj[date])
     }, [selectedDate])
 
     useEffect(() => {
@@ -51,26 +60,28 @@ export default function EnrollmentPage() {
                 <h1 className={classes.Title}>Выберите день и время регистрации на заселение</h1>
                 <CalendarComp adminPanel={false} />
                 <div className={classes.TimesBlock}>
-                    {!isAvalTime &&
-                        <h3 className={classes.NoTimeText}>Все время занято. Выберите другой день</h3>
-                    }
-                    {isAvalTime &&
-                        <>
-                            {timesArr.map(time => {
-                                return (
-                                    <div key={time} className={time === registeredTime ? `${classes.Time} ${classes.SelectedTime}` : classes.Time} onClick={(e) => checkTime(e, time)}>
-                                        <span>{time}</span>
-                                    </div>
-                                )
-                            })}
-                        </>
-                    }
+                    <>
+                        {timesArr.map(obj => {
+                            return (
+                                <div key={obj.time} className={obj.isBusy ? `${classes.BusyTime}` : registeredTime === obj.time ? `${classes.SelectedTime}` : `${classes.FreeTime}`} onClick={(e) => checkTime(e, obj)}>{obj.time}</div>
+                            )
+                        })}
+                    </>
                 </div>
             </div>
             <DormDescriptionComp />
             {isShowCheckIn &&
-                <div className={classes.NoCheckIn} onClick={(e) => dispatch(showCheckInPopup({ event: e, isShow: true }))}>
+                <div className={classes.Warning} onClick={(e) => dispatch(showPopup({ event: e, isShow: true, type: 'checkInPopup' }))}>
                     <h3>Заселение длится с 25 по 31 августа &#128521;</h3>
+                </div>
+            }
+            {isBusyWarning &&
+                <div className={classes.Warning} onClick={(e) => dispatch(showPopup({
+                    event: e,
+                    isShow: true,
+                    type: 'busyWarning'
+                }))}>
+                    <h3>Это время уже занято &#128530;</h3>
                 </div>
             }
         </div >

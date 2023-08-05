@@ -6,9 +6,15 @@
     flex-direction: column;
     background-repeat: no-repeat;
     background-size: cover;
+    position: absolute;
 
     main {
         flex: 1;
+    }
+
+    .FooterPlaceholder {
+        height: 30px;
+        width: 100%;
     }
 }
 

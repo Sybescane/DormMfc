@@ -7,54 +7,58 @@
     position: relative;
 
     .EnrollBlock {
-        .NoTimeText {
-            grid-column: 1/7;
-            @include mixins.fontRaleway($fontSize: 1.4375rem)
-        }
-
         .Title {
-            @include mixins.fontNekst($fontSize: 1.6rem);
+            @include mixins.fontNekst($fontSize: 3rem);
         }
 
         .TimesBlock {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(65px, 1fr));
-            gap: 4% 3%;
-            margin-top: 2%;
-            min-height: 378px;
+            grid-template-columns: repeat(6, minmax(72px, 100px));
+            grid-template-rows: repeat(7, 48px);
+            margin-top: 24px;
+            gap: 16px;
 
-            .Time {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 100%;
-                height: 100%;
-                @include mixins.fontRaleway($fontColor: rgba(44, 62, 80, 0.56));
-                border: 1px solid rgba(44, 62, 80, 0.12);
+            @mixin timeMixin() {
+                width: 72px;
+                height: 48px;
+                border-radius: 8px;
                 text-align: center;
-                border-radius: 0.5rem;
+                @include mixins.fontRaleway();
+                line-height: 48px;
                 cursor: pointer;
+            }
 
-                span {
-                    vertical-align: middle;
-                }
+            .BusyTime {
+                @include timeMixin();
+                border: 1px solid #2C3E501F;
+                color: #2C3E508F
             }
 
             .SelectedTime {
+                @include timeMixin();
                 color: white;
-                background-color: blue;
+                background-color: #1D92F8;
+                font-weight: 600;
+            }
+
+            .FreeTime {
+                @include timeMixin();
+                color: #1D92F8;
+                font-weight: 600;
+                background-color: white;
+                border: 1px solid #1D92F8;
             }
         }
     }
 
-    .NoCheckIn {
-        position: absolute;
-        top: 32%;
+    .Warning {
+        position: fixed;
+        top: 39%;
         left: 50%;
         transform: translate(-50%, -50%);
         background-color: white;
         box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
-        padding: 4% 0;
+        padding: 39px 18px;
 
         h3 {
             @include mixins.fontNekst($fontSize: 2.1875rem);

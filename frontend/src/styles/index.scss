@@ -1,5 +1,6 @@
 @use './fonts/Nekst/stylesheet.css' as fontNekst;
 @use './fonts/Raleway/stylesheet.css' as fontRaleway;
+@use './mixins' as mixins;
 
 * {
     padding: 0;
@@ -24,4 +25,26 @@ html {
     html {
         font-size: 11px;
     }
+}
+
+.DisabledButton {
+    @include mixins.buttonStandard();
+    @include mixins.fontRaleway($fontWeight: 600);
+    background-color: #2C3E501F;
+    color: #2C3E50
+}
+
+.DefaultButton_1 {
+    @include mixins.buttonStandard();
+    @include mixins.fontRaleway($fontWeight: 600);
+    background-color: #1D92F8;
+    color: white
+}
+
+.DefaultButton_2 {
+    @include mixins.buttonStandard();
+    @include mixins.fontRaleway($fontWeight: 600);
+    background-color: white;
+    color: #1D92F8;
+    border: 1px solid #1D92F8
 }

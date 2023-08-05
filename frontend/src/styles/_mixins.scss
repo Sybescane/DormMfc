@@ -19,3 +19,11 @@
     font-weight: $fontWeight;
     color: $fontColor;
 }
+
+@mixin buttonStandard() {
+    border: none;
+    height: 48px;
+    width: 360px;
+    border-radius: 8px;
+    margin: 16px;
+}

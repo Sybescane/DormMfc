@@ -9,7 +9,7 @@ const ormConfig = new typeorm_1.DataSource({
     port: 5432,
     database: 'GoodZone',
     username: 'postgres',
-    password: '201281Mama',
+    password: '1234567890',
     entities: ['dist/src/**/**/*.entity.js'],
     logging: true,
     synchronize: false,

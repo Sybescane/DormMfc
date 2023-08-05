@@ -17,7 +17,7 @@ export default function ControlPanelComp() {
     const [isLoading, setIsLoading] = useState<boolean>(false)
 
     const timeSummary = <p>{dateTime ? dateTime : 'Выберите время'}</p>
-    const backButton = <button onClick={() => {
+    const backButton = <button className='DefaultButton_2' onClick={() => {
         dispatch(switchStep(1))
         navigate('/enrollment')
     }}>Назад</button>
@@ -59,7 +59,7 @@ export default function ControlPanelComp() {
     return (
         <div className={classes.Wrapper}>
             {isEnrollmentPage ? timeSummary : backButton}
-            <button type="button" onClick={(e) => switchPage(e)}>{isLoading ? <Spinner /> : isEnrollmentPage ? "Далее" : "Подтвердить"}</button>
+            <button type="button" onClick={(e) => switchPage(e)} className='DefaultButton_1'>{isLoading ? <Spinner /> : isEnrollmentPage ? "Далее" : "Подтвердить"}</button>
         </div>
     )
 }
