@@ -29,6 +29,7 @@ export class UserService {
     newUser.citizenship = dto.citizenship
     newUser.faculty = dto.faculty
     newUser.phone = dto.phone
+    newUser.educationLevel = dto.educationLevel
     const oldRecord = await this.userRepository.find({
       where: {
         dormitory: {
@@ -49,8 +50,30 @@ export class UserService {
     return userFromDB
   }
 
-  async findAllForAdmin(options: FindManyOptions<User>): Promise<User[]> {
-    return await this.userRepository.find(options)
+  async findAllForAdmin(dorm_name: DormitoryEnum = null): Promise<User[]> {
+    if( dorm_name == null){
+      return await this.userRepository.find({
+        where: {
+          recordDatetime: Not(IsNull())
+        },
+        relations: {
+          dormitory: true
+        }
+      })
+    }
+    else{
+      return await this.userRepository.find({
+        where: {
+          dormitory: {
+            name: dorm_name
+          },
+          recordDatetime: Not(IsNull())
+        },
+        relations: {
+          dormitory: true
+        }
+      })
+    }
   }
 
   async findOneByPersonalNumber(personalNumber: number): Promise<User | null> {

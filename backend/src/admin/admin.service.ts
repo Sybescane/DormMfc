@@ -106,53 +106,40 @@ export class AdminService {
 
   async findAllUsers(login: string){
     const admin = await this.findOneByLogin(login)
+    let users = []
+    let result = {}
+    console.log(result)
     if(admin.adminType === AdminType.Main){
-      const users = await this.userService.findAllForAdmin({
-        where: {
-          recordDatetime: Not(IsNull())
-        },
-        relations: {
-          dormitory: true
-        }
-      })
-      const result: Record<DormitoryEnum, any[]> = {
-        [DormitoryEnum.M1]: [],
-        [DormitoryEnum.M2]: [],
-        [DormitoryEnum.M3]: [],
-        [DormitoryEnum.M4]: [],
-        [DormitoryEnum.G1]: [],
-        [DormitoryEnum.G2]: [],
-        [DormitoryEnum.DSG]: [],
-        [DormitoryEnum.DK]: [],
-      };
-      
-      users.forEach((user) => {
-        
-        if (user.dormitory && user.dormitory.name in result) {
-          const userRes = {
-            email: User.GetEmailFromNumber(user.personalNumber),
-            fullname: user.fullname,
-            gender: user.gender,
-            citizenship: user.citizenship,
-            recordDatetime: user.recordDatetime.toLocaleString()
-          }
-          result[user.dormitory.name].push(userRes);
-        }
-      });
+      result[DormitoryEnum.M1] = [];
+      result[DormitoryEnum.M2] = [];
+      result[DormitoryEnum.M3] = [];
+      result[DormitoryEnum.M4] = [];
+      result[DormitoryEnum.G1] = [];
+      result[DormitoryEnum.G2] = [];
+      result[DormitoryEnum.DSG] = [];
+      result[DormitoryEnum.DK] = [];
 
-      return result
+      users = await this.userService.findAllForAdmin()
     }
     else{
-      const users = await this.userService.findAllForAdmin({
-        where: {
-          recordDatetime: Not(IsNull()),
-          dormitory: admin.dormitory
-        }
-      })
-      const result = {}
-      result[admin.dormitory.name] = users
-      return result
+      result[admin.dormitory.name] = []
+      users = await this.userService.findAllForAdmin(admin.dormitory.name)
     }
-  }
 
+    users.forEach((user) => {
+      if (user.dormitory && user.dormitory.name in result) {
+        const userRes = {
+          email: User.GetEmailFromNumber(user.personalNumber),
+          fullname: user.fullname,
+          gender: user.gender,
+          citizenship: user.citizenship,
+          educationLevel: user.educationLevel,
+          recordDatetime: user.recordDatetime.toLocaleString()
+        }
+        result[user.dormitory.name].push(userRes);
+      }
+    });
+
+    return result
+  }
 }
