@@ -46,11 +46,11 @@ export class AdminController {
     return await this.userService.remove(email);
   }
 
-  @Post('create-dorm')
-  @ApiBody({type: CreateDormDto})
-  createDorm(@Body() dto: CreateDormDto): Promise<Dormitory>{
-    return this.dormService.createDorm(dto)
-  }
+  // @Post('create-dorm')
+  // @ApiBody({type: CreateDormDto})
+  // createDorm(@Body() dto: CreateDormDto): Promise<Dormitory>{
+  //   return this.dormService.createDorm(dto)
+  // }
 
   @Get('parseFromExcel')
   parseFromExcel(){

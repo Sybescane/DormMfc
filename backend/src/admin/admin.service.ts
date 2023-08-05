@@ -38,7 +38,10 @@ export class AdminService {
     newAdmin.adminType = dto.adminType
     newAdmin.phone = dto.phone
     newAdmin.dormitory = await this.dormService.findOneByName(dto.dormitory_name);
-    return await this.adminRepository.save(newAdmin)
+    const savedAdmin = await this.adminRepository.save(newAdmin)
+    const {password, adminId, dormitory, ...result} = savedAdmin
+    result['dorm_name'] = savedAdmin.dormitory.name
+    return result 
   }
 
   findAll() {
