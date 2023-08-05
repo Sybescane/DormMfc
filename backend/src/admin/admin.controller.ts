@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, UseGuards, Delete, SetMetadata, Query } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, UseGuards, Delete, SetMetadata, Query, Put } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { CreateDormDto } from '../dormitory/dto/create-dorm.dto';
 import { Dormitory } from '../dormitory/entity/dormitory.entity';
@@ -28,31 +28,39 @@ export class AdminController {
   }
 
   @Post('create-user')
+  @UseGuards(AuthAdminGuard, AdminRoleGuard)
+  @SetMetadata('roles', [AdminType.Main, AdminType.Dorm])
   @ApiBody({type: CreateUserDto})
   createUser(@Body() createUserDto: CreateUserDto) {
     return this.userService.create(createUserDto);
   }
 
-  @Post('update-user')
+  @Put('update-user')
+  @UseGuards(AuthAdminGuard, AdminRoleGuard)
+  @SetMetadata('roles', [AdminType.Main, AdminType.Dorm])
   @ApiBody({type: UpdateUserDto})
   updateUser(@Body() dto: UpdateUserDto){
     return this.userService.update(dto)
   }
 
-  @Delete('delete-user')
+  @Delete('delete-record')
+  @UseGuards(AuthAdminGuard, AdminRoleGuard)
+  @SetMetadata('roles', [AdminType.Main, AdminType.Dorm])
   @ApiOperation({description: 'Создание общежития'})
   @ApiBody({schema: {properties: {email: {type: 'string', example: 'm2110501@edu.misis.ru'}}}})
   async deleteUser(@Body('email') email: string){
-    return await this.userService.remove(email);
+    return await this.userService.removeRecord(email);
   }
 
-  @Post('create-dorm')
-  @ApiBody({type: CreateDormDto})
-  createDorm(@Body() dto: CreateDormDto): Promise<Dormitory>{
-    return this.dormService.createDorm(dto)
-  }
+  // @Post('create-dorm')
+  // @ApiBody({type: CreateDormDto})
+  // createDorm(@Body() dto: CreateDormDto): Promise<Dormitory>{
+  //   return this.dormService.createDorm(dto)
+  // }
 
   @Get('parseFromExcel')
+  @UseGuards(AuthAdminGuard, AdminRoleGuard)
+  @SetMetadata('roles', [AdminType.Main])
   parseFromExcel(){
     return this.adminService.parseFromExcel();
   }

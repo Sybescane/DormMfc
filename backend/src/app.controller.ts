@@ -1,4 +1,4 @@
-import { Controller, UseGuards, Post, Body } from "@nestjs/common";
+import { Controller, UseGuards, Post, Body, Put } from "@nestjs/common";
 import { UserService } from "./user/user.service";
 import { RecordService } from "./user/record.service";
 import { AuthUserGuard } from "./user/auth-user.guard";
@@ -31,9 +31,17 @@ export class AppController{
 
     @UseGuards(AuthUserGuard)
     @ApiBody({schema: {properties: {email: {type: 'string', example: 'm2110501@edu.misis.ru'}}}})
-    @Post('confirm-record')
+    @Post('confirm-mail')
     async confirmRecord(@Body('email') email: string){
         await this.recordService.confirmMail(email)
+    }
+
+    @UseGuards(AuthUserGuard)
+    @Put('free-time')
+    @ApiBody({schema: {properties: {email: {type: 'string', example: 'm2110501@edu.misis.ru'}}}})
+    async freeTime(@Body('email') email: string){
+        await this.userService.removeRecord(email)
+        return this.recordService.startRecord(email)
     }
 }
 

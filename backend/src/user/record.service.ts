@@ -18,7 +18,7 @@ export class RecordService{
         let result = new RecordStartDto()
         const user = await this.userService.findOneByEmail(email)
         if(user.recordDatetime != null){
-            const {recordDatetime, ...other} = user
+            const recordDatetime = user.recordDatetime.toLocaleString()
             return { email, recordDatetime, message: 'Пользователь уже записан'}
         }
         result.fullname = user.fullname

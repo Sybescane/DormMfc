@@ -4,7 +4,7 @@ import { IsNotEmpty } from "class-validator";
 import { DormitoryEnum } from "src/dormitory/entity/dormitory.enum";
 import { Type } from "class-transformer";
 
-export class CreateUserDto extends PickType(User, ['personalNumber', 'fullname', 'gender', 'citizenship', 'faculty', 'phone'] as const) {
+export class CreateUserDto extends PickType(User, ['personalNumber', 'fullname', 'gender', 'citizenship', 'faculty', 'phone', 'educationLevel'] as const) {
     @IsNotEmpty()
     @ApiProperty({enum: DormitoryEnum, description: 'общежитие студента'})
     dormitory_name: DormitoryEnum;
