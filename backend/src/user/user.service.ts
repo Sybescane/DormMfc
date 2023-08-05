@@ -8,6 +8,9 @@ import { Dormitory } from 'src/dormitory/entity/dormitory.entity';
 import { Gender } from './entities/gender.enum';
 import { DormitoryEnum } from 'src/dormitory/entity/dormitory.enum';
 import { TakeTimeDto } from './dto/take-time.dto';
+import { EducationLevelEnum } from './entities/education.enum';
+import { UserForAdminDto } from 'src/admin/dto/user-for-admin.dto';
+import { string } from 'yargs';
 
 @Injectable()
 export class UserService {
@@ -16,10 +19,10 @@ export class UserService {
     @InjectRepository(Dormitory) private readonly dormRepository: Repository<Dormitory>
   ){}
 
-  async create(dto: CreateUserDto): Promise<User> {
+  async create(dto: CreateUserDto) {
     const oldUser = await this.findOneByPersonalNumber(dto.personalNumber)
     if(oldUser != null){
-      throw new BadRequestException('Этот пользователь уже есть в базе данных')
+      throw new BadRequestException('Этот пользователь уже существует')
     }
     const newUser = this.userRepository.create()
     newUser.personalNumber = dto.personalNumber
@@ -28,6 +31,7 @@ export class UserService {
     newUser.citizenship = dto.citizenship
     newUser.faculty = dto.faculty
     newUser.phone = dto.phone
+    newUser.educationLevel = dto.educationLevel
     const oldRecord = await this.userRepository.find({
       where: {
         dormitory: {
@@ -43,13 +47,35 @@ export class UserService {
     newUser.dormitory = await this.dormRepository.findOneBy({
       name: dto.dormitory_name
     });
-    const userFromDB = await this.userRepository.save(newUser)
-    userFromDB.recordDatetime.setHours(userFromDB.recordDatetime.getHours() + 3)
-    return userFromDB
+    const savedUser = await this.userRepository.save(newUser)
+    const userRes: UserForAdminDto = new UserForAdminDto(savedUser)
+    return userRes
   }
 
-  async findAllForAdmin(options: FindManyOptions<User>): Promise<User[]> {
-    return await this.userRepository.find(options)
+  async findAllForAdmin(dorm_name: DormitoryEnum = null): Promise<User[]> {
+    if( dorm_name == null){
+      return await this.userRepository.find({
+        where: {
+          recordDatetime: Not(IsNull())
+        },
+        relations: {
+          dormitory: true
+        }
+      })
+    }
+    else{
+      return await this.userRepository.find({
+        where: {
+          dormitory: {
+            name: dorm_name
+          },
+          recordDatetime: Not(IsNull())
+        },
+        relations: {
+          dormitory: true
+        }
+      })
+    }
   }
 
   async findOneByPersonalNumber(personalNumber: number): Promise<User | null> {
@@ -76,13 +102,13 @@ export class UserService {
       throw new BadRequestException('Такой студент не заселяется')
     }
     const takenTime = await this.getTakenTime(user.dormitory.name)
-    if(takenTime.some(item => item.time.getTime() === new Date(dto.recordDatetime).getTime())){
+    if(takenTime.includes(new Date(dto.recordDatetime).toLocaleString())){
       throw new BadRequestException('Это время уже заняли')
     }
     user.recordDatetime = new Date(dto.recordDatetime) ?? user.recordDatetime
-    const userFromDB = await this.userRepository.save(user)
-    userFromDB.recordDatetime.setHours(userFromDB.recordDatetime.getHours() + 3);
-    return userFromDB
+    const savedUser = await this.userRepository.save(user)
+    const userRes = new UserForAdminDto(savedUser)
+    return userRes
   }
 
   async update(dto: UpdateUserDto) {
@@ -91,7 +117,7 @@ export class UserService {
       throw new BadRequestException('Такой студент не заселяется')
     }
     const takenTime = await this.getTakenTime(user.dormitory.name)
-    if(takenTime.some(item => item.time.getTime() === new Date(dto.recordDatetime).getTime())){
+    if(takenTime.includes(new Date(dto.recordDatetime).toLocaleString())){
       throw new BadRequestException('Это время уже заняли')
     }
     user.gender = dto.gender ?? user.gender
@@ -103,24 +129,26 @@ export class UserService {
     user.dormitory = await this.dormRepository.findOneBy({
       name: dto.dormitory_name
     })
-    const userFromDB = await this.userRepository.save(user)
-    userFromDB.recordDatetime.setHours(userFromDB.recordDatetime.getHours() + 3);
-    return userFromDB
+    const savedUser = await this.userRepository.save(user)
+    const userRes = new UserForAdminDto(savedUser)
+    return userRes
   }
 
-  async remove(email: string) {
+  async removeRecord(email: string) {
     const user = await this.findOneByEmail(email)
     if(user == null){
       throw new BadRequestException('Такого пользователя нет в базе данных на заселение')
     }
-    return await this.userRepository.remove(user)
+    user.recordDatetime = null
+    await this.userRepository.save(user)
   }
 
   async save(user:User){
     await this.userRepository.save(user)
   }
 
-  async getTakenTime(dorm_name: DormitoryEnum){
+  async getTakenTime(dorm_name: DormitoryEnum): Promise<string[]>{
+    const result: string[] = []
     const users = await this.userRepository.find({
       where: {
         dormitory: {
@@ -130,26 +158,30 @@ export class UserService {
       }
     })
     users.forEach((user) => {
-      user.recordDatetime.setHours(user.recordDatetime.getHours() + 3)
-    });
-    return users.map((user) => ({
-      time: user.recordDatetime
-    }))
+      result.push(user.recordDatetime.toLocaleString())
+    })
+    return result
   }
 
   async getUserFromObject(item: any){
-    const newUser = new User();
+    const oldUser = await this.findOneByPersonalNumber(item['Рег.номер'])
+    let newUser = this.userRepository.create()
+    if(oldUser != null){
+      newUser = oldUser
+    }
     newUser.fullname = item['ФИО']
     newUser.personalNumber = parseInt(item['Рег.номер'])
-    if(Gender.female == item['Пол']){
-      newUser.gender = item['Пол']
-    }
-    else if(Gender.male == item['Пол']){
-      newUser.gender = item['Пол']
-    }
+    newUser.gender = item['Пол'] as Gender ?? null
+    // if(Gender.female == item['Пол']){
+    //   newUser.gender = item['Пол']
+    // }
+    // else if(Gender.male == item['Пол']){
+    //   newUser.gender = item['Пол']
+    // }
     newUser.citizenship = item['Гражданство']
     newUser.faculty = item['Подразделение']
     newUser.phone = item['Телефон']
+    newUser.educationLevel = item['Уровень подготовки'] as EducationLevelEnum
     if(item["Рекомендуемое общежитие"] != null){
       newUser.dormitory = await this.dormRepository.findOneBy({
         name: item['Рекомендуемое общежитие']

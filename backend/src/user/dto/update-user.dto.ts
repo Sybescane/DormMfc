@@ -5,7 +5,7 @@ import { IsDateString, IsEmail, IsNotEmpty } from 'class-validator';
 import { DormitoryEnum } from 'src/dormitory/entity/dormitory.enum';
 import { Type } from 'class-transformer';
 
-export class UpdateUserDto extends PickType(User, ['fullname', 'citizenship', 'gender', 'faculty', 'phone']) {
+export class UpdateUserDto extends PickType(User, ['fullname', 'citizenship', 'gender', 'faculty', 'phone', 'educationLevel']) {
     @IsEmail()
     @ApiProperty({example: 'm2110501@edu.misis.ru', description: 'корпоративная почта МИСИС'})
     email:string;
