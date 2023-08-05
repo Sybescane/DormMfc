@@ -43,11 +43,13 @@ export class AdminController {
     return this.userService.update(dto)
   }
 
-  @Delete('delete-user')
+  @Delete('delete-record')
+  @UseGuards(AuthAdminGuard, AdminRoleGuard)
+  @SetMetadata('roles', [AdminType.Main, AdminType.Dorm])
   @ApiOperation({description: 'Создание общежития'})
   @ApiBody({schema: {properties: {email: {type: 'string', example: 'm2110501@edu.misis.ru'}}}})
   async deleteUser(@Body('email') email: string){
-    return await this.userService.remove(email);
+    return await this.userService.removeRecord(email);
   }
 
   // @Post('create-dorm')

@@ -10,6 +10,7 @@ import { DormitoryEnum } from 'src/dormitory/entity/dormitory.enum';
 import { TakeTimeDto } from './dto/take-time.dto';
 import { EducationLevelEnum } from './entities/education.enum';
 import { UserForAdminDto } from 'src/admin/dto/user-for-admin.dto';
+import { string } from 'yargs';
 
 @Injectable()
 export class UserService {
@@ -101,13 +102,13 @@ export class UserService {
       throw new BadRequestException('Такой студент не заселяется')
     }
     const takenTime = await this.getTakenTime(user.dormitory.name)
-    if(takenTime.some(item => item.time.getTime() === new Date(dto.recordDatetime).getTime())){
+    if(takenTime.includes(new Date(dto.recordDatetime).toLocaleString())){
       throw new BadRequestException('Это время уже заняли')
     }
     user.recordDatetime = new Date(dto.recordDatetime) ?? user.recordDatetime
-    const userFromDB = await this.userRepository.save(user)
-    userFromDB.recordDatetime.setHours(userFromDB.recordDatetime.getHours() + 3);
-    return userFromDB
+    const savedUser = await this.userRepository.save(user)
+    const userRes = new UserForAdminDto(savedUser)
+    return userRes
   }
 
   async update(dto: UpdateUserDto) {
@@ -116,7 +117,7 @@ export class UserService {
       throw new BadRequestException('Такой студент не заселяется')
     }
     const takenTime = await this.getTakenTime(user.dormitory.name)
-    if(takenTime.some(item => item.time.getTime() === new Date(dto.recordDatetime).getTime())){
+    if(takenTime.includes(new Date(dto.recordDatetime).toLocaleString())){
       throw new BadRequestException('Это время уже заняли')
     }
     user.gender = dto.gender ?? user.gender
@@ -133,19 +134,21 @@ export class UserService {
     return userRes
   }
 
-  async remove(email: string) {
+  async removeRecord(email: string) {
     const user = await this.findOneByEmail(email)
     if(user == null){
       throw new BadRequestException('Такого пользователя нет в базе данных на заселение')
     }
-    return await this.userRepository.remove(user)
+    user.recordDatetime = null
+    await this.userRepository.save(user)
   }
 
   async save(user:User){
     await this.userRepository.save(user)
   }
 
-  async getTakenTime(dorm_name: DormitoryEnum){
+  async getTakenTime(dorm_name: DormitoryEnum): Promise<string[]>{
+    const result: string[] = []
     const users = await this.userRepository.find({
       where: {
         dormitory: {
@@ -155,11 +158,9 @@ export class UserService {
       }
     })
     users.forEach((user) => {
-      user.recordDatetime.setHours(user.recordDatetime.getHours() + 3)
-    });
-    return users.map((user) => ({
-      time: user.recordDatetime
-    }))
+      result.push(user.recordDatetime.toLocaleString())
+    })
+    return result
   }
 
   async getUserFromObject(item: any){
