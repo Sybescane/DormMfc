@@ -8,6 +8,7 @@ import { Dormitory } from 'src/dormitory/entity/dormitory.entity';
 import { Gender } from './entities/gender.enum';
 import { DormitoryEnum } from 'src/dormitory/entity/dormitory.enum';
 import { TakeTimeDto } from './dto/take-time.dto';
+import { EducationLevelEnum } from './entities/education.enum';
 
 @Injectable()
 export class UserService {
@@ -138,18 +139,24 @@ export class UserService {
   }
 
   async getUserFromObject(item: any){
-    const newUser = new User();
+    const oldUser = await this.findOneByPersonalNumber(item['Рег.номер'])
+    let newUser = this.userRepository.create()
+    if(oldUser != null){
+      newUser = oldUser
+    }
     newUser.fullname = item['ФИО']
     newUser.personalNumber = parseInt(item['Рег.номер'])
-    if(Gender.female == item['Пол']){
-      newUser.gender = item['Пол']
-    }
-    else if(Gender.male == item['Пол']){
-      newUser.gender = item['Пол']
-    }
+    newUser.gender = item['Пол'] as Gender ?? null
+    // if(Gender.female == item['Пол']){
+    //   newUser.gender = item['Пол']
+    // }
+    // else if(Gender.male == item['Пол']){
+    //   newUser.gender = item['Пол']
+    // }
     newUser.citizenship = item['Гражданство']
     newUser.faculty = item['Подразделение']
     newUser.phone = item['Телефон']
+    newUser.educationLevel = item['Уровень подготовки'] as EducationLevelEnum
     if(item["Рекомендуемое общежитие"] != null){
       newUser.dormitory = await this.dormRepository.findOneBy({
         name: item['Рекомендуемое общежитие']

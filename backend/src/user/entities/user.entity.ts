@@ -2,6 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn
 import { Gender } from "./gender.enum";
 import { Dormitory } from "../../dormitory/entity/dormitory.entity";
 import { ApiProperty } from "@nestjs/swagger";
+import { EducationLevelEnum } from "./education.enum";
 
 @Entity('users')
 export class User {
@@ -56,6 +57,15 @@ export class User {
         nullable: true
     })
     recordDatetime: Date
+
+    @ApiProperty({enumName: 'EducationLevel',enum: EducationLevelEnum, description: 'Пол студента'})
+    @Column({
+        type: 'enum',
+        enum: EducationLevelEnum,
+        nullable: true,
+        name: 'education_level'
+    })
+    educationLevel: EducationLevelEnum;
 
     @ManyToOne(() => Dormitory, (dorm: Dormitory) => dorm.users)
     @JoinColumn({

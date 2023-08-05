@@ -115,7 +115,7 @@ export class AdminService {
           dormitory: true
         }
       })
-      const result: Record<DormitoryEnum, User[]> = {
+      const result: Record<DormitoryEnum, any[]> = {
         [DormitoryEnum.M1]: [],
         [DormitoryEnum.M2]: [],
         [DormitoryEnum.M3]: [],
@@ -125,14 +125,20 @@ export class AdminService {
         [DormitoryEnum.DSG]: [],
         [DormitoryEnum.DK]: [],
       };
-
+      
       users.forEach((user) => {
+        
         if (user.dormitory && user.dormitory.name in result) {
-          user.recordDatetime.setHours(user.recordDatetime.getHours() + 3)
-          result[user.dormitory.name].push(user);
+          const userRes = {
+            email: User.GetEmailFromNumber(user.personalNumber),
+            fullname: user.fullname,
+            gender: user.gender,
+            citizenship: user.citizenship,
+            recordDatetime: user.recordDatetime.toLocaleString()
+          }
+          result[user.dormitory.name].push(userRes);
         }
       });
-
 
       return result
     }
