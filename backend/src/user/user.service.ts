@@ -17,10 +17,10 @@ export class UserService {
     @InjectRepository(Dormitory) private readonly dormRepository: Repository<Dormitory>
   ){}
 
-  async create(dto: CreateUserDto): Promise<User> {
+  async create(dto: CreateUserDto) {
     const oldUser = await this.findOneByPersonalNumber(dto.personalNumber)
     if(oldUser != null){
-      throw new BadRequestException('Этот пользователь уже есть в базе данных')
+      throw new BadRequestException('Этот пользователь уже существует')
     }
     const newUser = this.userRepository.create()
     newUser.personalNumber = dto.personalNumber
@@ -45,9 +45,12 @@ export class UserService {
     newUser.dormitory = await this.dormRepository.findOneBy({
       name: dto.dormitory_name
     });
-    const userFromDB = await this.userRepository.save(newUser)
-    userFromDB.recordDatetime.setHours(userFromDB.recordDatetime.getHours() + 3)
-    return userFromDB
+    const savedUser = await this.userRepository.save(newUser)
+    const {recordDatetime, codeConfirm, userId, dormitory, personalNumber, ...result} = savedUser
+    result['email'] = User.GetEmailFromNumber(savedUser.personalNumber)
+    result['recordDatetime'] = savedUser.recordDatetime.toLocaleString()
+    result['dorm_name'] = savedUser.dormitory.name
+    return result
   }
 
   async findAllForAdmin(dorm_name: DormitoryEnum = null): Promise<User[]> {
