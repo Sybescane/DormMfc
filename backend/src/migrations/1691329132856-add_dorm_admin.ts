@@ -1,7 +1,7 @@
 import { hash } from "argon2";
 import { MigrationInterface, QueryRunner } from "typeorm"
 
-export class MokesInAdmin1690715720800 implements MigrationInterface {
+export class AddDormAdmin1691329132856 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         const passwordAlex = await hash('07092003')
