@@ -11,11 +11,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
+var __rest = (this && this.__rest) || function (s, e) {
+    var t = {};
+    for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p) && e.indexOf(p) < 0)
+        t[p] = s[p];
+    if (s != null && typeof Object.getOwnPropertySymbols === "function")
+        for (var i = 0, p = Object.getOwnPropertySymbols(s); i < p.length; i++) {
+            if (e.indexOf(p[i]) < 0 && Object.prototype.propertyIsEnumerable.call(s, p[i]))
+                t[p[i]] = s[p[i]];
+        }
+    return t;
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminService = void 0;
 const common_1 = require("@nestjs/common");
 const xlsx_1 = require("xlsx");
 const typeorm_1 = require("@nestjs/typeorm");
+const user_entity_1 = require("../user/entities/user.entity");
 const typeorm_2 = require("typeorm");
 const user_service_1 = require("../user/user.service");
 const admin_entity_1 = require("./entities/admin.entity");
@@ -45,7 +57,10 @@ let AdminService = class AdminService {
         newAdmin.adminType = dto.adminType;
         newAdmin.phone = dto.phone;
         newAdmin.dormitory = await this.dormService.findOneByName(dto.dormitory_name);
-        return await this.adminRepository.save(newAdmin);
+        const savedAdmin = await this.adminRepository.save(newAdmin);
+        const { password, adminId, dormitory } = savedAdmin, result = __rest(savedAdmin, ["password", "adminId", "dormitory"]);
+        result['dorm_name'] = savedAdmin.dormitory.name;
+        return result;
     }
     findAll() {
         return `This action returns all admin`;
@@ -103,44 +118,38 @@ let AdminService = class AdminService {
     }
     async findAllUsers(login) {
         const admin = await this.findOneByLogin(login);
+        let users = [];
+        let result = {};
+        console.log(result);
         if (admin.adminType === admin_type_enum_1.AdminType.Main) {
-            const users = await this.userService.findAllForAdmin({
-                where: {
-                    recordDatetime: (0, typeorm_2.Not)((0, typeorm_2.IsNull)())
-                },
-                relations: {
-                    dormitory: true
-                }
-            });
-            const result = {
-                [dormitory_enum_1.DormitoryEnum.M1]: [],
-                [dormitory_enum_1.DormitoryEnum.M2]: [],
-                [dormitory_enum_1.DormitoryEnum.M3]: [],
-                [dormitory_enum_1.DormitoryEnum.M4]: [],
-                [dormitory_enum_1.DormitoryEnum.G1]: [],
-                [dormitory_enum_1.DormitoryEnum.G2]: [],
-                [dormitory_enum_1.DormitoryEnum.DSG]: [],
-                [dormitory_enum_1.DormitoryEnum.DK]: [],
-            };
-            users.forEach((user) => {
-                if (user.dormitory && user.dormitory.name in result) {
-                    user.recordDatetime.setHours(user.recordDatetime.getHours() + 3);
-                    result[user.dormitory.name].push(user);
-                }
-            });
-            return result;
+            result[dormitory_enum_1.DormitoryEnum.M1] = [];
+            result[dormitory_enum_1.DormitoryEnum.M2] = [];
+            result[dormitory_enum_1.DormitoryEnum.M3] = [];
+            result[dormitory_enum_1.DormitoryEnum.M4] = [];
+            result[dormitory_enum_1.DormitoryEnum.G1] = [];
+            result[dormitory_enum_1.DormitoryEnum.G2] = [];
+            result[dormitory_enum_1.DormitoryEnum.DSG] = [];
+            result[dormitory_enum_1.DormitoryEnum.DK] = [];
+            users = await this.userService.findAllForAdmin();
         }
         else {
-            const users = await this.userService.findAllForAdmin({
-                where: {
-                    recordDatetime: (0, typeorm_2.Not)((0, typeorm_2.IsNull)()),
-                    dormitory: admin.dormitory
-                }
-            });
-            const result = {};
-            result[admin.dormitory.name] = users;
-            return result;
+            result[admin.dormitory.name] = [];
+            users = await this.userService.findAllForAdmin(admin.dormitory.name);
         }
+        users.forEach((user) => {
+            if (user.dormitory && user.dormitory.name in result) {
+                const userRes = {
+                    email: user_entity_1.User.GetEmailFromNumber(user.personalNumber),
+                    fullname: user.fullname,
+                    gender: user.gender,
+                    citizenship: user.citizenship,
+                    educationLevel: user.educationLevel,
+                    recordDatetime: user.recordDatetime.toLocaleString()
+                };
+                result[user.dormitory.name].push(userRes);
+            }
+        });
+        return result;
     }
 };
 AdminService = __decorate([

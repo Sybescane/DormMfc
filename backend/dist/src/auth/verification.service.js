@@ -36,7 +36,7 @@ let VerificationService = class VerificationService {
         }
     }
     async deleteCode(email) {
-        await new Promise((resolve) => setTimeout(resolve, 30000));
+        await new Promise((resolve) => setTimeout(resolve, 150000));
         const user = await this.userService.findOneByEmail(email);
         user.codeConfirm = null;
         await this.userService.save(user);

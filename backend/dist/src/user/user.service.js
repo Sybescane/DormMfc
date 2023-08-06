@@ -18,7 +18,7 @@ const typeorm_1 = require("@nestjs/typeorm");
 const user_entity_1 = require("./entities/user.entity");
 const typeorm_2 = require("typeorm");
 const dormitory_entity_1 = require("../dormitory/entity/dormitory.entity");
-const gender_enum_1 = require("./entities/gender.enum");
+const user_for_admin_dto_1 = require("../admin/dto/user-for-admin.dto");
 let UserService = class UserService {
     constructor(userRepository, dormRepository) {
         this.userRepository = userRepository;
@@ -27,7 +27,7 @@ let UserService = class UserService {
     async create(dto) {
         const oldUser = await this.findOneByPersonalNumber(dto.personalNumber);
         if (oldUser != null) {
-            throw new common_1.BadRequestException('Этот пользователь уже есть в базе данных');
+            throw new common_1.BadRequestException('Этот пользователь уже существует');
         }
         const newUser = this.userRepository.create();
         newUser.personalNumber = dto.personalNumber;
@@ -36,6 +36,7 @@ let UserService = class UserService {
         newUser.citizenship = dto.citizenship;
         newUser.faculty = dto.faculty;
         newUser.phone = dto.phone;
+        newUser.educationLevel = dto.educationLevel;
         const oldRecord = await this.userRepository.find({
             where: {
                 dormitory: {
@@ -51,12 +52,34 @@ let UserService = class UserService {
         newUser.dormitory = await this.dormRepository.findOneBy({
             name: dto.dormitory_name
         });
-        const userFromDB = await this.userRepository.save(newUser);
-        userFromDB.recordDatetime.setHours(userFromDB.recordDatetime.getHours() + 3);
-        return userFromDB;
+        const savedUser = await this.userRepository.save(newUser);
+        const userRes = new user_for_admin_dto_1.UserForAdminDto(savedUser);
+        return userRes;
     }
-    async findAllForAdmin(options) {
-        return await this.userRepository.find(options);
+    async findAllForAdmin(dorm_name = null) {
+        if (dorm_name == null) {
+            return await this.userRepository.find({
+                where: {
+                    recordDatetime: (0, typeorm_2.Not)((0, typeorm_2.IsNull)())
+                },
+                relations: {
+                    dormitory: true
+                }
+            });
+        }
+        else {
+            return await this.userRepository.find({
+                where: {
+                    dormitory: {
+                        name: dorm_name
+                    },
+                    recordDatetime: (0, typeorm_2.Not)((0, typeorm_2.IsNull)())
+                },
+                relations: {
+                    dormitory: true
+                }
+            });
+        }
     }
     async findOneByPersonalNumber(personalNumber) {
         const user = await this.userRepository.findOne({
@@ -81,13 +104,13 @@ let UserService = class UserService {
             throw new common_1.BadRequestException('Такой студент не заселяется');
         }
         const takenTime = await this.getTakenTime(user.dormitory.name);
-        if (takenTime.some(item => item.time.getTime() === new Date(dto.recordDatetime).getTime())) {
+        if (takenTime.includes(new Date(dto.recordDatetime).toLocaleString())) {
             throw new common_1.BadRequestException('Это время уже заняли');
         }
         user.recordDatetime = (_a = new Date(dto.recordDatetime)) !== null && _a !== void 0 ? _a : user.recordDatetime;
-        const userFromDB = await this.userRepository.save(user);
-        userFromDB.recordDatetime.setHours(userFromDB.recordDatetime.getHours() + 3);
-        return userFromDB;
+        const savedUser = await this.userRepository.save(user);
+        const userRes = new user_for_admin_dto_1.UserForAdminDto(savedUser);
+        return userRes;
     }
     async update(dto) {
         var _a, _b, _c, _d, _e, _f;
@@ -96,7 +119,7 @@ let UserService = class UserService {
             throw new common_1.BadRequestException('Такой студент не заселяется');
         }
         const takenTime = await this.getTakenTime(user.dormitory.name);
-        if (takenTime.some(item => item.time.getTime() === new Date(dto.recordDatetime).getTime())) {
+        if (takenTime.includes(new Date(dto.recordDatetime).toLocaleString())) {
             throw new common_1.BadRequestException('Это время уже заняли');
         }
         user.gender = (_a = dto.gender) !== null && _a !== void 0 ? _a : user.gender;
@@ -108,21 +131,23 @@ let UserService = class UserService {
         user.dormitory = await this.dormRepository.findOneBy({
             name: dto.dormitory_name
         });
-        const userFromDB = await this.userRepository.save(user);
-        userFromDB.recordDatetime.setHours(userFromDB.recordDatetime.getHours() + 3);
-        return userFromDB;
+        const savedUser = await this.userRepository.save(user);
+        const userRes = new user_for_admin_dto_1.UserForAdminDto(savedUser);
+        return userRes;
     }
-    async remove(email) {
+    async removeRecord(email) {
         const user = await this.findOneByEmail(email);
         if (user == null) {
             throw new common_1.BadRequestException('Такого пользователя нет в базе данных на заселение');
         }
-        return await this.userRepository.remove(user);
+        user.recordDatetime = null;
+        await this.userRepository.save(user);
     }
     async save(user) {
         await this.userRepository.save(user);
     }
     async getTakenTime(dorm_name) {
+        const result = [];
         const users = await this.userRepository.find({
             where: {
                 dormitory: {
@@ -132,25 +157,24 @@ let UserService = class UserService {
             }
         });
         users.forEach((user) => {
-            user.recordDatetime.setHours(user.recordDatetime.getHours() + 3);
+            result.push(user.recordDatetime.toLocaleString());
         });
-        return users.map((user) => ({
-            time: user.recordDatetime
-        }));
+        return result;
     }
     async getUserFromObject(item) {
-        const newUser = new user_entity_1.User();
+        var _a;
+        const oldUser = await this.findOneByPersonalNumber(item['Рег.номер']);
+        let newUser = this.userRepository.create();
+        if (oldUser != null) {
+            newUser = oldUser;
+        }
         newUser.fullname = item['ФИО'];
         newUser.personalNumber = parseInt(item['Рег.номер']);
-        if (gender_enum_1.Gender.female == item['Пол']) {
-            newUser.gender = item['Пол'];
-        }
-        else if (gender_enum_1.Gender.male == item['Пол']) {
-            newUser.gender = item['Пол'];
-        }
+        newUser.gender = (_a = item['Пол']) !== null && _a !== void 0 ? _a : null;
         newUser.citizenship = item['Гражданство'];
         newUser.faculty = item['Подразделение'];
         newUser.phone = item['Телефон'];
+        newUser.educationLevel = item['Уровень подготовки'];
         if (item["Рекомендуемое общежитие"] != null) {
             newUser.dormitory = await this.dormRepository.findOneBy({
                 name: item['Рекомендуемое общежитие']

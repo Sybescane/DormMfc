@@ -35,6 +35,10 @@ let AppController = class AppController {
     async confirmRecord(email) {
         await this.recordService.confirmMail(email);
     }
+    async freeTime(email) {
+        await this.userService.removeRecord(email);
+        return this.recordService.startRecord(email);
+    }
 };
 __decorate([
     (0, common_1.UseGuards)(auth_user_guard_1.AuthUserGuard),
@@ -56,12 +60,21 @@ __decorate([
 __decorate([
     (0, common_1.UseGuards)(auth_user_guard_1.AuthUserGuard),
     (0, swagger_1.ApiBody)({ schema: { properties: { email: { type: 'string', example: 'm2110501@edu.misis.ru' } } } }),
-    (0, common_1.Post)('confirm-record'),
+    (0, common_1.Post)('confirm-mail'),
     __param(0, (0, common_1.Body)('email')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], AppController.prototype, "confirmRecord", null);
+__decorate([
+    (0, common_1.UseGuards)(auth_user_guard_1.AuthUserGuard),
+    (0, common_1.Put)('free-time'),
+    (0, swagger_1.ApiBody)({ schema: { properties: { email: { type: 'string', example: 'm2110501@edu.misis.ru' } } } }),
+    __param(0, (0, common_1.Body)('email')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AppController.prototype, "freeTime", null);
 AppController = __decorate([
     (0, swagger_1.ApiTags)('Запросы пользователя'),
     (0, common_1.Controller)(),

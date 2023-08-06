@@ -15,7 +15,7 @@ const user_entity_1 = require("../entities/user.entity");
 const class_validator_1 = require("class-validator");
 const dormitory_enum_1 = require("../../dormitory/entity/dormitory.enum");
 const class_transformer_1 = require("class-transformer");
-class CreateUserDto extends (0, swagger_1.PickType)(user_entity_1.User, ['personalNumber', 'fullname', 'gender', 'citizenship', 'faculty', 'phone']) {
+class CreateUserDto extends (0, swagger_1.PickType)(user_entity_1.User, ['personalNumber', 'fullname', 'gender', 'citizenship', 'faculty', 'phone', 'educationLevel']) {
 }
 __decorate([
     (0, class_validator_1.IsNotEmpty)(),

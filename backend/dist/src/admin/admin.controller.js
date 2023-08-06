@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AdminController = void 0;
 const common_1 = require("@nestjs/common");
 const admin_service_1 = require("./admin.service");
-const create_dorm_dto_1 = require("../dormitory/dto/create-dorm.dto");
 const swagger_1 = require("@nestjs/swagger");
 const dormitory_service_1 = require("../dormitory/dormitory.service");
 const create_user_dto_1 = require("../user/dto/create-user.dto");
@@ -41,10 +40,7 @@ let AdminController = class AdminController {
         return this.userService.update(dto);
     }
     async deleteUser(email) {
-        return await this.userService.remove(email);
-    }
-    createDorm(dto) {
-        return this.dormService.createDorm(dto);
+        return await this.userService.removeRecord(email);
     }
     parseFromExcel() {
         return this.adminService.parseFromExcel();
@@ -63,6 +59,8 @@ __decorate([
 ], AdminController.prototype, "getUsers", null);
 __decorate([
     (0, common_1.Post)('create-user'),
+    (0, common_1.UseGuards)(admin_guard_1.AuthAdminGuard, admin_role_guard_1.AdminRoleGuard),
+    (0, common_1.SetMetadata)('roles', [admin_type_enum_1.AdminType.Main, admin_type_enum_1.AdminType.Dorm]),
     (0, swagger_1.ApiBody)({ type: create_user_dto_1.CreateUserDto }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -70,7 +68,9 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AdminController.prototype, "createUser", null);
 __decorate([
-    (0, common_1.Post)('update-user'),
+    (0, common_1.Put)('update-user'),
+    (0, common_1.UseGuards)(admin_guard_1.AuthAdminGuard, admin_role_guard_1.AdminRoleGuard),
+    (0, common_1.SetMetadata)('roles', [admin_type_enum_1.AdminType.Main, admin_type_enum_1.AdminType.Dorm]),
     (0, swagger_1.ApiBody)({ type: update_user_dto_1.UpdateUserDto }),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
@@ -78,7 +78,9 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], AdminController.prototype, "updateUser", null);
 __decorate([
-    (0, common_1.Delete)('delete-user'),
+    (0, common_1.Delete)('delete-record'),
+    (0, common_1.UseGuards)(admin_guard_1.AuthAdminGuard, admin_role_guard_1.AdminRoleGuard),
+    (0, common_1.SetMetadata)('roles', [admin_type_enum_1.AdminType.Main, admin_type_enum_1.AdminType.Dorm]),
     (0, swagger_1.ApiOperation)({ description: 'Создание общежития' }),
     (0, swagger_1.ApiBody)({ schema: { properties: { email: { type: 'string', example: 'm2110501@edu.misis.ru' } } } }),
     __param(0, (0, common_1.Body)('email')),
@@ -87,15 +89,9 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AdminController.prototype, "deleteUser", null);
 __decorate([
-    (0, common_1.Post)('create-dorm'),
-    (0, swagger_1.ApiBody)({ type: create_dorm_dto_1.CreateDormDto }),
-    __param(0, (0, common_1.Body)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [create_dorm_dto_1.CreateDormDto]),
-    __metadata("design:returntype", Promise)
-], AdminController.prototype, "createDorm", null);
-__decorate([
     (0, common_1.Get)('parseFromExcel'),
+    (0, common_1.UseGuards)(admin_guard_1.AuthAdminGuard, admin_role_guard_1.AdminRoleGuard),
+    (0, common_1.SetMetadata)('roles', [admin_type_enum_1.AdminType.Main]),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)

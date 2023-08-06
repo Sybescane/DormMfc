@@ -37,7 +37,7 @@ let RecordService = class RecordService {
         let result = new record_start_dto_1.RecordStartDto();
         const user = await this.userService.findOneByEmail(email);
         if (user.recordDatetime != null) {
-            const { recordDatetime } = user, other = __rest(user, ["recordDatetime"]);
+            const recordDatetime = user.recordDatetime.toLocaleString();
             return { email, recordDatetime, message: 'Пользователь уже записан' };
         }
         result.fullname = user.fullname;

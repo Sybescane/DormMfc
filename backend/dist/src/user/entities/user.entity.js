@@ -14,6 +14,7 @@ const typeorm_1 = require("typeorm");
 const gender_enum_1 = require("./gender.enum");
 const dormitory_entity_1 = require("../../dormitory/entity/dormitory.entity");
 const swagger_1 = require("@nestjs/swagger");
+const education_enum_1 = require("./education.enum");
 let User = class User {
     static GetEmailFromNumber(personalNumber) {
         return 'm' + personalNumber + '@edu.misis.ru';
@@ -89,6 +90,16 @@ __decorate([
     }),
     __metadata("design:type", Date)
 ], User.prototype, "recordDatetime", void 0);
+__decorate([
+    (0, swagger_1.ApiProperty)({ enumName: 'EducationLevel', enum: education_enum_1.EducationLevelEnum, description: 'Пол студента' }),
+    (0, typeorm_1.Column)({
+        type: 'enum',
+        enum: education_enum_1.EducationLevelEnum,
+        nullable: true,
+        name: 'education_level'
+    }),
+    __metadata("design:type", String)
+], User.prototype, "educationLevel", void 0);
 __decorate([
     (0, typeorm_1.ManyToOne)(() => dormitory_entity_1.Dormitory, (dorm) => dorm.users),
     (0, typeorm_1.JoinColumn)({

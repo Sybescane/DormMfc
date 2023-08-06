@@ -3,6 +3,7 @@ import { Repository } from 'typeorm';
 import { UpdateAdminDto } from './dto/update-admin.dto';
 import { UserService } from 'src/user/user.service';
 import { Admin } from './entities/admin.entity';
+import { AdminType } from './entities/admin-type.enum';
 import { DormitoryService } from 'src/dormitory/dormitory.service';
 import { DormitoryEnum } from 'src/dormitory/entity/dormitory.enum';
 export declare class AdminService {
@@ -10,7 +11,14 @@ export declare class AdminService {
     private readonly dormService;
     private readonly userService;
     constructor(adminRepository: Repository<Admin>, dormService: DormitoryService, userService: UserService);
-    createAdmin(dto: CreateAdminDto): Promise<Admin>;
+    createAdmin(dto: CreateAdminDto): Promise<{
+        login: string;
+        fullname: string;
+        isShow: boolean;
+        position: string;
+        phone: string;
+        adminType: AdminType;
+    }>;
     findAll(): string;
     findOneByLogin(login: string): Promise<Admin | null>;
     update(id: number, updateAdminDto: UpdateAdminDto): string;

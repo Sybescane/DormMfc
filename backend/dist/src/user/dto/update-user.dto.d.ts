@@ -1,6 +1,6 @@
 import { User } from '../entities/user.entity';
 import { DormitoryEnum } from 'src/dormitory/entity/dormitory.enum';
-declare const UpdateUserDto_base: import("@nestjs/common").Type<Pick<User, "fullname" | "gender" | "citizenship" | "faculty" | "phone">>;
+declare const UpdateUserDto_base: import("@nestjs/common").Type<Pick<User, "fullname" | "gender" | "citizenship" | "faculty" | "phone" | "educationLevel">>;
 export declare class UpdateUserDto extends UpdateUserDto_base {
     email: string;
     recordDatetime: string;

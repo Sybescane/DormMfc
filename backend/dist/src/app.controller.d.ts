@@ -9,6 +9,7 @@ export declare class AppController {
     private readonly mailService;
     constructor(userService: UserService, recordService: RecordService, mailService: MailService);
     startRecord(email: string): Promise<RecordStartDto>;
-    takeTime(dto: TakeTimeDto): Promise<import("./user/entities/user.entity").User>;
+    takeTime(dto: TakeTimeDto): Promise<import("./admin/dto/user-for-admin.dto").UserForAdminDto>;
     confirmRecord(email: string): Promise<void>;
+    freeTime(email: string): Promise<any>;
 }

@@ -41,14 +41,14 @@ let AuthService = class AuthService {
     }
     async signInUser(dto) {
         const user = await this.userService.findOneByEmail(dto.email);
-        if ((user === null || user === void 0 ? void 0 : user.codeConfirm) === null) {
+        if ((user === null || user === void 0 ? void 0 : user.codeConfirm) === null || user === null) {
             throw new common_1.UnauthorizedException();
         }
         if (!await (0, argon2_1.verify)(user === null || user === void 0 ? void 0 : user.codeConfirm, dto.code)) {
             throw new common_1.UnauthorizedException();
         }
         this.verificationService.deleteCode(dto.email);
-        const payload = { sub: user.userId, username: user.fullname, type: 'user' };
+        const payload = { sub: user.userId, email: user_entity_1.User.GetEmailFromNumber(user.personalNumber), type: 'user' };
         return {
             access_token: await this.jwtService.signAsync(payload),
         };
