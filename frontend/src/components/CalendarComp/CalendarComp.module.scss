@@ -5,14 +5,22 @@
     position: relative;
 
     .CalendarPreview {
+        width: 260px;
+        height: 48px;
         display: flex;
         border: 1px solid rgba(44, 62, 80, 0.24);
         justify-content: space-between;
-        padding: 1% 2%;
-        width: 26%;
+        border-radius: 8px;
+        align-items: center;
+        margin-right: 24px;
 
         p {
-            @include mixins.fontRaleway($fontWeight: 600)
+            @include mixins.fontRaleway($fontWeight: 600);
+            margin-left: 16px;
+        }
+
+        svg {
+            margin-right: 16px;
         }
     }
 
@@ -21,39 +29,43 @@
     }
 
     .FullCalendar {
-        border-radius: 6%;
+        border-radius: 16px;
         display: flex;
         flex-direction: column;
-        width: 48%;
+        width: 360px;
         position: absolute;
         background-color: white;
         box-shadow: 4px 16px 48px rgba(0, 0, 0, 0.06);
-        padding: 2%;
+
+        padding: 32px;
 
         .Month {
             text-align: center;
             font-size: 0.875rem;
+            letter-spacing: 0.613px;
         }
 
         .Calendar {
             justify-items: center;
             align-items: center;
             display: grid;
-            grid-template-rows: repeat(5, 1fr);
+            grid-template-rows: repeat(6, 1fr);
             grid-template-columns: repeat(7, 1fr);
 
             .Weekdays {
                 color: rgba(44, 62, 80, 0.56);
+                font-size: 0.875rem;
+                letter-spacing: 0.613px;
             }
 
             .Numbers {
-                font-weight: 600;
                 cursor: pointer;
                 width: 75%;
                 height: 75%;
                 display: flex;
                 justify-content: center;
                 align-items: center;
+                font-weight: 600;
             }
 
             div {
@@ -65,25 +77,13 @@
                 background-repeat: no-repeat;
                 background-size: contain;
                 background-position: center;
-                color: white
+                color: white;
             }
 
             .Unavaliable {
                 color: #2C3E508F;
+                font-weight: 400;
             }
         }
     }
-}
-
-.WidthCalendar {
-    width: 100% !important;
-    height: 100%;
-}
-
-.CalendarParts {
-    grid-column: 1/12;
-}
-
-.FullWidthCalendar {
-    width: 150% !important;
 }

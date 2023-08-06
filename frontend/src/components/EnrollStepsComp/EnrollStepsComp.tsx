@@ -3,8 +3,6 @@ import classes from './EnrollStepsComp.module.scss'
 
 export default function EnrollStepsComp() {
     const enrollStep = useAppSelector(state => state.globalSlice.serviceData.enrollStep)
-    console.log('enroll state')
-    console.log(enrollStep)
 
     return (
         <div className={classes.Wrapper}>

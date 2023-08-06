@@ -14,8 +14,12 @@ type InitialStateType = {
         token: string | null,
         contacts: Array<string>
         freeTimes: {
-            [key: string]: Array<string>
-        }
+            [key: string]: Array<{
+                time: string,
+                isBusy: boolean
+            }>
+        },
+        faculty: string
     },
     serviceData: {
         isLoading: boolean,
@@ -24,6 +28,7 @@ type InitialStateType = {
         enrollStep: number,
         isEmployeeLogin: boolean,
         isCheckInPopup: boolean,
+        isBusyWarning: boolean
     }
 }
 
@@ -39,7 +44,8 @@ const initialState: InitialStateType = {
         dateSelected: '25 августа, пт',
         timeSelected: null,
         contacts: [],
-        freeTimes: {}
+        freeTimes: {},
+        faculty: ''
     },
     serviceData: {
         isError: false,
@@ -48,6 +54,7 @@ const initialState: InitialStateType = {
         enrollStep: 1,
         isEmployeeLogin: false,
         isCheckInPopup: false,
+        isBusyWarning: false
     }
 }
 
@@ -64,7 +71,6 @@ const globalSlice = createSlice({
         },
         selectDate(state, action) {
             state.userData.dateSelected = action.payload
-            console.log('date changed', state.userData.dateSelected)
         },
         selectTime(state, action) {
             state.userData.timeSelected = action.payload
@@ -81,9 +87,6 @@ const globalSlice = createSlice({
         saveUserBasics(state, action) {
             state.userData.token = action.payload.token
             state.userData.email = action.payload.email
-            console.log('data')
-            console.log(state.userData.token)
-            console.log(state.userData.email)
         },
         saveUserData(state, action) {
             state.userData.email = action.payload.email
@@ -91,15 +94,37 @@ const globalSlice = createSlice({
             state.userData.freeTimes = createTimes(action.payload.takenTime)
             state.userData.contacts = action.payload.contacts
         },
-        showCheckInPopup(state, action: PayloadAction<{ event: React.MouseEvent, isShow: boolean }>) {
-            if (action.payload.isShow) {
-                action.payload.event.stopPropagation()
-                state.serviceData.isCheckInPopup = true
-            }
-            else {
-                state.serviceData.isCheckInPopup = false
+        showPopup(state, action: PayloadAction<{ event: React.MouseEvent, isShow: boolean, type: string }>) {
+            const dataObj = action.payload
+            switch (dataObj.type) {
+                case 'checkInPopup':
+                    if (dataObj.isShow) {
+                        dataObj.event.stopPropagation()
+                        state.serviceData.isCheckInPopup = true
+                    }
+                    else {
+                        state.serviceData.isCheckInPopup = false
+                    }
+                    break;
+                case 'busyWarning':
+                    if (dataObj.isShow) {
+                        dataObj.event.stopPropagation()
+                        state.serviceData.isBusyWarning = true
+                    }
+                    else {
+                        state.serviceData.isBusyWarning = false
+                    }
+                    break;
+                default:
+                    break;
             }
         },
+        cleanupStore(state) {
+            state = initialState
+        },
+        setFaculty(state, action) {
+            state.userData.faculty = action.payload
+        }
     }
 })
 
@@ -107,7 +132,9 @@ export const { hideCalendar, showCalendar, selectDate, selectTime, switchStep, s
     hideEmployeeLogin,
     saveUserBasics,
     saveUserData,
-    showCheckInPopup,
+    showPopup,
+    cleanupStore,
+    setFaculty
 } = globalSlice.actions
 
 export default globalSlice.reducer

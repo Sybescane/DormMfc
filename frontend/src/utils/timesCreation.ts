@@ -1,7 +1,12 @@
-export function createTimes(timesArr: Array<{ time: string }>): { [key: string]: Array<string> } {
-    type freeTimesType = {
-        [key: string]: string[]
-    }
+type timeType = {
+    time: string,
+    isBusy: boolean
+}
+type freeTimesType = {
+    [key: string]: Array<timeType>
+}
+
+export function createTimes(timesArr: Array<string>): freeTimesType {
     let freeTimes: freeTimesType = {
         '25': [],
         '26': [],
@@ -11,26 +16,28 @@ export function createTimes(timesArr: Array<{ time: string }>): { [key: string]:
         '30': [],
         '31': []
     }
-    const fullFree: Array<string> = []
-    for (let i = 9; i <= 17; i++) {
-        for (let j = 0; j <= 45; j += 15) {
-            fullFree.push(`${i}:${j === 0 ? '00' : j}`)
+    function createFullFree(): Array<timeType> {
+        const fullFree: Array<timeType> = []
+        for (let i = 9; i <= 17; i++) {
+            for (let j = 0; j <= 45; j += 15) {
+                fullFree.push({
+                    time: `${i}:${j === 0 ? '00' : j}`,
+                    isBusy: false
+                })
+            }
         }
+        return fullFree
     }
     for (let key in freeTimes) {
-        freeTimes[key] = [...fullFree]
+        freeTimes[key] = createFullFree()
     }
-    console.log('timesAerr', timesArr)
-    timesArr.forEach(timeObj => {
-        const date = timeObj.time.substring(8, 10)
-        const time = timeObj.time.substring(11, 16)
-        const foundIndex = freeTimes[date].findIndex(val => val === time)
+    timesArr.forEach(timeBusy => {
+        const date = timeBusy.substring(0, 2)
+        const time = timeBusy.split(',')[1].slice(1, 6)
+        const foundIndex = freeTimes[date].findIndex(val => val.time === time)
         if (foundIndex !== -1) {
-            freeTimes[date].splice(foundIndex, 1)
-            console.log('freeTimes', freeTimes)
+            freeTimes[date][foundIndex].isBusy = true
         }
     })
-    console.log('times creation', freeTimes)
-    freeTimes["29"] = []
     return freeTimes
 }

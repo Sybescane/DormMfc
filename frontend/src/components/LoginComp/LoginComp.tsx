@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { saveUserBasics, saveUserData, showEmployeeLogin } from '../../redux/globalSlice';
 import axios from 'axios';
 import { ReactComponent as Spinner } from '../../assets/white_spinner.svg'
+import { requestErrorHandler } from '../../utils/requestErrorsHandler';
 
 export default function LoginComp() {
     const navigate = useNavigate()
@@ -45,12 +46,7 @@ export default function LoginComp() {
                     setIsCodeInput(false)
                     setNoEntry(true)
                 }
-                else if (err.request) {
-                    console.log(err.request)
-                }
-                else {
-                    console.log('Error', err.message)
-                }
+                requestErrorHandler(err)
             })
         }
     }
@@ -82,28 +78,11 @@ export default function LoginComp() {
                         navigate('/enrollment')
                     }).catch(err => {
                         setIsLoading(false)
-                        if (err.response) {
-                            console.log('Response Error', err.response)
-                        }
-                        else if (err.request) {
-                            console.log('Request Error', err.request)
-                        }
-                        else {
-                            console.log('Request Config Error', err.message)
-                        }
+                        requestErrorHandler(err)
                     })
                 }).catch(err => {
                     setIsLoading(false)
-                    if (err.response) {
-                        console.log(err.response)
-                        console.log(err.response.status)
-                    }
-                    else if (err.request) {
-                        console.log(err.request)
-                    }
-                    else {
-                        console.log('Error', err.message)
-                    }
+                    requestErrorHandler(err)
                 })
         }
     }
@@ -113,35 +92,30 @@ export default function LoginComp() {
             <h1>Регистрация на заселение в общежитие</h1>
             <p className={classes.EmailInput}>Введите вашу корпоративную почту</p>
             <form className={classes.FormControls} onSubmit={(e) => { sendEmail(e) }}>
-                <InputGroup className={`mb-3`}>
-                    <Form.Control
-                        className={isEmployeeLogin ? `${classes.InputStud}` : ''}
-                        placeholder="m2300000"
-                        aria-label="MISIS email"
-                        aria-describedby="basic-addon2"
-                        name='email'
-                        required
-                        onChange={(e: React.ChangeEvent<HTMLInputElement>) => validateInputs(e)}
-                    />
-                    <InputGroup.Text id="basic-addon2" className={isEmployeeLogin ? `${classes.InputClue} ${classes.InputStud}` : `${classes.InputClue}`}>@edu.misis.ru</InputGroup.Text>
-                </InputGroup>
+                <div className={classes.InputWrapper}>
+                    <input type="text" placeholder='m2300000' name='email' required onChange={(e) => validateInputs(e)} />
+                    <div className={classes.InputHint}><span>@edu.misis.ru</span></div>
+                </div>
                 {noEntry &&
                     <p className={classes.NoEntry}>Введенный адрес почты не найден. Проверьте и попробуйте снова или обратитесь в поддержку.</p>
                 }
                 {!isCodeInput &&
-                    <button type="submit" className={isStudActive ? `${classes.ActiveStudent}` : `${classes.InactiveStudent}`} style={{ cursor: isLoading || !isStudActive ? 'auto' : 'pointer' }}>{isLoading ? <Spinner /> : 'Отправить код на почту'}</button>
+                    <button type="submit" className={isStudActive ? 'DefaultButton_1' : 'DisabledButton'}>{isLoading ? <Spinner /> : 'Отправить код на почту'}</button>
                 }
             </form>
             {isCodeInput &&
                 <form id='sendCode' className={classes.EnterCode} onSubmit={(e) => sendCode(e)}>
                     <label htmlFor="code">Введите код с почты</label>
-                    <input type="password" name='code' id='code' required onChange={(e) => setIsActiveCode(/.+/.test(e.currentTarget.value))} />
-                    <a>Отправить код снова</a>
-                    <button type="submit" style={{ cursor: isLoading || !isActiveCode ? 'auto' : 'pointer' }} className={isActiveCode ? `${classes.EmployeeBtn} ${classes.ActiveStudent}` : `${classes.EmployeeBtn}`}>{isLoading ? <Spinner /> : 'Войти'}</button>
+                    <input type="password" name='code' id='code' required onChange={(e) => {
+                        if (/.+/.test(e.currentTarget.value)) setIsActiveCode(true)
+                        else setIsActiveCode(false)
+                    }} />
+                    <a>ОТПРАВИТЬ КОД СНОВА</a>
+                    <button type="submit" className={isActiveCode ? 'DefaultButton_1' : 'DisabledButton'}>{isLoading ? <Spinner /> : 'Войти'}</button>
                 </form>
             }
             {!isCodeInput &&
-                <button type="button" className={classes.EmployeeBtn} onClick={(e) => dispatch(showEmployeeLogin())}>Войти как сотрудник</button>
+                <button type="button" className={`DefaultButton_2 ${classes.EmployeeBtn}`} onClick={(e) => dispatch(showEmployeeLogin())}>Войти как сотрудник</button>
             }
         </div>
     )
