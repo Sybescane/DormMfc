@@ -1,3 +1,4 @@
+import { useNavigate } from "react-router-dom";
 import ControlPanelComp from "../../components/ControlPanel/ControlPanelComp";
 import EnrollStepsComp from "../../components/EnrollStepsComp/EnrollStepsComp";
 import HeaderEnrollComp from "../../components/HeaderEnrollComp/HeaderEnrollComp";
@@ -11,6 +12,8 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
     const dispatch = useAppDispatch()
     const isButtonsShow = /(registered|admin)/.test(window.location.href)
     const faculty = useAppSelector(state => state.globalSlice.userData.faculty)
+    const email = useAppSelector(state => state.globalSlice.userData.email)
+    const navigate = useNavigate()
 
     function wrapperClick(e: React.MouseEvent) {
         dispatch(hideCalendar())
@@ -23,7 +26,6 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
     }
 
     useEffect(() => {
-        console.log('useEffect is going')
         if (/registered/.test(window.location.href)) {
             console.log('faculty', faculty)
             switch (faculty) {
@@ -48,6 +50,12 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
             }
         }
     }, [window.location.href])
+
+    useEffect(() => {
+        if (!email) {
+            navigate("/")
+        }
+    }, [email])
 
     return (
         <div className={classes.Wrapper} onClick={(e) => wrapperClick(e)} ref={wrapperRef}>
