@@ -8,8 +8,9 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import MobileBackground from './assets/MobileBackground.png'
 import axios from 'axios';
-import { setAdminToken } from '../../redux/adminSlice';
+import { setAdminData } from '../../redux/adminSlice';
 import { requestErrorHandler } from '../../utils/requestErrorsHandler';
+import { ReactComponent as WhiteSpinner } from '../../assets/white_spinner.svg'
 
 function App() {
   const isEmployeeLogin = useAppSelector(state => state.globalSlice.serviceData.isEmployeeLogin)
@@ -17,8 +18,12 @@ function App() {
   const [isEmpEmailActive, setIsEmpEmailActive] = useState<boolean>(false)
   const [isPwdActive, setIsPwdActive] = useState<boolean>(false)
   const navigate = useNavigate()
+  const [isWrongLogin, setIsWrongLogin] = useState<boolean>(false)
+  const [isLoadingEmp, setIsLoadingEmp] = useState<boolean>(false)
 
   function employeeLogin(e: React.FormEvent<HTMLFormElement>) {
+    setIsLoadingEmp(true)
+    setIsWrongLogin(false)
     e.preventDefault()
     if (!isEmpEmailActive || !isPwdActive) return
     else {
@@ -34,25 +39,24 @@ function App() {
             'Authorization': `Bearer ${tokenData.access_token}`
           }
         }).then(({ data: adminData }) => {
-          console.log('get-users suceeded', adminData)
-          dispatch(setAdminToken(tokenData.access_token))
+          setIsLoadingEmp(false)
+          dispatch(setAdminData({
+            token: tokenData.access_token,
+            adminLogin: formData.get('employee_login') as string,
+            usersData: adminData
+          }))
           navigate('/admin')
         }).catch(err => {
+          setIsLoadingEmp(false)
           console.log('error in get-users')
           console.log(err.request)
           requestErrorHandler(err)
         })
       }).catch(err => {
+        setIsLoadingEmp(false)
         requestErrorHandler(err)
+        if (err.response) setIsWrongLogin(true)
       })
-    }
-  }
-  function validateEmail(e: React.ChangeEvent<HTMLInputElement>) {
-    if (/^m\d{7}@edu\.misis\.ru$/.test(e.currentTarget.value)) {
-      setIsEmpEmailActive(true)
-    }
-    else {
-      setIsEmpEmailActive(false)
     }
   }
 
@@ -79,20 +83,23 @@ function App() {
             <form id='employee_form' onSubmit={(e) => employeeLogin(e)}>
               <div className={classes.LoginInput}>
                 <label htmlFor="employee_login">Логин</label>
-                <input type="text" id='employee_login' name='employee_login' required autoFocus placeholder='m2300000@misis.edu.ru' onChange={e => {
+                <input type="text" id='employee_login' name='employee_login' required autoFocus onChange={e => {
                   if (/.+/.test(e.currentTarget.value)) setIsEmpEmailActive(true)
                   else setIsEmpEmailActive(false)
                 }
-                } />
+                } onFocus={() => setIsWrongLogin(false)} />
               </div>
               <div className={classes.PasswordInput}>
                 <label htmlFor="employee_password">Пароль</label>
                 <input type="password" id='employee_password' name='employee_password' required onChange={(e) => {
                   if (/.+/.test(e.currentTarget.value)) setIsPwdActive(true)
                   else setIsPwdActive(false)
-                }} />
+                }} onFocus={() => setIsWrongLogin(false)} />
               </div>
-              <button type='submit' className={isEmpEmailActive && isPwdActive ? 'DefaultButton_1' : 'DisabledButton'}>Войти</button>
+              {isWrongLogin &&
+                <p className={classes.WrongLogin}>Неправильный логин или пароль</p>
+              }
+              <button type='submit' className={isEmpEmailActive && isPwdActive ? 'DefaultButton_1' : 'DisabledButton'}>{isLoadingEmp ? <WhiteSpinner /> : 'Войти'}</button>
             </form>
           </div>
         </div>

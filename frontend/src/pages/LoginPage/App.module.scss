@@ -25,8 +25,13 @@
         display: flex;
         justify-content: flex-end;
         width: 34%;
-        padding: 40px;
+        padding: 31px;
         background-color: white;
+
+        @media (max-width: 912px) {
+            height: auto;
+            width: 100%;
+        }
 
         .LoginWrapper {
             align-items: flex-start;
@@ -54,7 +59,7 @@
                 width: 62%;
 
                 @media (max-width:912px) {
-                    margin-bottom: 2%;
+                    width: 100%;
                 }
             }
         }
@@ -80,7 +85,7 @@
         border-radius: 16px;
         width: 428px;
         padding: 21px;
-        height: 395px;
+        height: 414px;
         z-index: 2;
         justify-content: center;
         align-items: center;
@@ -125,6 +130,11 @@
 
                 button {
                     margin: 0;
+                    margin-top: 16px
+                }
+
+                .WrongLogin {
+                    color: #E95332;
                     margin-top: 16px
                 }
             }

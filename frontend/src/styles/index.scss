@@ -31,7 +31,8 @@ html {
     @include mixins.buttonStandard();
     @include mixins.fontRaleway($fontWeight: 600);
     background-color: #2C3E501F;
-    color: #2C3E50
+    color: #2C3E50;
+    cursor: auto
 }
 
 .DefaultButton_1 {
