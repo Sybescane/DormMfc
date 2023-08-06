@@ -17,6 +17,7 @@ export default function ControlPanelComp() {
     const token = useAppSelector(state => state.globalSlice.userData.token)
     const [isLoadingNekst, setIsLoadingNekst] = useState<boolean>(false)
     const [isLoadingBack, setIsLoadingBack] = useState<boolean>(false)
+    const timeSelected = useAppSelector(state => state.globalSlice.userData.timeSelected)
 
     const timeSummary = <p>{dateTime ? dateTime : 'Выберите время'}</p>
     const backButton = <button className={`DefaultButton_2 ${classes.BackButton}`} onClick={() => {
@@ -39,8 +40,9 @@ export default function ControlPanelComp() {
     }}>{isLoadingBack ? <BlueSpinner /> : 'Назад'}</button>
 
     function switchPage(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
-        setIsLoadingNekst(true)
+        if (!time) return
 
+        setIsLoadingNekst(true)
         if (isEnrollmentPage) {
             const recordDatetime = `2023-08-${date}T${time}:00`
             axios.post('http://localhost:4200/take-time', {
@@ -81,8 +83,9 @@ export default function ControlPanelComp() {
     return (
         <div className={classes.Wrapper}>
             {isEnrollmentPage ? timeSummary : backButton}
-            <button type="button" onClick={(e) => switchPage(e)} className='DefaultButton_1' style={{
-                width: isEnrollmentPage ? '104px' : '143px'
+            <button type="button" onClick={(e) => switchPage(e)} className={timeSelected ? 'DefaultButton_1' : 'DisabledButton'} style={{
+                width: isEnrollmentPage ? '104px' : '143px',
+                cursor: timeSelected ? 'pointer' : 'auto'
             }}>{isLoadingNekst ? <Spinner /> : isEnrollmentPage ? "Далее" : "Подтвердить"}</button>
         </div>
     )

@@ -119,7 +119,7 @@ const globalSlice = createSlice({
                     break;
             }
         },
-        cleanupStore(state) {
+        cleanupUserStore(state) {
             state = initialState
         },
         setFaculty(state, action) {
@@ -133,7 +133,7 @@ export const { hideCalendar, showCalendar, selectDate, selectTime, switchStep, s
     saveUserBasics,
     saveUserData,
     showPopup,
-    cleanupStore,
+    cleanupUserStore,
     setFaculty
 } = globalSlice.actions
 
