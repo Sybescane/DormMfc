@@ -8,7 +8,7 @@ const ormConfig: DataSource = new DataSource({
   port: 5432,
   database: 'GoodZone',
   username: 'postgres',
-  password: '1234567890',
+  password: '201281Mama',
   entities: ['dist/src/**/**/*.entity.js'],
   logging: true,
   synchronize: false,

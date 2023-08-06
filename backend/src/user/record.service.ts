@@ -17,16 +17,20 @@ export class RecordService{
     async startRecord(email: string): Promise<RecordStartDto | any> {
         let result = new RecordStartDto()
         const user = await this.userService.findOneByEmail(email)
-        if(user.recordDatetime != null){
-            const recordDatetime = user.recordDatetime.toLocaleString()
-            return { email, recordDatetime, message: 'Пользователь уже записан'}
-        }
+        
         result.fullname = user.fullname
-        result.email = email
+        result.email = User.GetEmailFromNumber(user.personalNumber)
         const {dormitoryId, ...dorm} = user.dormitory
         result.dormitory = dorm
-        result.takenTime = await this.userService.getTakenTime(dorm.name)
         result.contacts = await this.adminService.getAdminsForShow(dorm.name)
+        if(user.recordDatetime != null){
+            delete result.takenTime
+            result['recordDatetime'] = user.recordDatetime.toLocaleString()
+            result['message'] = 'Пользователь уже записан'
+        }
+        else{
+            result.takenTime = await this.userService.getTakenTime(dorm.name)
+        }
         return result
     }
     
