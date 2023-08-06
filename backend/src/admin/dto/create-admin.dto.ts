@@ -8,7 +8,6 @@ export class CreateAdminDto extends PickType(Admin, ['login', 'password', 'fulln
     @ApiProperty({enumName: 'AdminRole',enum: AdminType, description: 'Тип администратора'})
     adminType: AdminType
 
-    @IsNotEmpty()
     @ApiProperty({enumName: 'DormName',enum: DormitoryEnum, description: 'общежитие студента'})
     dormitory_name: DormitoryEnum;
 }
