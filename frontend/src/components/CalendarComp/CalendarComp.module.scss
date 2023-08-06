@@ -12,6 +12,7 @@
         justify-content: space-between;
         border-radius: 8px;
         align-items: center;
+        margin-right: 24px;
 
         p {
             @include mixins.fontRaleway($fontWeight: 600);
@@ -85,17 +86,4 @@
             }
         }
     }
-}
-
-.WidthCalendar {
-    width: 100% !important;
-    height: 100%;
-}
-
-.CalendarParts {
-    grid-column: 1/12;
-}
-
-.FullWidthCalendar {
-    width: 150% !important;
 }

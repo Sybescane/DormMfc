@@ -3,8 +3,6 @@ import { useAppSelector } from "../../hooks"
 export default function DormDescriptionComp() {
     const dormitory = useAppSelector(state => state.globalSlice.userData.dormitory)
     const contacts = useAppSelector(state => state.globalSlice.userData.contacts)
-    console.log('dormitory', dormitory)
-    console.log('contacts', contacts)
 
     return (
         <div>

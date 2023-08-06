@@ -18,7 +18,8 @@ type InitialStateType = {
                 time: string,
                 isBusy: boolean
             }>
-        }
+        },
+        faculty: string
     },
     serviceData: {
         isLoading: boolean,
@@ -43,7 +44,8 @@ const initialState: InitialStateType = {
         dateSelected: '25 августа, пт',
         timeSelected: null,
         contacts: [],
-        freeTimes: {}
+        freeTimes: {},
+        faculty: ''
     },
     serviceData: {
         isError: false,
@@ -69,7 +71,6 @@ const globalSlice = createSlice({
         },
         selectDate(state, action) {
             state.userData.dateSelected = action.payload
-            console.log('date changed', state.userData.dateSelected)
         },
         selectTime(state, action) {
             state.userData.timeSelected = action.payload
@@ -86,9 +87,6 @@ const globalSlice = createSlice({
         saveUserBasics(state, action) {
             state.userData.token = action.payload.token
             state.userData.email = action.payload.email
-            console.log('data')
-            console.log(state.userData.token)
-            console.log(state.userData.email)
         },
         saveUserData(state, action) {
             state.userData.email = action.payload.email
@@ -123,7 +121,9 @@ const globalSlice = createSlice({
         },
         cleanupStore(state) {
             state = initialState
-            console.log('STATE IS', state)
+        },
+        setFaculty(state, action) {
+            state.userData.faculty = action.payload
         }
     }
 })
@@ -133,7 +133,8 @@ export const { hideCalendar, showCalendar, selectDate, selectTime, switchStep, s
     saveUserBasics,
     saveUserData,
     showPopup,
-    cleanupStore
+    cleanupStore,
+    setFaculty
 } = globalSlice.actions
 
 export default globalSlice.reducer

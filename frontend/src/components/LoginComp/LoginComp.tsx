@@ -7,6 +7,7 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { saveUserBasics, saveUserData, showEmployeeLogin } from '../../redux/globalSlice';
 import axios from 'axios';
 import { ReactComponent as Spinner } from '../../assets/white_spinner.svg'
+import { requestErrorHandler } from '../../utils/requestErrorsHandler';
 
 export default function LoginComp() {
     const navigate = useNavigate()
@@ -45,12 +46,7 @@ export default function LoginComp() {
                     setIsCodeInput(false)
                     setNoEntry(true)
                 }
-                else if (err.request) {
-                    console.log(err.request)
-                }
-                else {
-                    console.log('Error', err.message)
-                }
+                requestErrorHandler(err)
             })
         }
     }
@@ -82,28 +78,11 @@ export default function LoginComp() {
                         navigate('/enrollment')
                     }).catch(err => {
                         setIsLoading(false)
-                        if (err.response) {
-                            console.log('Response Error', err.response)
-                        }
-                        else if (err.request) {
-                            console.log('Request Error', err.request)
-                        }
-                        else {
-                            console.log('Request Config Error', err.message)
-                        }
+                        requestErrorHandler(err)
                     })
                 }).catch(err => {
                     setIsLoading(false)
-                    if (err.response) {
-                        console.log(err.response)
-                        console.log(err.response.status)
-                    }
-                    else if (err.request) {
-                        console.log(err.request)
-                    }
-                    else {
-                        console.log('Error', err.message)
-                    }
+                    requestErrorHandler(err)
                 })
         }
     }
@@ -127,7 +106,10 @@ export default function LoginComp() {
             {isCodeInput &&
                 <form id='sendCode' className={classes.EnterCode} onSubmit={(e) => sendCode(e)}>
                     <label htmlFor="code">Введите код с почты</label>
-                    <input type="password" name='code' id='code' required onChange={(e) => setIsActiveCode(/.+/.test(e.currentTarget.value))} />
+                    <input type="password" name='code' id='code' required onChange={(e) => {
+                        if (/.+/.test(e.currentTarget.value)) setIsActiveCode(true)
+                        else setIsActiveCode(false)
+                    }} />
                     <a>ОТПРАВИТЬ КОД СНОВА</a>
                     <button type="submit" className={isActiveCode ? 'DefaultButton_1' : 'DisabledButton'}>{isLoading ? <Spinner /> : 'Войти'}</button>
                 </form>

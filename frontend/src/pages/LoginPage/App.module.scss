@@ -79,9 +79,11 @@
         flex-direction: column;
         border-radius: 16px;
         width: 428px;
-        padding: 40px;
+        padding: 21px;
         height: 395px;
         z-index: 2;
+        justify-content: center;
+        align-items: center;
 
         @media (max-width: 912px) {
             width: 33%;
@@ -89,59 +91,64 @@
             justify-content: space-evenly;
         }
 
-        form {
+        .EmployeeWrapper {
             display: flex;
             flex-direction: column;
 
-            .LoginInput,
-            .PasswordInput {
+            form {
                 display: flex;
-                flex-direction: column
+                flex-direction: column;
+
+                .LoginInput,
+                .PasswordInput {
+                    display: flex;
+                    flex-direction: column
+                }
+
+                .LoginInput {
+                    margin-bottom: 16px
+                }
+
+                label {
+                    @include mixins.fontRaleway();
+                    margin-bottom: 12px
+                }
+
+                input {
+                    @include mixins.fontRaleway();
+                    border: 1px solid rgba(44, 62, 80, 0.24);
+                    height: 48px;
+                    width: 360px;
+                    border-radius: 16px;
+                    padding-left: 16px;
+                }
+
+                button {
+                    margin: 0;
+                    margin-top: 16px
+                }
             }
 
-            .LoginInput {
-                margin-bottom: 16px
-            }
-
-            label {
-                @include mixins.fontRaleway();
-                margin-bottom: 12px
-            }
-
-            input {
-                @include mixins.fontRaleway();
-                border: 1px solid rgba(44, 62, 80, 0.24);
-                height: 48px;
+            h1 {
+                @include mixins.fontNekst();
                 width: 360px;
-                border-radius: 16px;
-                padding-left: 16px;
+
+                @media (max-width: 1172px) {
+                    font-size: 2.25rem;
+                }
             }
 
-            button {
-                margin: 0;
-                margin-top: 16px
+            .Cross {
+                position: absolute;
+                top: 3%;
+                width: 32px;
+                height: 32px;
+                right: 3%;
             }
-        }
 
-        h1 {
-            @include mixins.fontNekst();
-            width: 360px;
-
-            @media (max-width: 1172px) {
-                font-size: 2.25rem;
+            .Cross:hover {
+                cursor: pointer;
             }
-        }
-
-        .Cross {
-            position: absolute;
-            top: 3%;
-            width: 32px;
-            height: 32px;
-            right: 3%;
-        }
-
-        .Cross:hover {
-            cursor: pointer;
         }
     }
 }

@@ -58,7 +58,7 @@ export default function EnrollmentPage() {
         <div className={classes.GridContainer}>
             <div className={classes.EnrollBlock}>
                 <h1 className={classes.Title}>Выберите день и время регистрации на заселение</h1>
-                <CalendarComp adminPanel={false} />
+                <CalendarComp />
                 <div className={classes.TimesBlock}>
                     <>
                         {timesArr.map(obj => {

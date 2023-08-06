@@ -6,7 +6,7 @@ type freeTimesType = {
     [key: string]: Array<timeType>
 }
 
-export function createTimes(timesArr: Array<{ time: string }>): freeTimesType {
+export function createTimes(timesArr: Array<string>): freeTimesType {
     let freeTimes: freeTimesType = {
         '25': [],
         '26': [],
@@ -16,26 +16,27 @@ export function createTimes(timesArr: Array<{ time: string }>): freeTimesType {
         '30': [],
         '31': []
     }
-    const fullFree: Array<timeType> = []
-    for (let i = 9; i <= 17; i++) {
-        for (let j = 0; j <= 45; j += 15) {
-            fullFree.push({
-                time: `${i}:${j === 0 ? '00' : j}`,
-                isBusy: false
-            })
+    function createFullFree(): Array<timeType> {
+        const fullFree: Array<timeType> = []
+        for (let i = 9; i <= 17; i++) {
+            for (let j = 0; j <= 45; j += 15) {
+                fullFree.push({
+                    time: `${i}:${j === 0 ? '00' : j}`,
+                    isBusy: false
+                })
+            }
         }
+        return fullFree
     }
     for (let key in freeTimes) {
-        freeTimes[key] = [...fullFree]
+        freeTimes[key] = createFullFree()
     }
-    console.log('timesAerr', timesArr)
-    timesArr.forEach(timeObj => {
-        const date = timeObj.time.substring(8, 10)
-        const time = timeObj.time.substring(11, 16)
+    timesArr.forEach(timeBusy => {
+        const date = timeBusy.substring(0, 2)
+        const time = timeBusy.split(',')[1].slice(1, 6)
         const foundIndex = freeTimes[date].findIndex(val => val.time === time)
         if (foundIndex !== -1) {
             freeTimes[date][foundIndex].isBusy = true
-            console.log('freeTimes', freeTimes)
         }
     })
     return freeTimes

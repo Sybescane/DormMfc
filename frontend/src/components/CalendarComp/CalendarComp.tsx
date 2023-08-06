@@ -4,11 +4,7 @@ import CalendarSVG from './assets/Calendar.svg'
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { hideCalendar, selectDate, selectTime, showCalendar, showPopup } from '../../redux/globalSlice';
 
-type Props = {
-    adminPanel: boolean
-}
-
-export default function CalendarComp({ adminPanel }: Props) {
+export default function CalendarComp() {
     const selectedDate = useAppSelector(state => state.globalSlice.userData.dateSelected)
     const isShowCalendar = useAppSelector(state => state.globalSlice.serviceData.isShowCalendar)
     const dispatch = useAppDispatch()
@@ -91,15 +87,15 @@ export default function CalendarComp({ adminPanel }: Props) {
     }
 
     return (
-        <div className={adminPanel ? `${classes.Wrapper} ${classes.CalendarParts}` : `${classes.Wrapper}`}>
-            <div className={adminPanel ? `${classes.WidthCalendar} ${classes.CalendarPreview}` : `${classes.CalendarPreview}`} onClick={(e) => isShowCalendar ? dispatch(hideCalendar()) : dispatch(showCalendar({ event: e }))}>
+        <div className={`${classes.Wrapper}`}>
+            <div className={`${classes.CalendarPreview}`} onClick={(e) => isShowCalendar ? dispatch(hideCalendar()) : dispatch(showCalendar({ event: e }))}>
                 <p>{selectedDate}</p>
                 <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M13 3V1M13 3V5M13 3H8.5M1 9V18C1 18.5304 1.21071 19.0391 1.58579 19.4142C1.96086 19.7893 2.46957 20 3 20H17C17.5304 20 18.0391 19.7893 18.4142 19.4142C18.7893 19.0391 19 18.5304 19 18V9M1 9H19M1 9V5C1 4.46957 1.21071 3.96086 1.58579 3.58579C1.96086 3.21071 2.46957 3 3 3H5M19 9V5C19 4.46957 18.7893 3.96086 18.4142 3.58579C18.0391 3.21071 17.5304 3 17 3H16.5M5 1V5" stroke="#2C3E50" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M13 3V1M13 3V5M13 3H8.5M1 9V18C1 18.5304 1.21071 19.0391 1.58579 19.4142C1.96086 19.7893 2.46957 20 3 20H17C17.5304 20 18.0391 19.7893 18.4142 19.4142C18.7893 19.0391 19 18.5304 19 18V9M1 9H19M1 9V5C1 4.46957 1.21071 3.96086 1.58579 3.58579C1.96086 3.21071 2.46957 3 3 3H5M19 9V5C19 4.46957 18.7893 3.96086 18.4142 3.58579C18.0391 3.21071 17.5304 3 17 3H16.5M5 1V5" stroke="#2C3E50" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
             </div>
             {
-                isShowCalendar && <div className={adminPanel ? `${classes.FullWidthCalendar} ${classes.FullCalendar}` : `${classes.FullCalendar}`} onClick={(e) => dispatch(showCalendar({ event: e }))}>
+                isShowCalendar && <div className={`${classes.FullCalendar}`} onClick={(e) => dispatch(showCalendar({ event: e }))}>
                     <h6 className={classes.Month}>АВГУСТ 2023</h6>
                     <div className={classes.Calendar}>
                         {calendarDates.map((el, index) => {
