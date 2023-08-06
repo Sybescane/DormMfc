@@ -26,7 +26,7 @@ export class AppController{
     @UseGuards(AuthUserGuard)
     @Post('take-time')
     async takeTime(@Body() dto: TakeTimeDto){
-        return await this.userService.takeTime(dto)
+        return await this.userService.takeTime(dto) 
     }
 
     @UseGuards(AuthUserGuard)
