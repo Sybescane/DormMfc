@@ -1,7 +1,7 @@
 import { useNavigate } from 'react-router-dom'
 import { useAppDispatch, useAppSelector, useCPDateTime } from '../../hooks'
 import classes from './ControlPanelComp.module.scss'
-import { selectTime, setFaculty, switchStep } from '../../redux/globalSlice'
+import { saveUserData, selectTime, setFaculty, switchStep } from '../../redux/globalSlice'
 import axios from 'axios'
 import { useState } from 'react'
 import { ReactComponent as Spinner } from '../../assets/white_spinner.svg'
@@ -30,7 +30,7 @@ export default function ControlPanelComp() {
             }
         }).then((res) => {
             setIsLoadingBack(false)
-            console.log('free time succeeded', res)
+            dispatch(saveUserData(res.data))
             dispatch(switchStep(1))
             navigate('/enrollment')
         }).catch(err => {

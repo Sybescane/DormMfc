@@ -1,8 +1,9 @@
 import classes from './AdminPage.module.scss'
 import CalendarComp from '../../components/CalendarComp/CalendarComp'
 import ViewEnrollComp from '../../components/ViewEnrollComp/ViewEnrollComp'
-import { useAppSelector } from '../../hooks'
+import { useAppDispatch, useAppSelector } from '../../hooks'
 import { useState, useEffect } from 'react'
+import { showAddEnroll, showPopup } from '../../redux/globalSlice'
 
 type StudentElem = {
     email: string,
@@ -20,6 +21,7 @@ export default function AdminPage() {
     const [checkedDorm, setCheckedDorm] = useState<string>('М-1')
     const selectedDate = useAppSelector(state => state.globalSlice.userData.dateSelected)
     const token = useAppSelector(state => state.adminSlice.token)
+    const dispatch = useAppDispatch()
 
     useEffect(() => {
         if (token) {
@@ -56,7 +58,9 @@ export default function AdminPage() {
                         <option value="ДК"></option>
                     </select>
                 </div>
-                <button type='button' className={`${classes.AddStudent} DefaultButton_2`}>
+                <button type='button' className={`${classes.AddStudent} DefaultButton_2`} onClick={() => {
+                    dispatch(showAddEnroll(true))
+                }}>
                     <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                         <path d="M1 7H7M7 7H13M7 7V1M7 7V13" stroke="#1D92F8" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>

@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { saveUserBasics, saveUserData, showEmployeeLogin } from '../../redux/globalSlice';
+import { saveUserBasics, saveUserData, showEmployeeLogin, switchStep } from '../../redux/globalSlice';
 import axios from 'axios';
 import { ReactComponent as Spinner } from '../../assets/white_spinner.svg'
 import { requestErrorHandler } from '../../utils/requestErrorsHandler';
@@ -73,10 +73,16 @@ export default function LoginComp() {
                             'Authorization': `Bearer ${res.data.access_token}`
                         }
                     }).then(res => {
-                        console.log('response', res.data)
-                        dispatch(saveUserData(res.data))
+                        console.log('start recording res', res)
                         setIsLoading(false)
-                        navigate('/enrollment')
+                        dispatch(saveUserData(res.data))
+                        if (res.data.takenTime) {
+                            navigate('/enrollment')
+                        }
+                        else {
+                            dispatch(switchStep(3))
+                            navigate('/registered')
+                        }
                     }).catch(err => {
                         setIsLoading(false)
                         requestErrorHandler(err)
