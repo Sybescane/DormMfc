@@ -1,3 +1,16 @@
-<p>{{recordDatetime}}</p>
-<p>{{dormitory}}</p>
-<p>{{contacts}}</p>
+<div class="container">
+    <p>Поздравляем с завершением регистрации!</p>
+    <p>Ждем вас на засление:</p>
+    <p>{{recordDatetime}}</p>
+    <p>Общежитие {{dormitory.name}}</p>  
+    <p>{{dormitory.address}}</p>
+    <p>Не забудьте взять необходимые документы:</p>
+    <a href="https://misis.ru/applicants/accommodation/zaselenievobsh_ezhitiepervokusn/neobhodimyedokumenty/"></a>
+
+    <p>Контакты администрации общежития</p>
+    {{#each contacts}}
+    <p>{{position}}, {{fullname}}</p>
+    <p>{{phone}}</p>
+    {{/each}}
+    <p>С уважением,<br>Администрация общежитий НИТУ МИСИС</p>
+</div>

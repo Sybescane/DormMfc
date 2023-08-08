@@ -39,7 +39,28 @@ export class RecordService{
         const contacts = await this.adminService.getAdminsForShow(user.dormitory.name)
         const result = new ConfirmMailDto()
         result.email = email
-        result.recordDatetime = user.recordDatetime
+        const months = [
+            "января",
+            "февраля",
+            "марта",
+            "апреля",
+            "мая",
+            "июня",
+            "июля",
+            "августа",
+            "сентября",
+            "октября",
+            "ноября",
+            "декабря"
+          ];
+          
+        const date = new Date(result.recordDatetime);
+        const day = date.getDate();
+        const month = months[date.getMonth()];
+        const hours = date.getHours();
+        const minutes = date.getMinutes();
+          
+        result.recordDatetime = `${day} ${month}, ${hours}:${minutes}`;
         result.dormitory = user.dormitory
         result.contacts = contacts
         await this.mailService.sendConfirmMail(result)
