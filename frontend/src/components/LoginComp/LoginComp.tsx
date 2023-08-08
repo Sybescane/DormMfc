@@ -57,7 +57,7 @@ export default function LoginComp() {
         e.preventDefault()
         if (!isActiveCode || isLoading) return
         else {
-            axios.post('http://localhost:4200/auth/login-user', {
+            axios.post('http://95.163.235.163:4200/auth/login-user', {
                 email: userEmail.current,
                 code: (new FormData(e.currentTarget)).get('code')
             })
@@ -66,7 +66,7 @@ export default function LoginComp() {
                         email: userEmail,
                         token: res.data.access_token
                     }))
-                    axios.post('http://localhost:4200/start-recording', {
+                    axios.post('http://95.163.235.163:4200/start-recording', {
                         email: userEmail.current
                     }, {
                         headers: {
