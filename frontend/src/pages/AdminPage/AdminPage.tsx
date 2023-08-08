@@ -4,6 +4,8 @@ import ViewEnrollComp from '../../components/ViewEnrollComp/ViewEnrollComp'
 import { useAppDispatch, useAppSelector } from '../../hooks'
 import { useState, useEffect } from 'react'
 import { showAddEnroll, showPopup } from '../../redux/globalSlice'
+import { changeDorm } from '../../redux/adminSlice'
+import { DormListType } from '../../redux/adminSlice'
 
 type StudentElem = {
     email: string,
@@ -24,7 +26,9 @@ export default function AdminPage() {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
+        console.log('USE_EFFECT GOING')
         if (token) {
+            console.log('SORT IS GOING')
             const dataSortArr = usersData[checkedDorm].filter(enroll => {
                 if (enroll.recordDatetime.slice(0, 2) == selectedDate.slice(0, 2)) return true
                 else return false
@@ -39,7 +43,7 @@ export default function AdminPage() {
             })
             setDormList(normalizeArr)
         }
-    }, [checkedDorm, selectedDate])
+    }, [checkedDorm, selectedDate, usersData])
 
     return (
         <div className={classes.Wrapper}>
@@ -47,8 +51,11 @@ export default function AdminPage() {
             <div className={classes.Controls}>
                 <div className={classes.InputsBlock}>
                     <CalendarComp />
-                    <select name="dorm" id="dorm" onChange={(e) => setCheckedDorm(e.currentTarget.value)}>
-                        <option value="М-1">М-1</option>
+                    <select name="dorm" id="dorm" onChange={(e) => {
+                        setCheckedDorm(e.currentTarget.value)
+                        dispatch(changeDorm(e.currentTarget.value as DormListType))
+                    }}>
+                        <option value="М-1" defaultChecked>М-1</option>
                         <option value="М-2">М-2</option>
                         <option value="М-3">М-3</option>
                         <option value="М-4">М-4</option>
