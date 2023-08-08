@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { createTimes } from "../utils/timesCreation";
+import { usersDataType } from "./adminSlice";
 
 type InitialStateType = {
     userData: {
@@ -173,7 +174,7 @@ export const { hideCalendar, showCalendar, selectDate, selectTime, switchStep, s
     showPopup,
     cleanupUserStore,
     setFaculty,
-    showAddEnroll
+    showAddEnroll,
 } = globalSlice.actions
 
 export default globalSlice.reducer
