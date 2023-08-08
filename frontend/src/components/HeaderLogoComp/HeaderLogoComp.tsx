@@ -5,8 +5,10 @@ export default function HeaderLogoComp() {
     return (
         <div className={classes.Header}>
             <img src={MisisLogoSVG} alt='MISIS_logo' className={classes.Logo} onClick={() => window.open('https://misis.ru/', '_blank')} />
-            <a href="#">РУС</a>
-            <a href="#">ENG</a>
+            <div className={classes.Links}>
+                <a href="#">РУС</a>
+                <a href="#">ENG</a>
+            </div>
         </div>
     )
 }

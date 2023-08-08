@@ -21,6 +21,11 @@
         margin-top: 16px;
         width: 100%;
 
+        .WrongCode {
+            @include mixins.fontRaleway($fontColor: #E95332);
+            margin-bottom: 16px
+        }
+
         label {
             @include mixins.fontRaleway();
             margin-bottom: 12px
@@ -49,6 +54,10 @@
     h1 {
         @include mixins.fontNekst($fontSize: 2.5rem);
         min-width: 0;
+
+        @media (max-width: 912px) {
+            font-size: 1.5rem;
+        }
     }
 
     .EmailInput {

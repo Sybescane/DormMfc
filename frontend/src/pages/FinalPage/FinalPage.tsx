@@ -36,7 +36,7 @@ export default function FinalPage() {
                 </div>
                 <div className={classes.GridEl}>
                     <img src={DocsSVG} />
-                    <p>Не забудьте <a href="" style={{ color: '#000000' }}>необходимые документы</a></p>
+                    <p>Не забудьте <a href="https://misis.ru/applicants/accommodation/zaselenievobsh_ezhitiepervokusn/neobhodimyedokumenty/" target='_blank' style={{ color: '#000000' }}>необходимые документы</a></p>
                 </div>
                 <div className={classes.GridEl}>
                     <img src={LocationSVG} style={{ alignSelf: 'flex-start' }} />
@@ -48,7 +48,7 @@ export default function FinalPage() {
                 </div>
                 <div className={`${classes.LastEl} ${classes.Notes}`}>
                     <p>На вашу корпоративную почту придет письмо с данной информацией</p>
-                    <p>Подробнее о заселении в общежитие можете узнать на <a href="">сайте</a></p>
+                    <p>Подробнее о заселении в общежитие можете узнать на <a href="https://misis.ru/applicants/accommodation/" target='_blank'>сайте</a></p>
                 </div>
             </div>
         </div>

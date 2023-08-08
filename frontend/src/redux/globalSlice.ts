@@ -1,5 +1,6 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { createTimes } from "../utils/timesCreation";
+import { usersDataType } from "./adminSlice";
 
 type InitialStateType = {
     userData: {
@@ -28,7 +29,8 @@ type InitialStateType = {
         enrollStep: number,
         isEmployeeLogin: boolean,
         isCheckInPopup: boolean,
-        isBusyWarning: boolean
+        isBusyWarning: boolean,
+        isAddEnroll: boolean
     }
 }
 
@@ -54,7 +56,8 @@ const initialState: InitialStateType = {
         enrollStep: 1,
         isEmployeeLogin: false,
         isCheckInPopup: false,
-        isBusyWarning: false
+        isBusyWarning: false,
+        isAddEnroll: false
     }
 }
 
@@ -91,8 +94,41 @@ const globalSlice = createSlice({
         saveUserData(state, action) {
             state.userData.email = action.payload.email
             state.userData.dormitory = action.payload.dormitory
-            state.userData.freeTimes = createTimes(action.payload.takenTime)
             state.userData.contacts = action.payload.contacts
+            if (action.payload.takenTime) {
+                state.userData.freeTimes = createTimes(action.payload.takenTime)
+            }
+            else {
+                const date = action.payload.recordDatetime.slice(0, 2)
+                let shortWeekday = undefined
+                switch (date) {
+                    case '25':
+                        shortWeekday = 'пт'
+                        break;
+                    case '26':
+                        shortWeekday = 'сб'
+                        break;
+                    case '27':
+                        shortWeekday = 'вс'
+                        break;
+                    case '28':
+                        shortWeekday = 'пн'
+                        break;
+                    case '29':
+                        shortWeekday = 'вт'
+                        break;
+                    case '30':
+                        shortWeekday = 'ср'
+                        break;
+                    case '31':
+                        shortWeekday = 'чт'
+                        break;
+                    default:
+                        break;
+                }
+                state.userData.dateSelected = `${date} августа, ${shortWeekday}`
+                state.userData.timeSelected = action.payload.recordDatetime.split(',')[1].slice(1, -3)
+            }
         },
         showPopup(state, action: PayloadAction<{ event: React.MouseEvent, isShow: boolean, type: string }>) {
             const dataObj = action.payload
@@ -119,11 +155,14 @@ const globalSlice = createSlice({
                     break;
             }
         },
-        cleanupStore(state) {
+        cleanupUserStore(state) {
             state = initialState
         },
         setFaculty(state, action) {
             state.userData.faculty = action.payload
+        },
+        showAddEnroll(state, action: PayloadAction<boolean>) {
+            state.serviceData.isAddEnroll = action.payload
         }
     }
 })
@@ -133,8 +172,9 @@ export const { hideCalendar, showCalendar, selectDate, selectTime, switchStep, s
     saveUserBasics,
     saveUserData,
     showPopup,
-    cleanupStore,
-    setFaculty
+    cleanupUserStore,
+    setFaculty,
+    showAddEnroll,
 } = globalSlice.actions
 
 export default globalSlice.reducer

@@ -4,7 +4,7 @@ import { EducationLevelEnum } from "src/user/entities/education.enum";
 import { Gender } from "src/user/entities/gender.enum";
 import { User } from "src/user/entities/user.entity";
 
-export class UserForAdminDto{
+export class UserForAdminDto {
     fullname: string;
     gender: Gender;
     citizenship: string;
@@ -15,7 +15,7 @@ export class UserForAdminDto{
     recordDatetime: string
     dorm_name: DormitoryEnum
 
-    constructor(user: User){
+    constructor(user: User) {
         this.fullname = user.fullname
         this.gender = user.gender
         this.citizenship = user.citizenship

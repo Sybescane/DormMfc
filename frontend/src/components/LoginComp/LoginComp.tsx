@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { saveUserBasics, saveUserData, showEmployeeLogin } from '../../redux/globalSlice';
+import { saveUserBasics, saveUserData, showEmployeeLogin, switchStep } from '../../redux/globalSlice';
 import axios from 'axios';
 import { ReactComponent as Spinner } from '../../assets/white_spinner.svg'
 import { requestErrorHandler } from '../../utils/requestErrorsHandler';
@@ -13,12 +13,12 @@ export default function LoginComp() {
     const navigate = useNavigate()
     const [isStudActive, setIsStudActive] = useState(false)
     const dispatch = useAppDispatch()
-    const isEmployeeLogin = useAppSelector(state => state.globalSlice.serviceData.isEmployeeLogin)
     const [isCodeInput, setIsCodeInput] = useState(false)
     const [noEntry, setNoEntry] = useState(false)
     const [isActiveCode, setIsActiveCode] = useState(false)
     const userEmail = useRef('')
     const [isLoading, setIsLoading] = useState(false)
+    const [isWrongCode, setIsWrongCode] = useState<boolean>(false)
 
     function validateInputs(e: React.ChangeEvent<HTMLInputElement>) {
         if (/^m\d{7}(@edu\.misis\.ru)?$/.test(e.currentTarget.value)) {
@@ -52,6 +52,7 @@ export default function LoginComp() {
     }
 
     function sendCode(e: React.FormEvent<HTMLFormElement>) {
+        setIsWrongCode(false)
         setIsLoading(true)
         e.preventDefault()
         if (!isActiveCode || isLoading) return
@@ -72,16 +73,25 @@ export default function LoginComp() {
                             'Authorization': `Bearer ${res.data.access_token}`
                         }
                     }).then(res => {
-                        console.log('response', res.data)
-                        dispatch(saveUserData(res.data))
+                        console.log('start recording res', res)
                         setIsLoading(false)
-                        navigate('/enrollment')
+                        dispatch(saveUserData(res.data))
+                        if (res.data.takenTime) {
+                            navigate('/enrollment')
+                        }
+                        else {
+                            dispatch(switchStep(3))
+                            navigate('/registered')
+                        }
                     }).catch(err => {
                         setIsLoading(false)
                         requestErrorHandler(err)
                     })
                 }).catch(err => {
                     setIsLoading(false)
+                    if (err.response) {
+                        setIsWrongCode(true)
+                    }
                     requestErrorHandler(err)
                 })
         }
@@ -109,7 +119,10 @@ export default function LoginComp() {
                     <input type="password" name='code' id='code' required onChange={(e) => {
                         if (/.+/.test(e.currentTarget.value)) setIsActiveCode(true)
                         else setIsActiveCode(false)
-                    }} />
+                    }} onFocus={() => setIsWrongCode(false)} />
+                    {isWrongCode &&
+                        <p className={classes.WrongCode}>Неверный код</p>
+                    }
                     <a>ОТПРАВИТЬ КОД СНОВА</a>
                     <button type="submit" className={isActiveCode ? 'DefaultButton_1' : 'DisabledButton'}>{isLoading ? <Spinner /> : 'Войти'}</button>
                 </form>
