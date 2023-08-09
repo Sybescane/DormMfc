@@ -54,11 +54,11 @@ export class RecordService{
             "декабря"
           ];
           
-        const date = new Date(result.recordDatetime);
+        const date = new Date(user.recordDatetime);
         const day = date.getDate();
         const month = months[date.getMonth()];
         const hours = date.getHours();
-        const minutes = date.getMinutes();
+        const minutes = date.getMinutes() < 10 ? '0' + date.getMinutes() : date.getMinutes()
           
         result.recordDatetime = `${day} ${month}, ${hours}:${minutes}`;
         result.dormitory = user.dormitory
