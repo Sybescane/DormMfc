@@ -25,6 +25,7 @@ export class RecordService{
         result.contacts = await this.adminService.getAdminsForShow(dorm.name)
         if(user.recordDatetime != null){
             delete result.takenTime
+            result['faculty'] = user.faculty
             result['recordDatetime'] = user.recordDatetime.toLocaleString()
             result['message'] = 'Пользователь уже записан'
         }
