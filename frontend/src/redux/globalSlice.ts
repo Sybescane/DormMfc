@@ -21,7 +21,7 @@ type InitialStateType = {
                 isBusy: boolean
             }>
         },
-        faculty: string
+        faculty?: string
     },
     serviceData: {
         isLoading: boolean,
@@ -96,6 +96,7 @@ const globalSlice = createSlice({
             state.userData.email = action.payload.email
             state.userData.dormitory = action.payload.dormitory
             state.userData.contacts = action.payload.contacts
+            if (action.payload.faculty) state.userData.faculty = action.payload.faculty
             if (action.payload.takenTime) {
                 //@ts-ignore
                 const normalizeArr = action.payload.takenTime.map(time => {
@@ -105,6 +106,7 @@ const globalSlice = createSlice({
             }
             else {
                 const normalizeDate = getTimeDate(action.payload.recordDatetime).datetime
+                console.log('NORMALIZE DATE', normalizeDate)
                 const date = normalizeDate.slice(0, 2)
                 let shortWeekday = undefined
                 switch (date) {
@@ -133,7 +135,9 @@ const globalSlice = createSlice({
                         break;
                 }
                 state.userData.dateSelected = `${date} августа, ${shortWeekday}`
-                state.userData.timeSelected = normalizeDate.split(',')[1].slice(1, -3)
+                const timeCheck = normalizeDate.split(' ')[1]
+                if (/^\d{2}:\d{2}$/.test(timeCheck)) state.userData.timeSelected = timeCheck
+                else state.userData.timeSelected = normalizeDate.split(',')[1].slice(1, -3)
             }
         },
         showPopup(state, action: PayloadAction<{ event: React.MouseEvent, isShow: boolean, type: string }>) {

@@ -5,7 +5,7 @@
 
     .GridContainer {
         display: grid;
-        grid-template-columns: 212fr 70fr 141fr 168fr 85fr 139fr;
+        grid-template-columns: 212fr 70fr 141fr 168fr 85fr 132fr 101px;
         justify-items: flex-start;
         border-top: 1px solid #2C3E501F;
         @include mixins.fontRaleway();

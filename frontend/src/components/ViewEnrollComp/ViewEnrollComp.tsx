@@ -1,4 +1,5 @@
 import classes from './ViewEnrollComp.module.scss'
+import { ReactComponent as EditSVG } from './assets/EditEnroll.svg'
 
 type StudentElem = {
     email: string,
@@ -31,6 +32,7 @@ export default function ViewEnrollComp({ students }: { students: Array<StudentEl
                             <p>{student.email}</p>
                             <p>{student.educationLevel}</p>
                             <p>{student.recordDatetime}</p>
+                            <EditSVG />
                         </div>
                     )
                 })
