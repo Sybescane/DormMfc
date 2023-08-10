@@ -8,9 +8,10 @@ import classes from './PageWrapper.module.scss';
 import { ReactNode, useRef, useEffect, useState } from "react";
 import axios from "axios";
 import { requestErrorHandler } from "../../utils/requestErrorsHandler";
-import { addNewStudent } from "../../redux/adminSlice";
+import { addBusyTime, addNewStudent } from "../../redux/adminSlice";
 import { ReactComponent as WhiteSpinner } from '../../assets/white_spinner.svg'
 import { axiosRequest } from "../../configs/axiosConfig";
+import { getTimeDate } from "../../utils/getTimeDate";
 
 export default function PageWrapper({ children }: { children: ReactNode }) {
     const navigate = useNavigate()
@@ -34,6 +35,7 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [isNumberValid, setIsNumberValid] = useState<boolean>(false)
     const [isFullname, setIsFullname] = useState<boolean>(false)
+    const [isAlreadyExist, setIsAlreadyExist] = useState<boolean>(false)
 
     function wrapperClick(e: React.MouseEvent) {
         dispatch(hideCalendar())
@@ -46,9 +48,10 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
     }
 
     function addEnroll(e: React.FormEvent<HTMLFormElement>) {
-        setIsLoading(true)
+        setIsAlreadyExist(false)
         e.preventDefault()
         if (isWrongEmail) return
+        setIsLoading(true)
         const formData = new FormData(e.currentTarget)
         const data = {
             personalNumber: formData.get('email')?.slice(1, 8),
@@ -61,14 +64,12 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
             dormitory_name: dormSelected,
             recordDatetime: `2023-08-${parseInt(dateSelected)}T${newEnrollTime![0] === '9' ? `${'0' + newEnrollTime}` : newEnrollTime}:00`
         }
-        console.log('CREATE USER DATA', data)
         axiosRequest.post('/admin/create-user', data, {
             headers: {
                 'Authorization': `Bearer ${adminToken}`
             }
         }).then(({ data }) => {
             setIsLoading(false)
-            console.log('CREATE USER SUCCEEDED', data)
             dispatch(addNewStudent({
                 email: data.email,
                 dorm: data.dorm_name,
@@ -78,8 +79,15 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
                 educationLevel: data.educationLevel,
                 recordDatetime: data.recordDatetime
             }))
+            dispatch(addBusyTime({
+                datetime: data.recordDatetime,
+                dorm: data.dorm_name
+            }))
         }).catch(err => {
             setIsLoading(false)
+            if (err.response.data.statusCode === 400) {
+                setIsAlreadyExist(true)
+            }
             requestErrorHandler(err)
         })
     }
@@ -100,7 +108,6 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
 
     useEffect(() => {
         if (/registered/.test(window.location.href)) {
-            console.log('faculty', institute)
             switch (institute) {
                 case 'ИНМИН':
                     wrapperRef.current?.classList.add(`${classes.INMIN}`)
@@ -138,8 +145,9 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
     }, [email, adminToken])
 
     useEffect(() => {
-        setTimesArr(timeDetails[dormSelected][dateSelected.slice(0, 2)])
-    }, [dateSelected, dormSelected])
+        const data = timeDetails[dormSelected][dateSelected.slice(0, 2)]
+        setTimesArr(data)
+    }, [dateSelected, dormSelected, timeDetails])
 
     return (
         <div className={isNewEnroll ? `${classes.WrapperOverlay}` : `${classes.Wrapper}`} onClick={(e) => wrapperClick(e)} ref={wrapperRef}>
@@ -167,7 +175,7 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
                             <input type="text" id="email" name="email" className={classes.InfoInput} required placeholder="m2300000@edu.misis.ru" onChange={e => {
                                 if (/^m\d{7}\@edu\.misis\.ru$/.test(e.currentTarget.value)) setIsWrongEmail(false)
                                 else setIsWrongEmail(true)
-                            }} />
+                            }} onFocus={() => setIsAlreadyExist(false)} />
                             {isWrongEmail &&
                                 <p>Некорректная почта</p>
                             }
@@ -237,6 +245,9 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
                         })
                         }
                     </div>}
+                    {isAlreadyExist &&
+                        <p className="AlertText">На это время уже есть запись, или пользователь с такой почтой уже зарегистрирован</p>
+                    }
                     <button className="DefaultButton_1">{isLoading ? <WhiteSpinner /> : 'Добавить новую запись'}</button>
                 </form>
             }

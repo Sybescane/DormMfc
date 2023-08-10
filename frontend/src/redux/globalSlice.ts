@@ -1,6 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { createTimes } from "../utils/timesCreation";
 import { usersDataType } from "./adminSlice";
+import { getTimeDate } from "../utils/getTimeDate";
 
 type InitialStateType = {
     userData: {
@@ -96,10 +97,15 @@ const globalSlice = createSlice({
             state.userData.dormitory = action.payload.dormitory
             state.userData.contacts = action.payload.contacts
             if (action.payload.takenTime) {
-                state.userData.freeTimes = createTimes(action.payload.takenTime)
+                //@ts-ignore
+                const normalizeArr = action.payload.takenTime.map(time => {
+                    return getTimeDate(time).datetime
+                })
+                state.userData.freeTimes = createTimes(normalizeArr)
             }
             else {
-                const date = action.payload.recordDatetime.slice(0, 2)
+                const normalizeDate = getTimeDate(action.payload.recordDatetime).datetime
+                const date = normalizeDate.slice(0, 2)
                 let shortWeekday = undefined
                 switch (date) {
                     case '25':
@@ -127,7 +133,7 @@ const globalSlice = createSlice({
                         break;
                 }
                 state.userData.dateSelected = `${date} августа, ${shortWeekday}`
-                state.userData.timeSelected = action.payload.recordDatetime.split(',')[1].slice(1, -3)
+                state.userData.timeSelected = normalizeDate.split(',')[1].slice(1, -3)
             }
         },
         showPopup(state, action: PayloadAction<{ event: React.MouseEvent, isShow: boolean, type: string }>) {

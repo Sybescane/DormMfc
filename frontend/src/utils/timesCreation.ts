@@ -21,7 +21,7 @@ export function createTimes(timesArr: Array<string>): freeTimesType {
         for (let i = 9; i <= 17; i++) {
             for (let j = 0; j <= 45; j += 15) {
                 fullFree.push({
-                    time: `${i}:${j === 0 ? '00' : j}`,
+                    time: `${i === 9 ? '09' : i}:${j === 0 ? '00' : j}`,
                     isBusy: false
                 })
             }

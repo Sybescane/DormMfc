@@ -18,7 +18,6 @@ type StudentElem = {
 
 export default function AdminPage() {
     const usersData = useAppSelector(state => state.adminSlice.usersData)
-    console.log('USERS_DATA', usersData)
     const [dormList, setDormList] = useState<Array<StudentElem>>()
     const [checkedDorm, setCheckedDorm] = useState<string>('М-1')
     const selectedDate = useAppSelector(state => state.globalSlice.userData.dateSelected)
@@ -26,15 +25,13 @@ export default function AdminPage() {
     const dispatch = useAppDispatch()
 
     useEffect(() => {
-        console.log('USE_EFFECT GOING')
         if (token) {
-            console.log('SORT IS GOING')
             const dataSortArr = usersData[checkedDorm].filter(enroll => {
                 if (enroll.recordDatetime.slice(0, 2) == selectedDate.slice(0, 2)) return true
                 else return false
             })
             const normalizeArr = dataSortArr.map(enroll => {
-                const time = enroll.recordDatetime.slice(-8, -3)
+                const time = enroll.recordDatetime.slice(-5)
                 return {
                     ...enroll,
                     gender: enroll.gender === 'Мужской' ? 'М' : 'Ж',

@@ -10,6 +10,7 @@ type StudentElem = {
 }
 
 export default function ViewEnrollComp({ students }: { students: Array<StudentElem> | undefined }) {
+
     return (
         <div className={classes.Wrapper}>
             <div className={`${classes.GridContainer} ${classes.TableHeader}`}>

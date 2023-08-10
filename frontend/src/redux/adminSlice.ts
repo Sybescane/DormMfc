@@ -1,5 +1,8 @@
-import { PayloadAction, createSlice, current } from "@reduxjs/toolkit";
+import { PayloadAction, createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import { createTimes } from "../utils/timesCreation";
+import { axiosRequest } from "../configs/axiosConfig";
+import { requestErrorHandler } from "../utils/requestErrorsHandler";
+import { getTimeDate } from "../utils/getTimeDate";
 
 type SingleStudentType = {
     email: string,
@@ -54,8 +57,26 @@ const adminSlice = createSlice({
     reducers: {
         setAdminData(state, action: PayloadAction<{ token: string, usersData: usersDataType, adminLogin: string }>) {
             state.token = action.payload.token
-            state.usersData = action.payload.usersData
             state.adminLogin = action.payload.adminLogin
+            const normalizeUsersData: usersDataType = {
+                'М-1': [],
+                'М-2': [],
+                'М-3': [],
+                'М-4': [],
+                'Г-1': [],
+                'Г-2': [],
+                'ДСГ': [],
+                'ДК': []
+            }
+            for (let key in normalizeUsersData) {
+                normalizeUsersData[key] = action.payload.usersData[key].map(studObj => {
+                    return {
+                        ...studObj,
+                        recordDatetime: getTimeDate(studObj.recordDatetime).datetime
+                    }
+                })
+            }
+            state.usersData = normalizeUsersData
             for (let key in state.timeDetails) {
                 const normalizeArray = state.usersData[key].map(enroll => {
                     return enroll.recordDatetime
@@ -79,10 +100,27 @@ const adminSlice = createSlice({
                 citizenship: data.citizenship,
                 gender: data.gender,
                 educationLevel: data.educationLevel,
-                recordDatetime: data.recordDatetime
+                recordDatetime: getTimeDate(data.recordDatetime).datetime
             }
             state.usersData[data.dorm].push(dataObj)
-            console.log('STATE IS CHANGED', current(state.usersData))
+        },
+        addBusyTime(state, action: PayloadAction<{
+            datetime: string,
+            dorm: DormListType
+        }>) {
+            const normalizedDatetime = getTimeDate(action.payload.datetime).datetime
+            const time = normalizedDatetime.split(',')[1].slice(1, 6)
+            const date = normalizedDatetime.slice(0, 2)
+            const updatedArr = state.timeDetails[action.payload.dorm][date].map(timeObj => {
+                if (timeObj.time === time) {
+                    return {
+                        time: timeObj.time,
+                        isBusy: true
+                    }
+                }
+                else return timeObj
+            })
+            state.timeDetails[action.payload.dorm][date] = updatedArr
         }
     }
 })
@@ -91,7 +129,8 @@ export const {
     setAdminData,
     changeDorm,
     cleanupAdminStore,
-    addNewStudent
+    addNewStudent,
+    addBusyTime
 } = adminSlice.actions
 
 export default adminSlice.reducer

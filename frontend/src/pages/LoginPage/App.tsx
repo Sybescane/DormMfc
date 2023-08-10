@@ -22,7 +22,7 @@ function App() {
   const [isWrongLogin, setIsWrongLogin] = useState<boolean>(false)
   const [isLoadingEmp, setIsLoadingEmp] = useState<boolean>(false)
 
-  function employeeLogin(e: React.FormEvent<HTMLFormElement>) {
+  async function employeeLogin(e: React.FormEvent<HTMLFormElement>) {
     setIsLoadingEmp(true)
     setIsWrongLogin(false)
     e.preventDefault()
@@ -33,8 +33,6 @@ function App() {
         email: formData.get('employee_login'),
         password: formData.get('employee_password')
       }).then(({ data: tokenData }) => {
-        console.log('login-admin succeded', tokenData)
-        console.log('token', tokenData.access_token)
         axiosRequest.get(`/admin/get-users?login=${formData.get('employee_login')}`, {
           headers: {
             'Authorization': `Bearer ${tokenData.access_token}`
@@ -49,8 +47,6 @@ function App() {
           navigate('/admin')
         }).catch(err => {
           setIsLoadingEmp(false)
-          console.log('error in get-users')
-          console.log(err.request)
           requestErrorHandler(err)
         })
       }).catch(err => {

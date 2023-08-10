@@ -5,7 +5,6 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { saveUserBasics, saveUserData, showEmployeeLogin, switchStep } from '../../redux/globalSlice';
-import axios from 'axios';
 import { ReactComponent as Spinner } from '../../assets/white_spinner.svg'
 import { requestErrorHandler } from '../../utils/requestErrorsHandler';
 import { axiosRequest } from '../../configs/axiosConfig';
@@ -74,7 +73,6 @@ export default function LoginComp() {
                             'Authorization': `Bearer ${res.data.access_token}`
                         }
                     }).then(res => {
-                        console.log('start recording res', res)
                         setIsLoading(false)
                         dispatch(saveUserData(res.data))
                         if (res.data.takenTime) {
