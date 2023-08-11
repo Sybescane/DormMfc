@@ -1,7 +1,8 @@
-import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice, current } from "@reduxjs/toolkit";
 import { createTimes } from "../utils/timesCreation";
 import { usersDataType } from "./adminSlice";
 import { getTimeDate } from "../utils/getTimeDate";
+import { SingleStudentType } from "./adminSlice";
 
 type InitialStateType = {
     userData: {
@@ -31,7 +32,15 @@ type InitialStateType = {
         isEmployeeLogin: boolean,
         isCheckInPopup: boolean,
         isBusyWarning: boolean,
-        isAddEnroll: boolean
+        isShowNotify: {
+            isShow: boolean,
+            type: 'CreateEnroll' | 'UpdateEnroll' | 'DeleteEnroll' | 'DeleteEnrollCompleted' | 'None'
+        }
+        isShowAddEnroll: {
+            isShow: boolean,
+            mode: 'create' | 'edit' | 'none',
+            editData?: SingleStudentType
+        }
     }
 }
 
@@ -58,7 +67,22 @@ const initialState: InitialStateType = {
         isEmployeeLogin: false,
         isCheckInPopup: false,
         isBusyWarning: false,
-        isAddEnroll: false
+        isShowNotify: {
+            isShow: false,
+            type: 'None'
+        },
+        isShowAddEnroll: {
+            isShow: false,
+            mode: 'none',
+            editData: {
+                email: '',
+                fullname: '',
+                gender: '',
+                citizenship: '',
+                educationLevel: '',
+                recordDatetime: ''
+            }
+        }
     }
 }
 
@@ -106,7 +130,6 @@ const globalSlice = createSlice({
             }
             else {
                 const normalizeDate = getTimeDate(action.payload.recordDatetime).datetime
-                console.log('NORMALIZE DATE', normalizeDate)
                 const date = normalizeDate.slice(0, 2)
                 let shortWeekday = undefined
                 switch (date) {
@@ -161,8 +184,6 @@ const globalSlice = createSlice({
                         state.serviceData.isBusyWarning = false
                     }
                     break;
-                default:
-                    break;
             }
         },
         cleanupUserStore(state) {
@@ -171,8 +192,42 @@ const globalSlice = createSlice({
         setFaculty(state, action) {
             state.userData.faculty = action.payload
         },
-        showAddEnroll(state, action: PayloadAction<boolean>) {
-            state.serviceData.isAddEnroll = action.payload
+        checkShowAddEnroll(state, action: PayloadAction<{
+            mode: 'create' | 'edit' | 'none'
+            editData?: SingleStudentType
+        }>) {
+            if (action.payload.mode === 'none') {
+                state.serviceData.isShowAddEnroll = {
+                    isShow: false,
+                    mode: 'none',
+                    editData: initialState.serviceData.isShowAddEnroll.editData
+                }
+            }
+            else if (action.payload.mode === 'create') {
+                state.serviceData.isShowAddEnroll = {
+                    isShow: true,
+                    mode: 'create',
+                    editData: initialState.serviceData.isShowAddEnroll.editData
+                }
+            }
+            else if (action.payload.mode === 'edit') {
+                state.serviceData.isShowAddEnroll = {
+                    isShow: true,
+                    mode: 'edit',
+                    editData: action.payload.editData
+                }
+            }
+        },
+        showNotify(state, action: PayloadAction<{
+            isShow: boolean,
+            type: 'CreateEnroll' | 'UpdateEnroll' | 'DeleteEnroll' | 'DeleteEnrollCompleted' | 'None'
+            event?: React.MouseEvent
+        }>) {
+            action.payload.event?.stopPropagation()
+            state.serviceData.isShowNotify = {
+                isShow: action.payload.isShow,
+                type: action.payload.type
+            }
         }
     }
 })
@@ -184,7 +239,8 @@ export const { hideCalendar, showCalendar, selectDate, selectTime, switchStep, s
     showPopup,
     cleanupUserStore,
     setFaculty,
-    showAddEnroll,
+    checkShowAddEnroll,
+    showNotify
 } = globalSlice.actions
 
 export default globalSlice.reducer

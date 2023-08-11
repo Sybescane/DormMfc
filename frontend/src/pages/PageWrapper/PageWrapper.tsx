@@ -3,16 +3,11 @@ import ControlPanelComp from "../../components/ControlPanel/ControlPanelComp";
 import EnrollStepsComp from "../../components/EnrollStepsComp/EnrollStepsComp";
 import HeaderEnrollComp from "../../components/HeaderEnrollComp/HeaderEnrollComp";
 import { useAppDispatch, useAppSelector } from "../../hooks";
-import { hideCalendar, showAddEnroll, showPopup } from "../../redux/globalSlice";
+import { hideCalendar, showNotify, showPopup } from "../../redux/globalSlice";
 import classes from './PageWrapper.module.scss';
-import { ReactNode, useRef, useEffect, useState } from "react";
-import axios from "axios";
-import { requestErrorHandler } from "../../utils/requestErrorsHandler";
-import { addBusyTime, addNewStudent } from "../../redux/adminSlice";
-import { ReactComponent as WhiteSpinner } from '../../assets/white_spinner.svg'
-import { axiosRequest } from "../../configs/axiosConfig";
-import { getTimeDate } from "../../utils/getTimeDate";
+import { ReactNode, useRef, useEffect } from "react";
 import AddEnrollComp from "../../components/AddEnrollComp/AddEnrollComp";
+import NotifyComp from "../../components/NotifyComp/NotifyComp";
 
 export default function PageWrapper({ children }: { children: ReactNode }) {
     const navigate = useNavigate()
@@ -22,7 +17,8 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
     const institute = useAppSelector(state => state.globalSlice.userData.faculty)
     const email = useAppSelector(state => state.globalSlice.userData.email)
     const adminToken = useAppSelector(state => state.adminSlice.token)
-    const isNewEnroll = useAppSelector(state => state.globalSlice.serviceData.isAddEnroll)
+    const isShowAddEnroll = useAppSelector(state => state.globalSlice.serviceData.isShowAddEnroll.isShow)
+    const isShowNotify = useAppSelector(state => state.globalSlice.serviceData.isShowNotify)
 
     function wrapperClick(e: React.MouseEvent) {
         dispatch(hideCalendar())
@@ -31,6 +27,11 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
             event: e,
             isShow: false,
             type: 'busyWarning'
+        }))
+        dispatch(showNotify({
+            isShow: false,
+            type: 'None',
+            event: e
         }))
     }
 
@@ -73,12 +74,13 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
     }, [email, adminToken])
 
     return (
-        <div className={isNewEnroll ? `${classes.WrapperOverlay}` : `${classes.Wrapper}`} onClick={(e) => wrapperClick(e)} ref={wrapperRef}>
+        <div className={isShowAddEnroll ? `${classes.WrapperOverlay}` : `${classes.Wrapper}`} onClick={(e) => wrapperClick(e)} ref={wrapperRef}>
             <HeaderEnrollComp />
             {!/admin/.test(window.location.href) && <EnrollStepsComp />}
             <main>{children}</main>
             {!isButtonsShow && <ControlPanelComp />}
-            {isNewEnroll && <AddEnrollComp />}
+            {isShowAddEnroll && <AddEnrollComp />}
+            {isShowNotify.isShow && <NotifyComp type={isShowNotify.type} />}
         </div >
     )
 }

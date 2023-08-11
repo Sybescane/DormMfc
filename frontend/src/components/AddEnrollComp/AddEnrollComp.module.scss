@@ -12,6 +12,11 @@
     padding: 40px;
     border-radius: 16px;
 
+    .CurrentEnrollTime {
+        margin-bottom: 8px;
+        @include mixins.fontRaleway($fontWeight: 600)
+    }
+
     .TimesContainer {
         display: grid;
         grid-template-columns: repeat(7, 72px);
