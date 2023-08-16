@@ -5,7 +5,7 @@
     flex-direction: column;
     align-items: flex-start;
     @include mixins.fontRaleway();
-    width: 360px;
+    width: 100%;
 
     .EmployeeBtn {
         margin: 0
@@ -65,20 +65,20 @@
 
         .InputWrapper {
             display: flex;
-            width: 360px;
+            width: 100%;
             height: 48px;
 
             input {
                 border: 1px solid #2C3E503D;
                 border-right: none;
                 border-radius: 8px 0 0 8px;
-                width: 211px;
+                width: 58.611%;
                 padding-left: 16px;
             }
 
             .InputHint {
                 text-align: center;
-                width: 149px;
+                width: 41.389%;
                 line-height: 48px;
                 border: 1px solid #2C3E503D;
                 border-radius: 0 8px 8px 0;

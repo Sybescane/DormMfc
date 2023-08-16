@@ -21,11 +21,9 @@
         display: flex;
         justify-content: flex-end;
         width: 34%;
-        padding: 31px;
         background-color: white;
 
-        @media (max-width: 912px) {
-            height: auto;
+        @media (max-width: vars.$mobileMax) {
             width: 100%;
         }
 
@@ -34,20 +32,14 @@
             justify-content: space-between;
             display: flex;
             flex-direction: column;
-            width: min-content;
+            width: 360px;
+            padding: 32px;
+            box-sizing: content-box;
             position: relative;
             z-index: 1;
 
-            @media (max-width: 912px) {
-                width: 100%;
-                border-radius: 0 0 2rem 2rem;
-                padding-top: 0;
-                transform: translateY(14px);
-                flex: 1;
-            }
-
             @media (min-width: 913px) {
-                height: 100%;
+                max-height: 100%;
             }
 
 
@@ -62,11 +54,9 @@
     }
 
     .LoginPhoto {
-        @media (min-width: 913px) {
+        @media (min-width: vars.$desktopMin) {
             display: none;
         }
-
-        @media (max-width: 912px) {}
     }
 
     .EmployeeLogin {
@@ -85,12 +75,6 @@
         z-index: 2;
         justify-content: center;
         align-items: center;
-
-        @media (max-width: 912px) {
-            width: 33%;
-            height: 50%;
-            justify-content: space-evenly;
-        }
 
         .EmployeeWrapper {
             display: flex;
@@ -138,10 +122,6 @@
             h1 {
                 @include mixins.fontNekst();
                 width: 360px;
-
-                @media (max-width: 1172px) {
-                    font-size: 2.25rem;
-                }
             }
 
             .Cross {

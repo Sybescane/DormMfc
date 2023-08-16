@@ -109,7 +109,9 @@ export default function LoginComp() {
                     <p className={classes.NoEntry}>Введенный адрес почты не найден. Проверьте и попробуйте снова или обратитесь в поддержку.</p>
                 }
                 {!isCodeInput &&
-                    <button type="submit" className={isStudActive ? 'DefaultButton_1' : 'DisabledButton'}>{isLoading ? <Spinner /> : 'Отправить код на почту'}</button>
+                    <button type="submit" className={isStudActive ? 'DefaultButton_1' : 'DisabledButton'} style={{
+                        width: '100%'
+                    }}>{isLoading ? <Spinner /> : 'Отправить код на почту'}</button>
                 }
             </form>
             {isCodeInput &&
@@ -123,11 +125,15 @@ export default function LoginComp() {
                         <p className={classes.WrongCode}>Неверный код</p>
                     }
                     <a>ОТПРАВИТЬ КОД СНОВА</a>
-                    <button type="submit" className={isActiveCode ? 'DefaultButton_1' : 'DisabledButton'}>{isLoading ? <Spinner /> : 'Войти'}</button>
+                    <button type="submit" className={isActiveCode ? 'DefaultButton_1' : 'DisabledButton'} style={{
+                        width: '100%'
+                    }}>{isLoading ? <Spinner /> : 'Войти'}</button>
                 </form>
             }
             {!isCodeInput &&
-                <button type="button" className={`DefaultButton_2 ${classes.EmployeeBtn}`} onClick={(e) => dispatch(showEmployeeLogin())}>Войти как сотрудник</button>
+                <button style={{
+                    width: '100%'
+                }} type="button" className={`DefaultButton_2 ${classes.EmployeeBtn}`} onClick={(e) => dispatch(showEmployeeLogin())}>Войти как сотрудник</button>
             }
         </div>
     )
