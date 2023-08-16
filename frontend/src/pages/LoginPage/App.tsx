@@ -30,7 +30,7 @@ function App() {
     else {
       const formData = new FormData(e.currentTarget)
       axiosRequest.post('/auth/login-admin', {
-        email: formData.get('employee_login'),
+        login: formData.get('employee_login'),
         password: formData.get('employee_password')
       }).then(({ data: tokenData }) => {
         axiosRequest.get(`/admin/get-users?login=${formData.get('employee_login')}`, {

@@ -21,12 +21,6 @@ html {
     font-size: 16px
 }
 
-@media (max-width:760px) {
-    html {
-        font-size: 11px;
-    }
-}
-
 .DisabledButton {
     @include mixins.buttonStandard();
     @include mixins.fontRaleway($fontWeight: 600);

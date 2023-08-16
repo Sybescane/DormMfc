@@ -14,7 +14,7 @@ export default function FinalPage() {
 
     return (
         <div className={classes.Wrapper}>
-            <h1>Поздравляем с завершением регистрации на заселениев общежитие!</h1>
+            <h1>Поздравляем с завершением регистрации на заселение в общежитие!</h1>
             <div className={classes.GridContainer}>
                 <div className={classes.GridEl}>
                     <img src={CalendarSVG} />
@@ -41,7 +41,7 @@ export default function FinalPage() {
                 <div className={classes.GridEl}>
                     <img src={LocationSVG} style={{ alignSelf: 'flex-start' }} />
                     <div>
-                        <p>Студгородок &#171;Металлург&#187; &#40;Корпус 3&#41;</p>
+                        <p>&#171;Металлург&#187; &#40;Корпус 3&#41;</p>
                         <p className={classes.Notes}>Москва, улица Профсоюзная, д. 83, корпуса 1,2,3</p>
                         <p className={classes.Notes}>&#40;станция метро Беляево&#41;</p>
                     </div>

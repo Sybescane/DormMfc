@@ -1,23 +1,19 @@
 @use '../../styles/mixins' as mixins;
+@use '../../styles/variables' as vars;
 
 @mixin AppStandard() {
     width: 100%;
     display: flex;
     position: relative;
     min-height: 100vh;
+    flex-direction: column;
 
-    @media (max-width: 912px) {
-        flex-direction: column;
-        width: 100%;
-    }
-
-    @media (min-width: 913px) {
+    @media (min-width: vars.$desktopMin) {
         height: 100vh;
         background-image: url('./assets/LoginBackground.png');
         background-repeat: no-repeat;
         background-size: cover;
         background-position: 100% 32%;
-        flex-direction: column;
     }
 
     .FlexContainer {

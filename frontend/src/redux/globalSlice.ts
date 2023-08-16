@@ -15,7 +15,11 @@ type InitialStateType = {
         dateSelected: string,
         timeSelected: string | null,
         token: string | null,
-        contacts: Array<string>
+        contacts: {
+            fullname: string,
+            position: string,
+            phone: string | null
+        }
         freeTimes: {
             [key: string]: Array<{
                 time: string,
@@ -55,7 +59,11 @@ const initialState: InitialStateType = {
         },
         dateSelected: '25 августа, пт',
         timeSelected: null,
-        contacts: [],
+        contacts: {
+            fullname: '',
+            position: '',
+            phone: null
+        },
         freeTimes: {},
         faculty: ''
     },

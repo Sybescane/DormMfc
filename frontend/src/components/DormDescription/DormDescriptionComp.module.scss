@@ -1,0 +1,51 @@
+@use '../../styles/mixins' as mixins;
+
+.Wrapper {
+    display: flex;
+    flex-direction: column;
+    @include mixins.fontRaleway();
+    width: 560px;
+    background-color: rgba(44, 62, 80, 0.04);
+    border-radius: 16px;
+
+    .Content {
+        padding: 32px;
+
+        .Info {
+            display: flex;
+            flex-direction: column;
+
+            .NameAddress {
+                margin-bottom: 20px;
+                display: flex;
+
+                div {
+                    margin-left: 20px;
+
+                    p {
+                        display: block;
+                    }
+
+                    strong {
+                        display: block;
+                        font-weight: 600;
+                    }
+                }
+            }
+
+            .Contacts {
+                margin-bottom: 20px;
+                display: flex;
+
+                .ContactsInfo {
+                    display: flex;
+                }
+            }
+        }
+
+        h3 {
+            @include mixins.fontNekst($fontSize: 1.5rem);
+            margin-bottom: 20px;
+        }
+    }
+}
