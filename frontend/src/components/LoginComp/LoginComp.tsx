@@ -28,6 +28,7 @@ export default function LoginComp() {
     }
 
     function sendEmail(e: React.FormEvent<HTMLFormElement>) {
+        setNoEntry(false)
         setIsLoading(true)
         e.preventDefault()
         if (!isStudActive || isLoading) return

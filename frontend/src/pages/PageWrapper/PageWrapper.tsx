@@ -74,7 +74,11 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
     }, [email, adminToken])
 
     return (
-        <div className={isShowAddEnroll ? `${classes.WrapperOverlay}` : `${classes.Wrapper}`} onClick={(e) => wrapperClick(e)} ref={wrapperRef}>
+        <div className={isShowAddEnroll ? `${classes.WrapperOverlay}` : `${classes.Wrapper}`} onClick={(e) => wrapperClick(e)} ref={wrapperRef}
+        style={{
+            width: /admin/.test(window.location.href)?'100%': ''
+        }}
+        >
             <HeaderEnrollComp />
             {!/admin/.test(window.location.href) && <EnrollStepsComp />}
             <main>{children}</main>

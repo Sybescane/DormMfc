@@ -45,35 +45,35 @@ function Map() {
     switch (dormitory) {
         case 'М-1':
             return (
-                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" width="560" height="300" frameBorder="0"></iframe>
+                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" height="300" frameBorder="0"></iframe>
             )
         case 'М-2':
             return (
-                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" width="560" height="300" frameBorder="0"></iframe>
+                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" height="300" frameBorder="0"></iframe>
             )
         case 'М-3':
             return (
-                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" width="560" height="300" frameBorder="0"></iframe>
+                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" height="300" frameBorder="0"></iframe>
             )
         case 'М-4':
             return (
-                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" width="560" height="300" frameBorder="0"></iframe>
+                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" height="300" frameBorder="0"></iframe>
             )
         case 'Г-1':
             return (
-                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" width="560" height="300" frameBorder="0"></iframe>
+                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" height="300" frameBorder="0"></iframe>
             )
         case 'Г-2':
             return (
-                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" width="560" height="300" frameBorder="0"></iframe>
+                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" height="300" frameBorder="0"></iframe>
             )
         case 'ДСГ-5,6':
             return (
-                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" width="560" height="300" frameBorder="0"></iframe>
+                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" height="300" frameBorder="0"></iframe>
             )
         case 'ДК':
-            return (
-                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" width="560" height="300" frameBorder="0"></iframe>
+            return ( 
+                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" height="300" frameBorder="0"></iframe>
             )
         default:
             return <></>

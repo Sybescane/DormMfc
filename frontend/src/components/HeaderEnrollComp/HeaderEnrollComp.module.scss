@@ -3,5 +3,14 @@
     grid-template-columns: repeat(3, 1fr);
     margin-bottom: 1%;
     justify-items: center;
-    align-items: flex-start
+    align-items: flex-start;
+    .IsShow {
+        @media (max-width: 699px) {
+            display: none;
+        }
+    };
+    .AdaptiveProfile {
+        justify-self: flex-end;
+        grid-column: 3;
+    }
 }

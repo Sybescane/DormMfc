@@ -21,8 +21,11 @@ p {
 html {
     font-size: 16px;
 
-    @media (max-width: vars.$desktopMiddle) {
+    @media ((max-width: vars.$desktopMiddle) and (min-width: vars.$desktopMin)) {
         font-size: 14px;
+    }
+    @media (max-width: vars.$smallMobile) {
+        font-size: 13px;
     }
 }
 

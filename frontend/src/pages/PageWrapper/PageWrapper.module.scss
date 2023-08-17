@@ -1,9 +1,8 @@
 @use '../../styles/mixins';
 
 @mixin wrapperStandard() {
-    width: 100%;
     min-height: 100vh;
-    padding: 1% 1% 0 1%;
+    padding: 10px 10px 0 10px;
     display: flex;
     flex-direction: column;
     background-repeat: no-repeat;
@@ -13,6 +12,9 @@
 
     main {
         flex: 1;
+        @media (max-width: 968px) {
+            margin-bottom: 50px;
+        }
     }
 
     .NewEnroll {

@@ -1,4 +1,5 @@
 @use '../../styles/mixins' as mixins;
+@use '../../styles/variables' as vars;
 
 .Wrapper {
     width: 100%;
@@ -14,10 +15,14 @@
     .Info {
         display: flex;
         gap: 3%;
-
+@media (max-width: vars.$tabletMax) {
+    flex-direction: column;
+}
         .LeftBlock {
             width: 55%;
-
+            @media (max-width: vars.$tabletMax) {
+                width: 100%;
+            }
             h3 {
                 @include mixins.fontNekst($fontSize: 1.5rem, $fontWeight: 400)
             }
@@ -45,7 +50,11 @@
             border-radius: 16px;
             background-color: #2C3E500A;
             padding: 32px;
-
+            @media (max-width: vars.$tabletMax) {
+                width: 100%;
+                height: auto;
+                margin-top: 24px;
+            }
             strong {
                 display: block;
                 padding-bottom: 16px;

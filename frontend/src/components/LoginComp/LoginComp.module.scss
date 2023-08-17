@@ -1,4 +1,5 @@
-@use '../../styles/mixins';
+@use '../../styles/mixins' as mixins;
+@use '../../styles/variables' as vars;
 
 .Wrapper {
     display: flex;
@@ -6,6 +7,7 @@
     align-items: flex-start;
     @include mixins.fontRaleway();
     width: 100%;
+    margin: 32px 0;
 
     .EmployeeBtn {
         margin: 0
@@ -50,6 +52,10 @@
     h1 {
         @include mixins.fontNekst($fontSize: 2.5rem);
         min-width: 0;
+        margin-bottom: 16px;
+        @media (max-width: vars.$tabletMax) {
+            font-size: 1.5rem;
+        }
     }
 
     .EmailInput {
