@@ -173,6 +173,13 @@
     z-index: 1;
 }
 
+.AdaptiveAdmin {
+    width: 100%;
+    @media (max-width: 950px) {
+        width: 950px;
+    }
+}
+
 .INMIN {
     background-image: url('./assets/INMIN.webp');
 }

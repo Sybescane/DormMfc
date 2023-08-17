@@ -20,6 +20,12 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
     const isShowAddEnroll = useAppSelector(state => state.globalSlice.serviceData.isShowAddEnroll.isShow)
     const isShowNotify = useAppSelector(state => state.globalSlice.serviceData.isShowNotify)
 
+function wrapperClasses(isShowAddEnroll:boolean) {
+    let classList = isShowAddEnroll ? `${classes.WrapperOverlay}` : `${classes.Wrapper}`
+    classList = /admin/.test(window.location.href)? `${classList} ${classes.AdaptiveAdmin}`:classList
+    return classList
+}
+
     function wrapperClick(e: React.MouseEvent) {
         dispatch(hideCalendar())
         dispatch(showPopup({ event: e, isShow: false, type: 'checkInPopup' }))
@@ -74,11 +80,7 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
     }, [email, adminToken])
 
     return (
-        <div className={isShowAddEnroll ? `${classes.WrapperOverlay}` : `${classes.Wrapper}`} onClick={(e) => wrapperClick(e)} ref={wrapperRef}
-        style={{
-            width: /admin/.test(window.location.href)?'100%': ''
-        }}
-        >
+        <div className={wrapperClasses(isShowAddEnroll)} onClick={(e) => wrapperClick(e)} ref={wrapperRef}>
             <HeaderEnrollComp />
             {!/admin/.test(window.location.href) && <EnrollStepsComp />}
             <main>{children}</main>
