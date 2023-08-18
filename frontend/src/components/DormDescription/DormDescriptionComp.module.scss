@@ -37,7 +37,19 @@
                 display: flex;
 
                 .ContactsInfo {
+                    margin-left: 20px;
                     display: flex;
+                    flex-direction: column;
+                    .Contact {
+                        margin-bottom: 4px;
+                        flex-direction: column;
+                        .Phone {
+                            font-weight: 600;
+                        }
+                    }
+                    .Contact:last-of-type {
+                        margin-bottom: 0;
+                    }
                 }
             }
         }

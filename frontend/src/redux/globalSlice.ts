@@ -15,11 +15,11 @@ type InitialStateType = {
         dateSelected: string,
         timeSelected: string | null,
         token: string | null,
-        contacts: {
+        contacts: Array<{
             fullname: string,
             position: string,
             phone: string | null
-        }
+        }>
         freeTimes: {
             [key: string]: Array<{
                 time: string,
@@ -45,6 +45,7 @@ type InitialStateType = {
             mode: 'create' | 'edit' | 'none',
             editData?: SingleStudentType
         }
+        isOnline: boolean
     }
 }
 
@@ -59,11 +60,7 @@ const initialState: InitialStateType = {
         },
         dateSelected: '25 августа, пт',
         timeSelected: null,
-        contacts: {
-            fullname: '',
-            position: '',
-            phone: null
-        },
+        contacts:[],
         freeTimes: {},
         faculty: ''
     },
@@ -90,7 +87,8 @@ const initialState: InitialStateType = {
                 educationLevel: '',
                 recordDatetime: ''
             }
-        }
+        },
+        isOnline: true
     }
 }
 
@@ -236,6 +234,9 @@ const globalSlice = createSlice({
                 isShow: action.payload.isShow,
                 type: action.payload.type
             }
+        },
+        changeOnline(state, action: PayloadAction<boolean>) {
+            state.serviceData.isOnline = action.payload
         }
     }
 })
@@ -248,7 +249,8 @@ export const { hideCalendar, showCalendar, selectDate, selectTime, switchStep, s
     cleanupUserStore,
     setFaculty,
     checkShowAddEnroll,
-    showNotify
+    showNotify,
+    changeOnline
 } = globalSlice.actions
 
 export default globalSlice.reducer

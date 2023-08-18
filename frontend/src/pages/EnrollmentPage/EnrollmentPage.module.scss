@@ -63,12 +63,17 @@
                 background-color: white;
                 border: 1px solid #1D92F8;
             }
+            .FreeTime:hover {
+                background-color: #1D92F8;
+                color: white;
+                transition: all 150ms ease-out;
+            }
         }
     }
 
     .Warning {
         position: fixed;
-        top: 39%;
+        top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         background-color: white;

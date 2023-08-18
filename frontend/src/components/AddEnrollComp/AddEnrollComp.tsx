@@ -3,7 +3,7 @@ import classes from './AddEnrollComp.module.scss'
 import { useState, useRef, useEffect } from 'react'
 import { axiosRequest } from '../../configs/axiosConfig'
 import { changeUsersData, changeBusyTime } from '../../redux/adminSlice'
-import { checkShowAddEnroll, showNotify } from '../../redux/globalSlice'
+import { changeOnline, checkShowAddEnroll, showNotify } from '../../redux/globalSlice'
 import { requestErrorHandler } from '../../utils/requestErrorsHandler'
 import { ReactComponent as WhiteSpinner } from '../../assets/white_spinner.svg'
 
@@ -31,6 +31,7 @@ export default function AddEnrollComp() {
     const countryRefs = useRef<Array<HTMLOptionElement | null>>([])
 
     function addEnroll(e: React.FormEvent<HTMLFormElement>) {
+        dispatch(changeOnline(true))
         setIsAlreadyExist(false)
         e.preventDefault()
         if (!isEmailValid || !isNumberValid || !isFullnameValid || !newEnrollTime || !/^m\d{7}\@edu\.misis\.ru$/.test(emailValue)) return
@@ -79,6 +80,9 @@ export default function AddEnrollComp() {
                     type: 'CreateEnroll'
                 }))
             }).catch(err => {
+                console.log('CREATING USER ERROR')
+                console.log(err)
+                if (err.code==='ERR_NETWORK') dispatch(changeOnline(false))
                 setIsLoading(false)
                 if (err.response.data.statusCode === 400) {
                     setIsAlreadyExist(true)
@@ -133,6 +137,7 @@ export default function AddEnrollComp() {
                     type: 'UpdateEnroll'
                 }))
             }).catch(err => {
+                if (err.code==='ERR_NETWORK') dispatch(changeOnline(false))
                 setIsLoading(false)
                 if (err.response?.data.statusCode === 400) {
                     setIsAlreadyExist(true)

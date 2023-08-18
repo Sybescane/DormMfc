@@ -1,10 +1,8 @@
 import { useRef, useState } from 'react';
 import classes from './LoginComp.module.scss'
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
 import { useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { saveUserBasics, saveUserData, showEmployeeLogin, switchStep } from '../../redux/globalSlice';
+import { changeOnline, saveUserBasics, saveUserData, showEmployeeLogin, switchStep } from '../../redux/globalSlice';
 import { ReactComponent as Spinner } from '../../assets/white_spinner.svg'
 import { requestErrorHandler } from '../../utils/requestErrorsHandler';
 import { axiosRequest } from '../../configs/axiosConfig';
@@ -19,6 +17,9 @@ export default function LoginComp() {
     const userEmail = useRef('')
     const [isLoading, setIsLoading] = useState(false)
     const [isWrongCode, setIsWrongCode] = useState<boolean>(false)
+    const [codeResendTimer,setCodeResendTimer] = useState<number>(60)
+    const [resendCodeLoad,setResendCodeLoad] = useState<boolean>(false)
+    const [isWait,setIsWait] = useState<boolean>(false)
 
     function validateInputs(e: React.ChangeEvent<HTMLInputElement>) {
         if (/^m\d{7}(@edu\.misis\.ru)?$/.test(e.currentTarget.value)) {
@@ -28,11 +29,12 @@ export default function LoginComp() {
     }
 
     function sendEmail(e: React.FormEvent<HTMLFormElement>) {
-        setNoEntry(false)
-        setIsLoading(true)
-        e.preventDefault()
         if (!isStudActive || isLoading) return
         else {
+            e.preventDefault()
+            dispatch(changeOnline(true))
+        setNoEntry(false)
+        setIsLoading(true)
             let email = (new FormData(e.currentTarget)).get('email') as string
             if (!/@/.test(email)) email += '@edu.misis.ru'
             axiosRequest.post('/auth/send-code', {
@@ -41,7 +43,9 @@ export default function LoginComp() {
                 setIsLoading(false)
                 setIsCodeInput(true)
                 userEmail.current = email
+                codeTimer()
             }).catch(err => {
+                if (err.code==='ERR_NETWORK') dispatch(changeOnline(false))
                 setIsLoading(false)
                 if (err.response) {
                     setIsCodeInput(false)
@@ -53,6 +57,7 @@ export default function LoginComp() {
     }
 
     function sendCode(e: React.FormEvent<HTMLFormElement>) {
+        dispatch(changeOnline(true))
         setIsWrongCode(false)
         setIsLoading(true)
         e.preventDefault()
@@ -74,6 +79,7 @@ export default function LoginComp() {
                             'Authorization': `Bearer ${res.data.access_token}`
                         }
                     }).then(res => {
+                        console.log('RESPONSE', res)
                         setIsLoading(false)
                         dispatch(saveUserData(res.data))
                         if (res.data.takenTime) {
@@ -84,10 +90,12 @@ export default function LoginComp() {
                             navigate('/registered')
                         }
                     }).catch(err => {
+                        if (err.code==='ERR_NETWORK') dispatch(changeOnline(false))
                         setIsLoading(false)
                         requestErrorHandler(err)
                     })
                 }).catch(err => {
+                    if (err.code==='ERR_NETWORK') dispatch(changeOnline(false))
                     setIsLoading(false)
                     if (err.response) {
                         setIsWrongCode(true)
@@ -96,6 +104,34 @@ export default function LoginComp() {
                 })
         }
     }
+
+function resendCode(isFakeClick:boolean) {
+    setResendCodeLoad(true)
+    axiosRequest.post('/auth/send-code',{
+        email: userEmail.current
+    }).then(()=>{
+setResendCodeLoad(false)
+codeTimer()
+    }).catch(err=>{
+        setResendCodeLoad(false)
+        if (err.code==='ERR_NETWORK') dispatch(changeOnline(false))
+        requestErrorHandler(err)
+    })
+}
+
+function codeTimer() {
+    setIsWait(true)
+let count = 0
+let timerID = setInterval(()=>{
+    count++
+    setCodeResendTimer(codeResendTimer-count)
+},1000)
+setTimeout(()=>{
+clearInterval(timerID)
+setIsWait(false)
+setCodeResendTimer(60)
+},60000)
+}
 
     return (
         <div className={classes.Wrapper}>
@@ -125,7 +161,12 @@ export default function LoginComp() {
                     {isWrongCode &&
                         <p className={classes.WrongCode}>Неверный код</p>
                     }
-                    <a>ОТПРАВИТЬ КОД СНОВА</a>
+                    {!isWait&&
+                    <a onClick={()=>resendCode(false)}>{resendCodeLoad?'ОТПРАВКА...':'ОТПРАВИТЬ КОД СНОВА'}</a>
+                    }
+                    {isWait&&
+                    <p className={classes.ResendCode}>Отправить код повторно можно через {codeResendTimer===60?'1:00':codeResendTimer<10?`00:0${codeResendTimer}`:`00:${codeResendTimer}`}</p>
+                    }
                     <button type="submit" className={isActiveCode ? 'DefaultButton_1' : 'DisabledButton'} style={{
                         width: '100%'
                     }}>{isLoading ? <Spinner /> : 'Войти'}</button>

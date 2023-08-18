@@ -44,12 +44,23 @@ html {
     color: white
 }
 
+.DefaultButton_1:hover {
+    transition: all 150ms ease-out;
+    background-color: blue;
+}
+
 .DefaultButton_2 {
     @include mixins.buttonStandard();
     @include mixins.fontRaleway($fontWeight: 600);
     background-color: white;
     color: #1D92F8;
     border: 1px solid #1D92F8
+}
+
+.DefaultButton_2:hover {
+    transition: all 150ms ease-out;
+    background-color: #1D92F8;
+    color: white
 }
 
 .AlertText {

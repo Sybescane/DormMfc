@@ -19,6 +19,10 @@
         margin-top: 16px;
         width: 100%;
 
+        .ResendCode{
+            margin-bottom: 16px;
+        }
+
         .WrongCode {
             @include mixins.fontRaleway($fontColor: #E95332);
             margin-bottom: 16px
@@ -33,6 +37,8 @@
             @include mixins.fontRaleway($fontWeight: 600, $fontSize: 14px);
             letter-spacing: 0.613px;
             margin-bottom: 16px;
+            cursor: pointer;
+            width: max-content;
         }
 
         input {

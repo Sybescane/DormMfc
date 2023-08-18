@@ -1,14 +1,46 @@
 import { useAppSelector } from "../../hooks"
 import classes from './DormDescriptionComp.module.scss'
+import { nanoid } from "nanoid"
 
 export default function DormDescriptionComp() {
     const dormitory = useAppSelector(state => state.globalSlice.userData.dormitory)
     const contacts = useAppSelector(state => state.globalSlice.userData.contacts)
 
+function getDormFullname(isVerbose: boolean): JSX.Element {
+    let verbose = null
+    switch (dormitory.name) {
+        case 'М-1':
+            verbose = <span>(студенческий городок &#171;Металлург&#187;)</span>
+            return <p>Металлург-1 {isVerbose?verbose:null}</p>
+        case 'М-2':
+            verbose = <span>(студенческий городок &#171;Металлург&#187;)</span>
+           return <p>Металлург-2 {isVerbose?verbose:null}</p>
+        case 'М-3':
+            verbose = <span>(студенческий городок &#171;Металлург&#187;)</span>
+            return <p>Металлург-3 {isVerbose?verbose:null}</p>
+        case 'М-4':
+            verbose = <span>(студенческий городок &#171;Металлург&#187;)</span>
+           return <p>Металлург-4 {isVerbose?verbose:null}</p>
+        case 'Г-1':
+            verbose = <span>(студенческий городок &#171;Горняк&#187;)</span>
+            return <p>Горняк-1 {isVerbose?verbose:null}</p>
+        case 'Г-2':
+            verbose = <span>(студенческий городок &#171;Горняк&#187;)</span>
+            return <p>Горняк-2 {isVerbose?verbose:null}</p>
+        case 'ДСГ-5,6':
+            verbose = <span>(Дорогомиловский студенческий городок)</span>
+            return <p>ДСГ-5,6 {isVerbose?verbose:null}</p>
+        case 'ДК':
+            return <p>Дом-коммуна</p>
+        default:
+            return <></>
+    }
+}
+
     return (
         <div className={classes.Wrapper}>
             <div className={classes.Content}>
-                <h3>Вы распределены в общежитие {dormitory.name}</h3>
+                <h3>Вы распределены в общежитие {getDormFullname(false)}</h3>
                 <div className={classes.Info}>
                     <div className={classes.NameAddress}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -16,7 +48,7 @@ export default function DormDescriptionComp() {
                             <path d="M12 11C12.2652 11 12.5196 10.8946 12.7071 10.7071C12.8946 10.5196 13 10.2652 13 10C13 9.73478 12.8946 9.48043 12.7071 9.29289C12.5196 9.10536 12.2652 9 12 9C11.7348 9 11.4804 9.10536 11.2929 9.29289C11.1054 9.48043 11 9.73478 11 10C11 10.2652 11.1054 10.5196 11.2929 10.7071C11.4804 10.8946 11.7348 11 12 11Z" fill="#2C3E50" fillOpacity="0.56" stroke="#2C3E50" strokeOpacity="0.56" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                         <div>
-                            <p>&#171;{dormitory.name}&#187;</p>
+                            {getDormFullname(true)}
                             <strong>{dormitory.address}</strong>
                         </div>
                     </div>
@@ -25,8 +57,14 @@ export default function DormDescriptionComp() {
                             <path d="M17.9217 14.702L13.8037 15.5C11.0217 14.104 9.3037 12.5 8.3037 10L9.0737 5.87L7.6187 2H3.8677C2.7397 2 1.8517 2.932 2.0207 4.047C2.4407 6.83 3.6807 11.877 7.3037 15.5C11.1087 19.305 16.5897 20.956 19.6057 21.613C20.7707 21.866 21.8037 20.958 21.8037 19.765V16.181L17.9217 14.702Z" stroke="#2C3E50" strokeOpacity="0.56" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                         <div className={classes.ContactsInfo}>
-                            <p>{contacts.phone}</p>
-                            <p>{`${contacts.position}, ${contacts.fullname}`}</p>
+                            {contacts.map(contact=>{
+                                return(
+                                    <div key={nanoid()} className={classes.Contact}>
+                            <p className={classes.Phone}>{contact.phone}</p>
+                            <p>{`${contact.position}, ${contact.fullname}`}</p>
+                            </div>
+                                )
+                            })}
                         </div>
 
                     </div>
@@ -35,47 +73,7 @@ export default function DormDescriptionComp() {
                     <p>{dormitory.description}</p>
                 </div>
             </div>
-            <Map />
+            <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Abf522e37743becca5d81ac531638ac9d95206f6b51a165af748558be31007bf1&amp;source=constructor" height="400" frameBorder="0"></iframe>
         </div >
     )
-}
-
-function Map() {
-    const dormitory = useAppSelector(state => state.globalSlice.userData.dormitory.name)
-    switch (dormitory) {
-        case 'М-1':
-            return (
-                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" height="300" frameBorder="0"></iframe>
-            )
-        case 'М-2':
-            return (
-                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" height="300" frameBorder="0"></iframe>
-            )
-        case 'М-3':
-            return (
-                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" height="300" frameBorder="0"></iframe>
-            )
-        case 'М-4':
-            return (
-                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" height="300" frameBorder="0"></iframe>
-            )
-        case 'Г-1':
-            return (
-                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" height="300" frameBorder="0"></iframe>
-            )
-        case 'Г-2':
-            return (
-                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" height="300" frameBorder="0"></iframe>
-            )
-        case 'ДСГ-5,6':
-            return (
-                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" height="300" frameBorder="0"></iframe>
-            )
-        case 'ДК':
-            return ( 
-                <iframe style={{ borderRadius: '16px' }} src="https://yandex.ru/map-widget/v1/?um=constructor%3A4b166ec03ca4faffd6f64dd0f34adce124a0021a785b36b34a080e398516c89c&amp;source=constructor" height="300" frameBorder="0"></iframe>
-            )
-        default:
-            return <></>
-    }
 }

@@ -8,6 +8,7 @@ import classes from './PageWrapper.module.scss';
 import { ReactNode, useRef, useEffect } from "react";
 import AddEnrollComp from "../../components/AddEnrollComp/AddEnrollComp";
 import NotifyComp from "../../components/NotifyComp/NotifyComp";
+import NoOnlineComp from "../../components/NoOnlineComp/NoOnlineComp";
 
 export default function PageWrapper({ children }: { children: ReactNode }) {
     const navigate = useNavigate()
@@ -19,6 +20,7 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
     const adminToken = useAppSelector(state => state.adminSlice.token)
     const isShowAddEnroll = useAppSelector(state => state.globalSlice.serviceData.isShowAddEnroll.isShow)
     const isShowNotify = useAppSelector(state => state.globalSlice.serviceData.isShowNotify)
+    const isOnline = useAppSelector(state=>state.globalSlice.serviceData.isOnline)
 
 function wrapperClasses(isShowAddEnroll:boolean) {
     let classList = isShowAddEnroll ? `${classes.WrapperOverlay}` : `${classes.Wrapper}`
@@ -81,6 +83,7 @@ function wrapperClasses(isShowAddEnroll:boolean) {
 
     return (
         <div className={wrapperClasses(isShowAddEnroll)} onClick={(e) => wrapperClick(e)} ref={wrapperRef}>
+            {!isOnline&&<NoOnlineComp/>}
             <HeaderEnrollComp />
             {!/admin/.test(window.location.href) && <EnrollStepsComp />}
             <main>{children}</main>

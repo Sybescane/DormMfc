@@ -27,9 +27,16 @@
             align-items: center;
             justify-content: center;
             margin: 0;
-
+svg{
+    stroke: #1D92F8;
+}
             p {
                 margin-left: 8px;
+            }
+        }
+        .AddStudent:hover {
+            svg {
+                stroke: white;
             }
         }
     }
