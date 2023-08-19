@@ -1,46 +1,16 @@
 import { useAppSelector } from "../../hooks"
 import classes from './DormDescriptionComp.module.scss'
 import { nanoid } from "nanoid"
+import { getDormFullname } from "../../utils/getFullDorm"
 
 export default function DormDescriptionComp() {
     const dormitory = useAppSelector(state => state.globalSlice.userData.dormitory)
     const contacts = useAppSelector(state => state.globalSlice.userData.contacts)
 
-function getDormFullname(isVerbose: boolean): JSX.Element {
-    let verbose = null
-    switch (dormitory.name) {
-        case 'М-1':
-            verbose = <span>(студенческий городок &#171;Металлург&#187;)</span>
-            return <p>Металлург-1 {isVerbose?verbose:null}</p>
-        case 'М-2':
-            verbose = <span>(студенческий городок &#171;Металлург&#187;)</span>
-           return <p>Металлург-2 {isVerbose?verbose:null}</p>
-        case 'М-3':
-            verbose = <span>(студенческий городок &#171;Металлург&#187;)</span>
-            return <p>Металлург-3 {isVerbose?verbose:null}</p>
-        case 'М-4':
-            verbose = <span>(студенческий городок &#171;Металлург&#187;)</span>
-           return <p>Металлург-4 {isVerbose?verbose:null}</p>
-        case 'Г-1':
-            verbose = <span>(студенческий городок &#171;Горняк&#187;)</span>
-            return <p>Горняк-1 {isVerbose?verbose:null}</p>
-        case 'Г-2':
-            verbose = <span>(студенческий городок &#171;Горняк&#187;)</span>
-            return <p>Горняк-2 {isVerbose?verbose:null}</p>
-        case 'ДСГ-5,6':
-            verbose = <span>(Дорогомиловский студенческий городок)</span>
-            return <p>ДСГ-5,6 {isVerbose?verbose:null}</p>
-        case 'ДК':
-            return <p>Дом-коммуна</p>
-        default:
-            return <></>
-    }
-}
-
     return (
         <div className={classes.Wrapper}>
             <div className={classes.Content}>
-                <h3>Вы распределены в общежитие {getDormFullname(false)}</h3>
+                <h3>Вы распределены в общежитие {getDormFullname(dormitory.name as string, false)}</h3>
                 <div className={classes.Info}>
                     <div className={classes.NameAddress}>
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -48,7 +18,7 @@ function getDormFullname(isVerbose: boolean): JSX.Element {
                             <path d="M12 11C12.2652 11 12.5196 10.8946 12.7071 10.7071C12.8946 10.5196 13 10.2652 13 10C13 9.73478 12.8946 9.48043 12.7071 9.29289C12.5196 9.10536 12.2652 9 12 9C11.7348 9 11.4804 9.10536 11.2929 9.29289C11.1054 9.48043 11 9.73478 11 10C11 10.2652 11.1054 10.5196 11.2929 10.7071C11.4804 10.8946 11.7348 11 12 11Z" fill="#2C3E50" fillOpacity="0.56" stroke="#2C3E50" strokeOpacity="0.56" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                         <div>
-                            {getDormFullname(true)}
+                            {getDormFullname(dormitory.name as string, true)}
                             <strong>{dormitory.address}</strong>
                         </div>
                     </div>

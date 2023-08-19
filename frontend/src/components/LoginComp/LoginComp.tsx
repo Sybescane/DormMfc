@@ -79,7 +79,6 @@ export default function LoginComp() {
                             'Authorization': `Bearer ${res.data.access_token}`
                         }
                     }).then(res => {
-                        console.log('RESPONSE', res)
                         setIsLoading(false)
                         dispatch(saveUserData(res.data))
                         if (res.data.takenTime) {

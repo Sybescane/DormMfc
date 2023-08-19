@@ -1,5 +1,5 @@
 import axios from "axios";
 
 export const axiosRequest = axios.create({
-    baseURL: 'http://dormitorymisis.ru:4200/'
+    baseURL: 'http://localhost:4200/'
 })

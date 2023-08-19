@@ -80,8 +80,6 @@ export default function AddEnrollComp() {
                     type: 'CreateEnroll'
                 }))
             }).catch(err => {
-                console.log('CREATING USER ERROR')
-                console.log(err)
                 if (err.code==='ERR_NETWORK') dispatch(changeOnline(false))
                 setIsLoading(false)
                 if (err.response.data.statusCode === 400) {

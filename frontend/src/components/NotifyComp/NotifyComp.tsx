@@ -8,7 +8,7 @@ import { ReactComponent as WhiteSpinner } from '../../assets/white_spinner.svg'
 import { useState } from 'react'
 
 type PropsType = {
-    type: 'CreateEnroll' | 'UpdateEnroll' | 'DeleteEnroll' | 'DeleteEnrollCompleted' | 'None'
+    type: 'CreateEnroll' | 'UpdateEnroll' | 'DeleteEnroll' | 'DeleteEnrollCompleted' |'TimeBusy'|'None'
 }
 
 export default function NotifyComp({ type }: PropsType) {
@@ -33,6 +33,8 @@ export default function NotifyComp({ type }: PropsType) {
         case 'DeleteEnrollCompleted':
             message = <h3>Запись удалена &#9989;</h3>
             break;
+        case 'TimeBusy':
+            message = <h3>Упс! Пока вы думали, кто то уже записался на это время &#128530; Обновили данные</h3>
     }
 
     function deleteEnroll() {
