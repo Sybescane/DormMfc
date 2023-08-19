@@ -1,7 +1,9 @@
 @use '../../styles/mixins' as mixins;
 
 .Wrapper {
+    padding: 0 24px;
     h1 {
+@include mixins.fontNekst();
         margin-bottom: 32px;
     }
 
