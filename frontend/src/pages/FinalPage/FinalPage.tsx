@@ -7,6 +7,7 @@ import ClockSVG from './assets/Clock.svg'
 import DocsSVG from './assets/Docs.svg'
 import PhoneSVG from './assets/Phone.svg'
 import { getDormFullname } from '../../utils/getFullDorm'
+import TechSupportComp from '../../components/TechSupportComp/TechSupportComp'
 
 export default function FinalPage() {
     const dateSelected = useAppSelector(state => state.globalSlice.userData.dateSelected)
@@ -44,13 +45,16 @@ export default function FinalPage() {
                     <img src={LocationSVG} style={{ alignSelf: 'flex-start' }} />
                     <div>
                         <p>{getDormFullname(dormitory.name as string,true)}</p>
-                        <p className={classes.Notes}>{dormitory.address}</p>
+                        <p className={`${classes.Notes} ${classes.DormAddress}`}>{dormitory.address}</p>
                     </div>
                 </div>
                 <div className={`${classes.LastEl} ${classes.Notes}`}>
                     <p>На вашу корпоративную почту придет письмо с данной информацией</p>
                     <p>Подробнее о заселении в общежитие можете узнать на <a href="https://misis.ru/applicants/accommodation/" target='_blank'>сайте</a></p>
                 </div>
+            </div>
+            <div className={classes.SupportWrapper}>
+            <TechSupportComp/>
             </div>
         </div>
     )

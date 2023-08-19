@@ -43,7 +43,7 @@ export default function DormDescriptionComp() {
                     <p>{dormitory.description}</p>
                 </div>
             </div>
-            <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Abf522e37743becca5d81ac531638ac9d95206f6b51a165af748558be31007bf1&amp;source=constructor" height="400" frameBorder="0"></iframe>
+            <iframe src="https://yandex.ru/map-widget/v1/?um=constructor%3Abf522e37743becca5d81ac531638ac9d95206f6b51a165af748558be31007bf1&amp;source=constructor" height="400" frameBorder="0" style={{borderRadius: '16px'}}></iframe>
         </div >
     )
 }

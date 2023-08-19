@@ -1,11 +1,16 @@
+@use '../../styles/variables' as vars;
+
 .Wrapper {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    margin-bottom: 1%;
+    margin-bottom: 40px;
     justify-items: center;
     align-items: flex-start;
+    @media (max-width: vars.$transition) {
+        margin: 8px 24px 24px 24px
+    }
     .IsShow {
-        @media (max-width: 699px) {
+        @media (max-width: 866px) {
             display: none;
         }
     };

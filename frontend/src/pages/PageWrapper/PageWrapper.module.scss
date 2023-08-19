@@ -1,18 +1,24 @@
-@use '../../styles/mixins';
+@use '../../styles/mixins' as mixins;
+@use '../../styles/variables' as vars;
 
 @mixin wrapperStandard() {
     min-height: 100vh;
-    padding: 10px 10px 0 10px;
+    padding: 18px 34px 0 34px;
     display: flex;
     flex-direction: column;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    position: absolute;
+    position: relative;
+    margin: 0 auto;
+    max-width: 1240px;
+    @media (max-width: vars.$transition) {
+        padding: 0;
+    }
 
-    main {
+    main { 
         flex: 1;
-        @media (max-width: 968px) {
+        @media (max-width: vars.$transition) {
             margin-bottom: 50px;
         }
     }

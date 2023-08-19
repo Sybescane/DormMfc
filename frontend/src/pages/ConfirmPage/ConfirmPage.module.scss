@@ -6,9 +6,13 @@
 
     h1 {
         @include mixins.fontNekst();
-
+margin-bottom: 32px;
         span {
             color: #1D92F8;
+        }
+        @media (max-width: vars.$transition) {
+            margin: 0 24px 24px 24px;
+            font-size: 1.5rem;
         }
     }
 
@@ -20,13 +24,23 @@
 }
         .LeftBlock {
             width: 55%;
-            @media (max-width: vars.$tabletMax) {
+            @media (max-width: vars.$transition) {
+                margin: 0 24px;
+            }
+            @media (max-width: vars.$transition) {
                 width: 100%;
             }
             h3 {
-                @include mixins.fontNekst($fontSize: 1.5rem, $fontWeight: 400)
+                @include mixins.fontNekst($fontSize: 1.5rem, $fontWeight: 400);
+                margin-bottom: 16px;
+                @media (max-width:vars.$transition) {
+                    font-size: 1rem;
+                    font-weight: 500;
+                }
             }
-
+ul {
+    margin-bottom: 16px;
+}
             ul,
             p {
                 @include mixins.fontRaleway()
@@ -50,10 +64,11 @@
             border-radius: 16px;
             background-color: #2C3E500A;
             padding: 32px;
-            @media (max-width: vars.$tabletMax) {
+            @media (max-width: vars.$transition) {
                 width: 100%;
                 height: auto;
                 margin-top: 24px;
+                padding: 24px;
             }
             strong {
                 display: block;

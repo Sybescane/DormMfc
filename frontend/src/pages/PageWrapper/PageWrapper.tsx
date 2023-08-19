@@ -43,30 +43,30 @@ function wrapperClasses(isShowAddEnroll:boolean) {
         }))
     }
 
-    useEffect(() => {
-        if (/registered/.test(window.location.href)) {
-            switch (institute) {
-                case 'ИНМИН':
-                    wrapperRef.current?.classList.add(`${classes.INMIN}`)
-                    break;
-                case 'ЭКОТЕХ':
-                    wrapperRef.current?.classList.add(`${classes.EKOKEK}`)
-                    break
-                case 'ЭУПП':
-                    wrapperRef.current?.classList.add(`${classes.EUPP}`)
-                    break;
-                case 'ИБО':
-                    wrapperRef.current?.classList.add(`${classes.IBO}`)
-                    break;
-                case 'ИТКН':
-                    wrapperRef.current?.classList.add(`${classes.ITKN}`)
-                    break
-                case 'ГОРНЫЙ':
-                    wrapperRef.current?.classList.add(`${classes.GORNIY}`)
-                    break
-            }
-        }
-    }, [window.location.href])
+    // useEffect(() => {
+    //     if (/registered/.test(window.location.href)) {
+    //         switch (institute) {
+    //             case 'ИНМИН':
+    //                 wrapperRef.current?.classList.add(`${classes.INMIN}`)
+    //                 break;
+    //             case 'ЭКОТЕХ':
+    //                 wrapperRef.current?.classList.add(`${classes.EKOKEK}`)
+    //                 break
+    //             case 'ЭУПП':
+    //                 wrapperRef.current?.classList.add(`${classes.EUPP}`)
+    //                 break;
+    //             case 'ИБО':
+    //                 wrapperRef.current?.classList.add(`${classes.IBO}`)
+    //                 break;
+    //             case 'ИТКН':
+    //                 wrapperRef.current?.classList.add(`${classes.ITKN}`)
+    //                 break
+    //             case 'ГОРНЫЙ':
+    //                 wrapperRef.current?.classList.add(`${classes.GORNIY}`)
+    //                 break
+    //         }
+    //     }
+    // }, [window.location.href])
 
     useEffect(() => {
         if (!/admin/.test(window.location.href)) {
