@@ -82,6 +82,14 @@
         z-index: 2;
         justify-content: center;
         align-items: center;
+        @media (max-height: 335px) {
+            height: min-content;
+            width: min-content;
+        }
+        @media ((max-height: 483px) and (min-height: 336px)) {
+            height: 278px;
+            width: min-content;
+        }
         @media ((max-width: vars.$middleMobile) and (min-width: vars.$smallMobile)) {
             height: 283px;
             width: 243px;
@@ -94,6 +102,9 @@
         .EmployeeWrapper {
             display: flex;
             flex-direction: column;
+            @media (max-height: 335px) {
+                align-items: center;
+            }
             @media (max-width: vars.$middleMobile) {
                 width: 100%;
             }
@@ -109,12 +120,18 @@
                 }
 
                 .LoginInput {
-                    margin-bottom: 13px
+                    margin-bottom: 13px;
+                    @media (max-height: 335px) {
+                        margin-bottom: 10px;
+                    }
                 }
 
                 label {
                     @include mixins.fontRaleway();
-                    margin-bottom: 12px
+                    margin-bottom: 12px;
+                    @media (max-height: 335px) {
+                        margin-bottom: 8px;
+                    }
                 }
 
                 input {
@@ -124,6 +141,10 @@
                     width: 360px;
                     border-radius: 8px;
                     padding-left: 16px;
+                    @media (max-height: 335px) {
+                        width: 100%;
+                        height: 28px;
+                    }
                     @media (max-width: vars.$middleMobile) {
                         width: 100%;
                     }
@@ -135,7 +156,10 @@
                 button {
                     margin: 0;
                     margin-top: 16px;
-
+                    @media (max-height: 335px) {
+                        height: 28px;
+                        margin-top: 14px;
+                    }
                     @media (max-width: vars.$middleMobile) {
                         width: 100%;
                         margin-top: 13px;
@@ -154,6 +178,12 @@
             h1 {
                 @include mixins.fontNekst($fontWeight: 500);
                 width: 360px;
+                @media (max-height: 335px) {
+                    margin-bottom: 8px;
+                }
+                @media (max-height: 483px) {
+                    font-size: 21px;
+                }
                 @media (max-width: vars.$middleMobile) {
                     width: auto;
                     font-size: 21px;
@@ -167,6 +197,15 @@
                 width: 32px;
                 height: 32px;
                 right: 3%;
+                @media (max-height: 335px) {
+            height: 23px;
+            width: 23px
+        }
+        @media ((min-height: 336px) and (max-height: 483px)) {
+            font-size: 21px;
+            height: 25px;
+            width: 25px
+        }
                 @media (max-width: vars.$middleMobile) {
                     top: 8px;
                     right: 8px;
