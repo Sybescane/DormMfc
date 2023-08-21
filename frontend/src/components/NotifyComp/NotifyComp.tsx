@@ -28,7 +28,7 @@ export default function NotifyComp({ type }: PropsType) {
             message = <h3>Запись обновлена &#9989;</h3>
             break;
         case 'DeleteEnroll':
-            message = <h3>Вы уверены, что хотите безвозвратно удалить запись?</h3>
+            message = <h3>Вы удаляете запись студента. Он все еще сможет самостоятельно записаться. Продолжить?</h3>
             break;
         case 'DeleteEnrollCompleted':
             message = <h3>Запись удалена &#9989;</h3>
