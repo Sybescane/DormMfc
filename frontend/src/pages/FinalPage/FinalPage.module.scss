@@ -16,7 +16,7 @@
     }
 }
     h1 {
-        @include mixins.fontNekst($fontSize: 72px);
+        @include mixins.fontNekst($fontSize: 72px, $color: #000000, $fontWeight: 500);
         margin-bottom: 32px;
         @media ((min-width: vars.$middleMobile) and (max-width: 1036px)) {
             font-size: 45px;
@@ -43,7 +43,7 @@ align-items: flex-start;
             display: flex;
             align-items: center;
             gap: 16px;
-            @include mixins.fontNekst($fontSize: 24px, $color: '#000000');
+            @include mixins.fontNekst($fontSize: 24px, $color: #000000, $fontWeight: 500);
             margin-bottom: 23px;
             @media (max-width: vars.$transition) {
                 font-size: 16px;
@@ -72,7 +72,7 @@ align-items: flex-start;
         }
 
         .Notes {
-            @include mixins.fontRaleway()
+            @include mixins.fontRaleway($fontColor: #000000)
         }
     }
 }

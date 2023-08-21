@@ -18,7 +18,9 @@
     @media (max-width: vars.$transition) {
         padding: 7px 24px;
     }
-
+.TimeSummary {
+    font-weight: 500;
+}
     button {
         padding: 12px 20px;
         height: 48px;

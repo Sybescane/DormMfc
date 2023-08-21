@@ -11,7 +11,7 @@ export default function ProfileBlockComp() {
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 
-    const userName = /admin/.test(window.location.href)?<p>{adminLogin}</p>:<p>{email?.slice(0,7)}<span className={classes.EmailPostfix}>{email?.slice(7)}</span></p>
+    const userName = /admin/.test(window.location.href)?<p>{adminLogin}</p>:<p>{email?.slice(0,8)}<span className={classes.EmailPostfix}>{email?.slice(8)}</span></p>
 
     function exit(e: React.MouseEvent) {
         e.preventDefault()

@@ -3,7 +3,7 @@
 .Wrapper {
     padding: 0 24px;
     h1 {
-@include mixins.fontNekst();
+@include mixins.fontNekst($fontWeight: 500);
         margin-bottom: 32px;
     }
 
@@ -19,7 +19,8 @@
                 height: 48px;
                 border-radius: 8px;
                 border: 1px solid #2C3E501F;
-                padding: 12px 16px
+                padding: 12px 16px;
+                @include mixins.fontRaleway($fontWeight: 600);
             }
         }
 

@@ -138,7 +138,7 @@
     }
 
     h3 {
-        @include mixins.fontNekst($fontSize: 1.5rem);
+        @include mixins.fontNekst($fontSize: 1.5rem, $fontWeight: 500);
         margin-bottom: 32px;
     }
 
