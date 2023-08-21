@@ -33,7 +33,7 @@ export default function ViewEnrollComp({ students }: { students: Array<SingleStu
                                     mode: 'edit',
                                     editData: student
                                 }))} />
-                                <DeleteSVG style={{ cursor: 'pointer' }} className={classes.DeleteIcon} onClick={(e) => {
+                                <DeleteSVG style={{ cursor: 'pointer'}} className={classes.DeleteIcon} onClick={(e) => {
                                     dispatch(showNotify({
                                         isShow: true,
                                         type: 'DeleteEnroll',

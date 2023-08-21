@@ -7,7 +7,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    top: 43%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -26,6 +26,9 @@
             margin: 0;
             padding: 6px 24px;
             background-color: #E95332;
+        }
+        .YesBtn:hover{
+            background-color: #ee3b13;
         }
 
         .NoBtn {

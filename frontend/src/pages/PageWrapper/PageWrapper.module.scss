@@ -1,18 +1,26 @@
-@use '../../styles/mixins';
+@use '../../styles/mixins' as mixins;
+@use '../../styles/variables' as vars;
 
 @mixin wrapperStandard() {
-    width: 100%;
     min-height: 100vh;
-    padding: 1% 1% 0 1%;
+    padding: 18px 34px 0 34px;
     display: flex;
     flex-direction: column;
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    position: absolute;
+    position: relative;
+    margin: 0 auto;
+    max-width: 1240px;
+    @media (max-width: vars.$transition) {
+        padding: 0;
+    }
 
-    main {
+    main { 
         flex: 1;
+        @media (max-width: vars.$transition) {
+            margin-bottom: 50px;
+        }
     }
 
     .NewEnroll {
@@ -169,6 +177,13 @@
     bottom: 0;
     background-color: rgba(44, 62, 80, 0.5);
     z-index: 1;
+}
+
+.AdaptiveAdmin {
+    width: 100%;
+    @media (max-width: 950px) {
+        width: 950px;
+    }
 }
 
 .INMIN {

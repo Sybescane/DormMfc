@@ -1,7 +1,9 @@
 @use '../../styles/mixins' as mixins;
 
 .Wrapper {
+    padding: 0 24px;
     h1 {
+@include mixins.fontNekst();
         margin-bottom: 32px;
     }
 
@@ -27,9 +29,16 @@
             align-items: center;
             justify-content: center;
             margin: 0;
-
+svg{
+    stroke: #1D92F8;
+}
             p {
                 margin-left: 8px;
+            }
+        }
+        .AddStudent:hover {
+            svg {
+                stroke: white;
             }
         }
     }

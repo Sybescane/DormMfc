@@ -15,7 +15,11 @@ type InitialStateType = {
         dateSelected: string,
         timeSelected: string | null,
         token: string | null,
-        contacts: Array<string>
+        contacts: Array<{
+            fullname: string,
+            position: string,
+            phone: string | null
+        }>
         freeTimes: {
             [key: string]: Array<{
                 time: string,
@@ -34,13 +38,15 @@ type InitialStateType = {
         isBusyWarning: boolean,
         isShowNotify: {
             isShow: boolean,
-            type: 'CreateEnroll' | 'UpdateEnroll' | 'DeleteEnroll' | 'DeleteEnrollCompleted' | 'None'
+            type: 'CreateEnroll' | 'UpdateEnroll' | 'DeleteEnroll' | 'DeleteEnrollCompleted' |'TimeBusy'|'None'
         }
         isShowAddEnroll: {
             isShow: boolean,
             mode: 'create' | 'edit' | 'none',
             editData?: SingleStudentType
         }
+        isOnline: boolean,
+        isStudTimesLoad: boolean //Stud - student
     }
 }
 
@@ -55,7 +61,7 @@ const initialState: InitialStateType = {
         },
         dateSelected: '25 августа, пт',
         timeSelected: null,
-        contacts: [],
+        contacts:[],
         freeTimes: {},
         faculty: ''
     },
@@ -82,7 +88,9 @@ const initialState: InitialStateType = {
                 educationLevel: '',
                 recordDatetime: ''
             }
-        }
+        },
+        isOnline: true,
+        isStudTimesLoad: false
     }
 }
 
@@ -220,7 +228,7 @@ const globalSlice = createSlice({
         },
         showNotify(state, action: PayloadAction<{
             isShow: boolean,
-            type: 'CreateEnroll' | 'UpdateEnroll' | 'DeleteEnroll' | 'DeleteEnrollCompleted' | 'None'
+            type: 'CreateEnroll' | 'UpdateEnroll' | 'DeleteEnroll' | 'DeleteEnrollCompleted' |'TimeBusy'|'None'
             event?: React.MouseEvent
         }>) {
             action.payload.event?.stopPropagation()
@@ -228,6 +236,12 @@ const globalSlice = createSlice({
                 isShow: action.payload.isShow,
                 type: action.payload.type
             }
+        },
+        changeOnline(state, action: PayloadAction<boolean>) {
+            state.serviceData.isOnline = action.payload
+        },
+        changeStudTimesLoad(state, action:PayloadAction<boolean>) {
+            state.serviceData.isStudTimesLoad = action.payload
         }
     }
 })
@@ -240,7 +254,9 @@ export const { hideCalendar, showCalendar, selectDate, selectTime, switchStep, s
     cleanupUserStore,
     setFaculty,
     checkShowAddEnroll,
-    showNotify
+    showNotify,
+    changeOnline,
+    changeStudTimesLoad
 } = globalSlice.actions
 
 export default globalSlice.reducer

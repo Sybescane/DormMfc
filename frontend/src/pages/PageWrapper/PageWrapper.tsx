@@ -8,6 +8,7 @@ import classes from './PageWrapper.module.scss';
 import { ReactNode, useRef, useEffect } from "react";
 import AddEnrollComp from "../../components/AddEnrollComp/AddEnrollComp";
 import NotifyComp from "../../components/NotifyComp/NotifyComp";
+import NoOnlineComp from "../../components/NoOnlineComp/NoOnlineComp";
 
 export default function PageWrapper({ children }: { children: ReactNode }) {
     const navigate = useNavigate()
@@ -19,6 +20,13 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
     const adminToken = useAppSelector(state => state.adminSlice.token)
     const isShowAddEnroll = useAppSelector(state => state.globalSlice.serviceData.isShowAddEnroll.isShow)
     const isShowNotify = useAppSelector(state => state.globalSlice.serviceData.isShowNotify)
+    const isOnline = useAppSelector(state=>state.globalSlice.serviceData.isOnline)
+
+function wrapperClasses(isShowAddEnroll:boolean) {
+    let classList = isShowAddEnroll ? `${classes.WrapperOverlay}` : `${classes.Wrapper}`
+    classList = /admin/.test(window.location.href)? `${classList} ${classes.AdaptiveAdmin}`:classList
+    return classList
+}
 
     function wrapperClick(e: React.MouseEvent) {
         dispatch(hideCalendar())
@@ -35,30 +43,30 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
         }))
     }
 
-    useEffect(() => {
-        if (/registered/.test(window.location.href)) {
-            switch (institute) {
-                case 'ИНМИН':
-                    wrapperRef.current?.classList.add(`${classes.INMIN}`)
-                    break;
-                case 'ЭКОТЕХ':
-                    wrapperRef.current?.classList.add(`${classes.EKOKEK}`)
-                    break
-                case 'ЭУПП':
-                    wrapperRef.current?.classList.add(`${classes.EUPP}`)
-                    break;
-                case 'ИБО':
-                    wrapperRef.current?.classList.add(`${classes.IBO}`)
-                    break;
-                case 'ИТКН':
-                    wrapperRef.current?.classList.add(`${classes.ITKN}`)
-                    break
-                case 'ГОРНЫЙ':
-                    wrapperRef.current?.classList.add(`${classes.GORNIY}`)
-                    break
-            }
-        }
-    }, [window.location.href])
+    // useEffect(() => {
+    //     if (/registered/.test(window.location.href)) {
+    //         switch (institute) {
+    //             case 'ИНМИН':
+    //                 wrapperRef.current?.classList.add(`${classes.INMIN}`)
+    //                 break;
+    //             case 'ЭКОТЕХ':
+    //                 wrapperRef.current?.classList.add(`${classes.EKOKEK}`)
+    //                 break
+    //             case 'ЭУПП':
+    //                 wrapperRef.current?.classList.add(`${classes.EUPP}`)
+    //                 break;
+    //             case 'ИБО':
+    //                 wrapperRef.current?.classList.add(`${classes.IBO}`)
+    //                 break;
+    //             case 'ИТКН':
+    //                 wrapperRef.current?.classList.add(`${classes.ITKN}`)
+    //                 break
+    //             case 'ГОРНЫЙ':
+    //                 wrapperRef.current?.classList.add(`${classes.GORNIY}`)
+    //                 break
+    //         }
+    //     }
+    // }, [window.location.href])
 
     useEffect(() => {
         if (!/admin/.test(window.location.href)) {
@@ -74,7 +82,8 @@ export default function PageWrapper({ children }: { children: ReactNode }) {
     }, [email, adminToken])
 
     return (
-        <div className={isShowAddEnroll ? `${classes.WrapperOverlay}` : `${classes.Wrapper}`} onClick={(e) => wrapperClick(e)} ref={wrapperRef}>
+        <div className={wrapperClasses(isShowAddEnroll)} onClick={(e) => wrapperClick(e)} ref={wrapperRef}>
+            {!isOnline&&<NoOnlineComp/>}
             <HeaderEnrollComp />
             {!/admin/.test(window.location.href) && <EnrollStepsComp />}
             <main>{children}</main>

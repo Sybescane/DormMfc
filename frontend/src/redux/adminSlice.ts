@@ -1,6 +1,5 @@
 import { PayloadAction, createAsyncThunk, createSlice, current } from "@reduxjs/toolkit";
 import { createTimes } from "../utils/timesCreation";
-import { axiosRequest } from "../configs/axiosConfig";
 import { requestErrorHandler } from "../utils/requestErrorsHandler";
 import { getTimeDate } from "../utils/getTimeDate";
 
