@@ -11,7 +11,7 @@ export class MailService {
   async sendCodeMail(name: string, email: string, code: string): Promise<void> {
     await this.mailerService.sendMail({
       to: email,
-      subject: 'Test Nest mailer',
+      subject: 'Код подтверждения',
       template: './code',
       context: {
         name,
