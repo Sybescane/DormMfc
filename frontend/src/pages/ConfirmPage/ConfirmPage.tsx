@@ -12,9 +12,9 @@ export default function ConfirmPage() {
                     <h3>Обязательные документы для заселения в общежитие: </h3>
                     <ul>
                         <li><p>паспорт и его ксерокопия;</p></li>
-                        <li><a href="https://misis.ru/applicants/accommodation/zaselenievobsh_ezhitiepervokusn/neobhodimyedokumenty/" target="_blank">согласие на заключение договора найма жилого помещения</a> &#40;для несовершеннолетних&#41;;</li>
+                        <li><a href="https://misis.ru/files/-/b52197f14e50de8df778016f1ab1db21/soglasie.pdf" target="_blank">согласие на заключение договора найма жилого помещения</a> &#40;для несовершеннолетних&#41;;</li>
                         <li>военнообязанным необходимо предъявить военный билет либо приписное свидетельство;</li>
-                        <li><a href="https://misis.ru/applicants/accommodation/zaselenievobsh_ezhitiepervokusn/neobhodimyedokumenty/" target="_blank">заявление на предоставление места в общежитии;</a></li>
+                        <li><a href="https://misis.ru/files/-/0ca492680b0d2a4cb8e545f1aa563c9e/zayavlenie.pdf" target="_blank">заявление на предоставление места в общежитии;</a></li>
                         <li>копия полиса ОМС или ДМС;</li>
                         <li>справка о состоянии здоровья, выданная лицензированными медицинскими учреждениями, подведомственными Минздраву России, об отсутствии противопоказаний для проживания в общежитии с обязательной отметкой о прохождении флюорографии, об отсутствии инфекционных заболеваний &#40;туберкулез, ВИЧ, гепатит В&#41; и сертификат прививок.</li>
                     </ul>

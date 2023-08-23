@@ -6,11 +6,11 @@
     margin-bottom: 40px;
     justify-items: center;
     align-items: flex-start;
-    @media (max-width: vars.$transition) {
+    @media (max-device-width: vars.$transition) {
         margin: 8px 24px 24px 24px
     }
     .IsShow {
-        @media (max-width: 866px) {
+        @media (max-device-width: 866px) {
             display: none;
         }
     };

@@ -6,7 +6,7 @@
     img {
         width: 160.94px;
         height: 64px;
-        @media (max-width: vars.$transition) {
+        @media (max-device-width: vars.$transition) {
             width: 120.7px;
             height: 48px;
         }

@@ -12,10 +12,10 @@ function logoClick() {
     return (
         <div className={classes.Header}>
             {!isRegistered&&
-                <img src={MisisLogoSVG} alt='MISIS_logo' onClick={logoClick} />
+                <img src={MisisLogoSVG} alt='MISIS_logo' onClick={logoClick} style={{cursor: 'pointer'}}/>
             }
             {isRegistered&&
-            <img src={BlackLogoSVG} alt='MISIS_logo' onClick={logoClick}/>
+            <img src={BlackLogoSVG} alt='MISIS_logo' onClick={logoClick} style={{cursor: 'pointer'}}/>
             }
         </div>
     )

@@ -6,6 +6,7 @@ import axios from 'axios'
 import { useState } from 'react'
 import { ReactComponent as Spinner } from '../../assets/white_spinner.svg'
 import { ReactComponent as BlueSpinner } from '../../assets/blue_spinner.svg'
+import {ReactComponent as WhiteSpinner} from '../../assets/white_spinner.svg'
 import { requestErrorHandler } from '../../utils/requestErrorsHandler'
 import { axiosRequest } from '../../configs/axiosConfig'
 
@@ -19,8 +20,9 @@ export default function ControlPanelComp() {
     const [isLoadingNekst, setIsLoadingNekst] = useState<boolean>(false)
     const [isLoadingBack, setIsLoadingBack] = useState<boolean>(false)
     const timeSelected = useAppSelector(state => state.globalSlice.userData.timeSelected)
+    const [isBackBtnHover,setIsBackBtnHover] = useState<boolean>(false)
 
-    const timeSummary = <p>{dateTime ? dateTime : 'Выберите время'}</p>
+    const timeSummary = <p className={classes.TimeSummary}>{dateTime ? dateTime : 'Выберите время'}</p>
     const backButton = <button className={`DefaultButton_2 ${classes.BackButton}`} onClick={() => {
         dispatch(changeOnline(true))
         setIsLoadingBack(true)
@@ -40,7 +42,7 @@ export default function ControlPanelComp() {
             setIsLoadingBack(false)
             requestErrorHandler(err)
         })
-    }}>{isLoadingBack ? <BlueSpinner /> : 'Назад'}</button>
+    }} onMouseEnter={()=>setIsBackBtnHover(true)} onMouseLeave={()=>setIsBackBtnHover(false)}>{isLoadingBack ? (isBackBtnHover?<WhiteSpinner/>:<BlueSpinner/>) : 'Назад'}</button>
 
     function switchPage(e: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         dispatch(changeOnline(true))

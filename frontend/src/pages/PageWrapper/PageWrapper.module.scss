@@ -12,13 +12,13 @@
     position: relative;
     margin: 0 auto;
     max-width: 1240px;
-    @media (max-width: vars.$transition) {
+    @media (max-device-width: vars.$transition) {
         padding: 0;
     }
 
     main { 
         flex: 1;
-        @media (max-width: vars.$transition) {
+        @media (max-device-width: vars.$transition) {
             margin-bottom: 50px;
         }
     }
@@ -181,7 +181,7 @@
 
 .AdaptiveAdmin {
     width: 100%;
-    @media (max-width: 950px) {
+    @media (max-device-width: 950px) {
         width: 950px;
     }
 }
