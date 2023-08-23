@@ -59,7 +59,7 @@
         @include mixins.fontNekst($fontSize: 2.5rem, $fontWeight: 500);
         min-width: 0;
         margin-bottom: 16px;
-        @media (max-width: vars.$tabletMax) {
+        @media (max-device-width: vars.$tabletMax) {
             font-size: 1.5rem;
         }
     }

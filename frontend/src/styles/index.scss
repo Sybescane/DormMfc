@@ -16,10 +16,10 @@ p {
 html {
     font-size: 16px;
 
-    @media ((max-width: vars.$desktopMiddle) and (min-width: vars.$desktopMin)) {
+    @media ((max-device-width: vars.$desktopMiddle) and (min-device-width: vars.$desktopMin)) {
         font-size: 14px;
     }
-    @media (max-width: vars.$smallMobile) {
+    @media (max-device-width: vars.$smallMobile) {
         font-size: 13px;
     }
 }

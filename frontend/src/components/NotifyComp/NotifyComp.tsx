@@ -21,6 +21,7 @@ export default function NotifyComp({ type }: PropsType) {
 
     let message = null
     switch (type) {
+        
         case 'CreateEnroll':
             message = <h3>Запись создана &#9989;</h3>
             break;

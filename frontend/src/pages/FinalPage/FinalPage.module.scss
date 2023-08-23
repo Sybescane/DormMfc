@@ -6,22 +6,22 @@
     flex-direction: column;
     align-items: center;
     padding: 18px 34px 45px 34px;
-    @media (max-width:vars.$middleMobile) {
+    @media (max-device-width:vars.$middleMobile) {
         padding-bottom: 0;
     }
 .SupportWrapper {
     align-self: flex-start;
-    @media (min-width: vars.$middleMobile) {
+    @media (min-device-width: vars.$middleMobile) {
         display: none;
     }
 }
     h1 {
         @include mixins.fontNekst($fontSize: 72px, $color: #000000, $fontWeight: 500);
         margin-bottom: 32px;
-        @media ((min-width: vars.$middleMobile) and (max-width: 1036px)) {
+        @media ((min-device-width: vars.$middleMobile) and (max-device-width: 1036px)) {
             font-size: 45px;
         }
-        @media (max-width: vars.$middleMobile) {
+        @media (max-device-width: vars.$middleMobile) {
             font-size: 1.5rem;
         }
         
@@ -31,7 +31,7 @@
         display: grid;
         grid-template-columns: 1fr 1fr;
         grid-auto-rows: min-content;
-        @media (max-width: vars.$middleMobile) {
+        @media (max-device-width: vars.$middleMobile) {
             display: flex;
 flex-direction: column;
 width: 100%;
@@ -45,7 +45,7 @@ align-items: flex-start;
             gap: 16px;
             @include mixins.fontNekst($fontSize: 24px, $color: #000000, $fontWeight: 500);
             margin-bottom: 23px;
-            @media (max-width: vars.$transition) {
+            @media (max-device-width: vars.$transition) {
                 font-size: 16px;
                 margin-bottom: 16px;
             }
@@ -63,7 +63,7 @@ align-items: flex-start;
                 font-weight: 700;
                 color: #000000
             }
-            @media (max-width: vars.$transition){
+            @media (max-device-width: vars.$transition){
                 margin-top: 8px;
             }
         }

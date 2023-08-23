@@ -10,7 +10,7 @@ margin-bottom: 32px;
         span {
             color: #1D92F8;
         }
-        @media (max-width: vars.$transition) {
+        @media (max-device-width: vars.$transition) {
             margin: 0 24px 24px 24px;
             font-size: 1.5rem;
         }
@@ -19,21 +19,21 @@ margin-bottom: 32px;
     .Info {
         display: flex;
         gap: 3%;
-@media (max-width: vars.$tabletMax) {
+@media (max-device-width: vars.$tabletMax) {
     flex-direction: column;
 }
         .LeftBlock {
             width: 55%;
-            @media (max-width: vars.$transition) {
+            @media (max-device-width: vars.$transition) {
                 margin: 0 24px;
             }
-            @media (max-width: vars.$transition) {
+            @media (max-device-width: vars.$transition) {
                 width: 100%;
             }
             h3 {
                 @include mixins.fontNekst($fontSize: 1.5rem, $fontWeight: 500);
                 margin-bottom: 16px;
-                @media (max-width:vars.$transition) {
+                @media (max-device-width:vars.$transition) {
                     font-size: 1rem;
                 }
             }
@@ -63,7 +63,7 @@ ul {
             border-radius: 16px;
             background-color: #2C3E500A;
             padding: 32px;
-            @media (max-width: vars.$transition) {
+            @media (max-device-width: vars.$transition) {
                 width: 100%;
                 height: auto;
                 margin-top: 24px;

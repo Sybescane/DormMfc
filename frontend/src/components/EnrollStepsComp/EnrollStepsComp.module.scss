@@ -5,7 +5,7 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 40px;
-    @media (max-width: vars.$transition){
+    @media (max-device-width: vars.$transition){
         margin: 0 24px 24px 24px;
     }
     .Step {
@@ -14,7 +14,7 @@
         h6{
             @include mixins.fontRaleway();
             margin: 0 0 0 16px;
-            @media (max-width:866px) {
+            @media (max-device-width:866px) {
                 display: none;
             }
         }
@@ -30,7 +30,7 @@
         right: 56px;
         background-color: #2C3E501F;
     }
-    @media (max-width:866px) {
+    @media (max-device-width:866px) {
         padding-left: 16px;
     }    
     }

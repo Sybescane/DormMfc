@@ -11,7 +11,7 @@
 
     img {
         width: 56px;
-        @media (max-width: vars.$middleMobile) {
+        @media (max-device-width: vars.$middleMobile) {
             display: none;
         }
     }
@@ -24,7 +24,7 @@
             cursor: pointer;
         }
         .EmailPostfix{
-            @media (max-width: vars.$transition) {
+            @media (max-device-width: vars.$transition) {
                 display: none;
             }
         }

@@ -8,7 +8,7 @@
     min-height: 100vh;
     flex-direction: column;
 
-    @media (min-width: vars.$desktopMin) {
+    @media (min-device-width: vars.$desktopMin) {
         height: 100vh;
         background-image: url('./assets/LoginBackground.png');
         background-repeat: no-repeat;
@@ -23,7 +23,7 @@
         width: 34%;
         background-color: white;
 
-        @media (max-width: vars.$tabletMax) {
+        @media (max-device-width: vars.$tabletMax) {
             width: 100%;
             justify-content: center;
             flex: 1;
@@ -42,10 +42,10 @@
             position: relative;
             z-index: 1;
 
-            @media (min-width: vars.$desktopMin) {
+            @media (min-device-width: vars.$desktopMin) {
                 max-height: 100%;
             }
-            @media (max-width: vars.$tabletMax) {
+            @media (max-device-width: vars.$tabletMax) {
                 padding-top: 20px;
                 width: 100%;
             }
@@ -53,7 +53,7 @@
             .HeaderWrapper {
                 width: 62%;
 
-                @media (max-width:912px) {
+                @media (max-device-width:912px) {
                     width: 100%;
                 }
             }
@@ -61,7 +61,7 @@
     }
 
     .LoginPhoto {
-        @media (min-width: vars.$desktopMin) {
+        @media (min-device-width: vars.$desktopMin) {
             display: none;
         }
     }
@@ -82,19 +82,19 @@
         z-index: 2;
         justify-content: center;
         align-items: center;
-        @media (max-height: 335px) {
+        @media (max-device-height: 335px) {
             height: min-content;
             width: min-content;
         }
-        @media ((max-height: 483px) and (min-height: 336px)) {
+        @media ((max-device-height: 483px) and (min-device-height: 336px)) {
             height: 278px;
             width: min-content;
         }
-        @media ((max-width: vars.$middleMobile) and (min-width: vars.$smallMobile)) {
+        @media (max-device-width: vars.$middleMobile) and (min-device-width: vars.$smallMobile) {
             height: 283px;
             width: 243px;
         }
-        @media (max-width: vars.$smallMobile) {
+        @media (max-device-width: vars.$smallMobile) {
             width: 181px;
             height: 283px;
         }
@@ -102,10 +102,10 @@
         .EmployeeWrapper {
             display: flex;
             flex-direction: column;
-            @media (max-height: 335px) {
+            @media (max-device-height: 335px) {
                 align-items: center;
             }
-            @media (max-width: vars.$middleMobile) {
+            @media (max-device-width: vars.$middleMobile) {
                 width: 100%;
             }
 
@@ -121,7 +121,7 @@
 
                 .LoginInput {
                     margin-bottom: 13px;
-                    @media (max-height: 335px) {
+                    @media (max-device-height: 335px) {
                         margin-bottom: 10px;
                     }
                 }
@@ -129,7 +129,7 @@
                 label {
                     @include mixins.fontRaleway();
                     margin-bottom: 12px;
-                    @media (max-height: 335px) {
+                    @media (max-device-height: 335px) {
                         margin-bottom: 8px;
                     }
                 }
@@ -141,14 +141,14 @@
                     width: 360px;
                     border-radius: 8px;
                     padding-left: 16px;
-                    @media (max-height: 335px) {
+                    @media (max-device-height: 335px) {
                         width: 100%;
                         height: 28px;
                     }
-                    @media (max-width: vars.$middleMobile) {
+                    @media (max-device-width: vars.$middleMobile) {
                         width: 100%;
                     }
-                    @media (max-width: vars.$smallMobile) {
+                    @media (max-device-width: vars.$smallMobile) {
                         height: 38px;
                     }
                 }
@@ -156,15 +156,15 @@
                 button {
                     margin: 0;
                     margin-top: 16px;
-                    @media (max-height: 335px) {
+                    @media (max-device-height: 335px) {
                         height: 28px;
                         margin-top: 14px;
                     }
-                    @media (max-width: vars.$middleMobile) {
+                    @media (max-device-width: vars.$middleMobile) {
                         width: 100%;
                         margin-top: 13px;
                     }
-                    @media (max-width: vars.$smallMobile) {
+                    @media (max-device-width: vars.$smallMobile) {
                         height: 38px;
                     }
                 }
@@ -178,13 +178,13 @@
             h1 {
                 @include mixins.fontNekst($fontWeight: 500);
                 width: 360px;
-                @media (max-height: 335px) {
+                @media (max-device-height: 335px) {
                     margin-bottom: 8px;
                 }
-                @media (max-height: 483px) {
+                @media (max-device-height: 483px) {
                     font-size: 21px;
                 }
-                @media (max-width: vars.$middleMobile) {
+                @media (max-device-width: vars.$middleMobile) {
                     width: auto;
                     font-size: 21px;
                     margin-bottom: 17px;
@@ -197,16 +197,16 @@
                 width: 32px;
                 height: 32px;
                 right: 3%;
-                @media (max-height: 335px) {
+                @media (max-device-height: 335px) {
             height: 23px;
             width: 23px
         }
-        @media ((min-height: 336px) and (max-height: 483px)) {
+        @media ((min-device-height: 336px) and (max-device-height: 483px)) {
             font-size: 21px;
             height: 25px;
             width: 25px
         }
-                @media (max-width: vars.$middleMobile) {
+                @media (max-device-width: vars.$middleMobile) {
                     top: 8px;
                     right: 8px;
                     height: 20px;

@@ -8,7 +8,7 @@
     background-color: rgba(44, 62, 80, 0.04);
     border-radius: 16px;
     flex: 1;
-    @media (max-width: vars.$transition) {
+    @media (max-device-width: vars.$transition) {
         margin-bottom: 32px;
     }
 
@@ -21,7 +21,7 @@
 
             .NameAddress {
                 margin-bottom: 20px;
-                @media (max-width: vars.$transition) {
+                @media (max-device-width: vars.$transition) {
                     margin-bottom: 16px;
                 }
                 display: flex;
@@ -43,7 +43,7 @@
             .Contacts {
                 margin-bottom: 20px;
                 display: flex;
-                @media(max-width: vars.$transition) {
+                @media(max-device-width: vars.$transition) {
                     margin-bottom: 16px;
                 }
 
@@ -68,7 +68,7 @@
         h3 {
             @include mixins.fontNekst($fontSize: 1.5rem, $fontWeight:500);
             margin-bottom: 20px;
-            @media (max-width: vars.$transition) {
+            @media (max-device-width: vars.$transition) {
                 margin-bottom: 16px;
             }
         }
