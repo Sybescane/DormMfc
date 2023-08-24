@@ -1,7 +1,7 @@
 @use '../../styles/mixins' as mixins;
 @use '../../styles/variables' as vars;
 
-@mixin wrapperStandard() {
+.Wrapper {
     min-height: 100vh;
     padding: 18px 34px 0 34px;
     display: flex;
@@ -163,49 +163,9 @@
     }
 }
 
-.Wrapper,
-.WrapperOverlay {
-    @include wrapperStandard()
-}
-
-.WrapperOverlay::after {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(44, 62, 80, 0.5);
-    z-index: 1;
-}
-
 .AdaptiveAdmin {
     width: 100%;
     @media (max-device-width: 950px) {
         width: 950px;
     }
-}
-
-.INMIN {
-    background-image: url('./assets/INMIN.webp');
-}
-
-.EKOKEK {
-    background-image: url('./assets/EKOKEK.webp');
-}
-
-.EUPP {
-    background-image: url('./assets/EUPP.webp');
-}
-
-.IBO {
-    background-image: url('./assets/IBO.webp')
-}
-
-.ITKN {
-    background-image: url('./assets/ITKN.webp');
-}
-
-.GORNIY {
-    background-image: url('./assets/GORNY.webp');
 }

@@ -509,8 +509,8 @@ export default function AddEnrollComp() {
                     }}
                 >{editData?.recordDatetime}</span></p>
             }
+            <label className={classes.TimeTitle}>Время</label>
             {<div className={classes.TimesContainer}>
-                <label>Время</label>
                 {timesArr.map(timeObj => {
                     if (!timeObj.isBusy)
                         return (

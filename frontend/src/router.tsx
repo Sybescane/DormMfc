@@ -26,6 +26,6 @@ export const router = createBrowserRouter([
     },
     {
         path: '/admin',
-        element: <PageWrapper><AdminPage /></PageWrapper>
+        element: <WrapperComp><PageWrapper><AdminPage /></PageWrapper></WrapperComp>
     }
 ])

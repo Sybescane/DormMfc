@@ -25,9 +25,7 @@ margin-bottom: 32px;
         .LeftBlock {
             width: 55%;
             @media (max-device-width: vars.$transition) {
-                margin: 0 24px;
-            }
-            @media (max-device-width: vars.$transition) {
+                padding: 0 24px;
                 width: 100%;
             }
             h3 {
