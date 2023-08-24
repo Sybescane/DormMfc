@@ -11,10 +11,10 @@ const isRegisteredPage = /registered/.test(window.location.href)
 useEffect(() => {
     if (isRegisteredPage) {
         switch (institute) {
-            case 'ИНМИН':
+            case 'ИНМИН'||'ИНМиН':
                 wrapperRef.current?.classList.add(`${classes.INMIN}`)
                 break;
-            case 'ЭКОТЕХ':
+            case 'ЭкоТех':
                 wrapperRef.current?.classList.add(`${classes.EKOKEK}`)
                 break
             case 'ЭУПП':
@@ -26,7 +26,7 @@ useEffect(() => {
             case 'ИТКН':
                 wrapperRef.current?.classList.add(`${classes.ITKN}`)
                 break
-            case 'ГОРНЫЙ':
+            case 'ГИ':
                 wrapperRef.current?.classList.add(`${classes.GORNIY}`)
                 break
         }

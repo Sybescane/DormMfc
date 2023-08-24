@@ -497,8 +497,8 @@ export default function AddEnrollComp() {
                         <option value="ИТКН">ИТКН</option>
                         <option value="ЭУПП">ЭУПП</option>
                         <option value="ИБО">ИБО</option>
-                        <option value="Горный институт">Горный институт</option>
-                        <option value="ЭКОТЕХ">ЭКОТЕХ</option>
+                        <option value="ГИ">Горный институт</option>
+                        <option value="ЭкоТех">ЭкоТех</option>
                     </select>
                 </div>
             </div>
