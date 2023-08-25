@@ -30,7 +30,7 @@ export default function DormDescriptionComp() {
                             {contacts.map(contact=>{
                                 return(
                                     <div key={nanoid()} className={classes.Contact}>
-                            <p className={classes.Phone}>{contact.phone}</p>
+                            <a className={classes.Phone} href={`tel:${contact.phone}`}>{contact.phone}</a>
                             <p>{`${contact.position}, ${contact.fullname}`}</p>
                             </div>
                                 )

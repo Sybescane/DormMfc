@@ -28,7 +28,9 @@ useEffect(() => {
                 break
             case 'ГИ':
                 wrapperRef.current?.classList.add(`${classes.GORNIY}`)
-                break
+                break;
+            default:
+                break;
         }
     } 
     }, [window.location.href])
